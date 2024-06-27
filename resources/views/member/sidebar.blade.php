@@ -81,9 +81,9 @@
             <div class="collapse" id="ui-basic">
               <ul class="nav flex-column sub-menu">
                 <li class="nav-item"> <a class="nav-link" href="pages/ui-features/buttons.html">Dashboard</a></li>
-                <li class="nav-item"> <a class="nav-link" href="{{route('addteams')}}">Add Team</a></li>
-                <li class="nav-item"> <a class="nav-link" href="{{route('addroles')}}">Add Roles</a></li>
-                <li class="nav-item"> <a class="nav-link" href="{{route('addbatches')}}">Add Batch</a></li>
+                <li class="nav-item"> <a class="nav-link" href="pages/ui-features/dropdowns.html">Add Team</a></li>
+                <li class="nav-item"> <a class="nav-link" href="pages/ui-features/typography.html">Add Roles</a></li>
+                <li class="nav-item"> <a class="nav-link" href="pages/ui-features/typography.html">Add Batch</a></li>
               </ul>
             </div>
           </li>
@@ -97,8 +97,8 @@
             </a>
             <div class="collapse" id="ui-basic">
               <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="{{route('addprojects')}}">Create Project</a></li>
-                <li class="nav-item"> <a class="nav-link" href="{{route('allprojects')}}">All Projects</a></li>
+                <li class="nav-item"> <a class="nav-link" href="pages/ui-features/buttons.html">Create Project</a></li>
+                <li class="nav-item"> <a class="nav-link" href="pages/ui-features/dropdowns.html">All Projects</a></li>
               </ul>
             </div>
           </li>
@@ -161,7 +161,11 @@
             </div>
           </li>
           <li class="nav-item menu-items">
-            <a class="nav-link" href="{{route('login')}}">Log Out</a></li>
+            <a class="nav-link" href="http://www.bootstrapdash.com/demo/corona-free/jquery/documentation/documentation.html">
+              <span class="menu-icon">
+                <i class="mdi mdi-file-document-box"></i>
+              </span>
+              <span class="menu-title">Log Out</span>
             </a>
           </li>
         </ul>
