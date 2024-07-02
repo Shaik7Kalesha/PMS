@@ -60,6 +60,11 @@
     .table-striped tbody tr:hover {
         background-color: rgba(0, 123, 255, 0.15);
     }
+    .card{
+      border: none !important;
+    }
+
+
   </style>
 </head>
 <body>
@@ -110,7 +115,7 @@
                       <input type="text" class="form-control" id="source" name="source" placeholder="Project Source">
                     </div>
                     <div class="form-group">
-                      <label for="description">Source</label>
+                      <label for="description">Description</label>
                       <input type="text" class="form-control" id="description" name="description" placeholder="Project Description">
                     </div>
                     <button type="submit" class="btn btn-primary me-2">Submit</button>
@@ -120,29 +125,7 @@
               </div>
             </div>
           </div>
-          <!-- Table to display Batch data -->
-          <div class="row">
-            <div class="col-12">
-              <div class="card">
-                <div class="card-body" id="projects-table-body">
-                  <h4 class="card-title">Project List</h4>
-                  <table class="table table-striped">
-                    <thead>
-                      <tr>
-                        <th scope="col">Project Title</th>
-                        <th scope="col">Project Source</th>
-                        <th scope="col">Project Description</th>
-                        <th scope="col">Action</th>
-                      </tr>
-                    </thead>
-                    <tbody id="project-table-body">
-                      <!-- Member data will go here -->
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-          </div>
+  
         </div>
 
         <div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
@@ -195,7 +178,7 @@ $(document).ready(function () {
         var data = {
             '_token': $('meta[name="csrf-token"]').attr('content'), // Retrieve CSRF token from meta tag
             'title': $('#title').val(),
-            'source': $('#source').val(),
+            'source': $('#source').val(), 
             'description': $('#description').val()         
         };
         $.ajax({
@@ -225,37 +208,37 @@ $(document).ready(function () {
     });
 
     // Function to fetch projects and populate the table
-    function fetchProjects() {
-        $.ajax({
-            type: "GET",
-            url: "/getprojects",
-            dataType: "json",
-            success: function(response) {
-                var tableBody = $('#project-table-body');
-                tableBody.empty();
-                if (response.projects) {
-                    response.projects.forEach(function(project) {
-                        var row = `<tr data-title="${project.id}">
-                            <td>${project.title}</td>
-                            <td>${project.source}</td>
-                            <td>${project.description}</td>                            
-                            <td>
-                                <button class="btn btn-primary open-btn">Open</button>
-                                <button class="btn btn-danger close-btn">Close</button>
-                            </td>
-                        </tr>`;
-                        tableBody.append(row);
-                    });
-                    // Attach event listeners to buttons after table update
-                    attachEventListeners();
-                }
-            },
-            error: function(xhr, status, error) {
-                console.error("Ajax error:", xhr.responseText);
-            }
-        });
-    }
-    fetchProjects();
+    // function fetchProjects() {
+    //     $.ajax({
+    //         type: "GET",
+    //         url: "/getprojects",
+    //         dataType: "json",
+    //         success: function(response) {
+    //             var tableBody = $('#project-table-body');
+    //             tableBody.empty();
+    //             if (response.projects) {
+    //                 response.projects.forEach(function(project) {
+    //                     var row = `<tr data-title="${project.id}">
+    //                         <td>${project.title}</td>
+    //                         <td>${project.source}</td>
+    //                         <td>${project.description}</td>                            
+    //                         <td>
+    //                             <button class="btn btn-primary open-btn">Open</button>
+    //                             <button class="btn btn-danger close-btn">Close</button>
+    //                         </td>
+    //                     </tr>`;
+    //                     tableBody.append(row);
+    //                 });
+    //                 // Attach event listeners to buttons after table update
+    //                 attachEventListeners();
+    //             }
+    //         },
+    //         error: function(xhr, status, error) {
+    //             console.error("Ajax error:", xhr.responseText);
+    //         }
+    //     });
+    // }
+    // fetchProjects();
 });
 </script>
   <!-- End custom js for this page-->

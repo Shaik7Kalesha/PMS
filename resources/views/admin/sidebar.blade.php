@@ -66,9 +66,7 @@
               </div>
             </div>
           </li>
-          <!-- <li class="nav-item nav-category">
-            <span class="nav-link">Home</span>
-          </li> -->
+
           
           <li class="nav-item menu-items">
             <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
@@ -102,28 +100,13 @@
               </ul>
             </div>
           </li>
-          <!-- <li class="nav-item menu-items">
-            <a class="nav-link" href="index.html">
-              <span class="menu-icon">
-                <i class="mdi mdi-speedometer"></i>
-              </span>
-              <span class="menu-title">Dashboard</span>
-            </a>
-          </li> -->
-          <!-- <li class="nav-item menu-items">
-            <a class="nav-link" href="pages/forms/basic_elements.html">
-              <span class="menu-icon">
-                <i class="mdi mdi-playlist-play"></i>
-              </span>
-              <span class="menu-title">Assign Projects</span>
-            </a>
-          </li> -->
+
           <li class="nav-item menu-items">
-            <a class="nav-link" href="pages/tables/basic-table.html">
+            <a class="nav-link" href="{{route('addfaculties')}}">
               <span class="menu-icon">
                 <i class="mdi mdi-table-large"></i>
               </span>
-              <span class="menu-title">Reports</span>
+              <span class="menu-title">Add Faculty</span>
             </a>
           </li>
           <li class="nav-item menu-items">

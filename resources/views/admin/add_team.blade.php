@@ -49,6 +49,19 @@
     .form-control, .form-control:focus{
         background: #fff;
     }
+    .table th, .table td {
+        color: black !important;
+    }
+    .table thead th {
+        background-color: #007bff;
+        color: #fff;
+    }
+    .table-striped tbody tr:nth-of-type(odd) {
+        background-color: rgba(0, 0, 0, 0.05);
+    }
+    .table-striped tbody tr:hover {
+        background-color: rgba(0, 123, 255, 0.15);
+    }
 
   </style>
 </head>
@@ -107,6 +120,26 @@
               </div>
             </div>
           </div>
+          <div class="row">
+            <div class="col-12">
+              <div class="card">
+                <div class="card-body" id="teams-table-body">
+                  <h4 class="card-title">Teams <h4>
+                  <table class="table table-striped">
+                    <thead>
+                      <tr>
+                      <th scope="col">Team Id</th>
+                      <th scope="col">Team Name</th>
+                      </tr>
+                    </thead>
+                    <tbody id="team-table-body">
+                      <!-- Member data will go here -->
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
         <!-- content-wrapper ends -->
         <!-- partial:partials/_footer.html -->
@@ -120,6 +153,10 @@
   <!-- container-scroller -->
   <!-- plugins:js -->
   <script src="admin/assets/vendors/js/vendor.bundle.base.js"></script>
+  <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+    integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
   <script>
 $(document).ready(function () {
     // Intercept the form submission
@@ -144,6 +181,8 @@ $(document).ready(function () {
                 alert('Team added successfully');
                 // Optionally, reset the form
                 $('#teams-form')[0].reset();
+                $('#teams-table-body').append('<tr data-team_id="' + response.team_id + '"><td>' + response.team_id + '</td><td>' + response.team_name + '</td><td><button class="btn btn-primary open-btn">Open</button><button class="btn btn-secondary close-btn">Close</button></td></tr>');
+                attachEventListeners();
             },
             error: function(xhr, status, error) {
                 // Display error message in alert popup
@@ -154,6 +193,36 @@ $(document).ready(function () {
             }
         });
     });
+    
+      // Function to fetch batches and populate the table
+      function fetchteams() {
+        $.ajax({
+          type: "GET",
+          url: "/getteams",
+          dataType: "json",
+          success: function(response) {
+            var tableBody = $('#team-table-body');
+            tableBody.empty();
+            if (response.teams) {
+              response.teams.forEach(function(team) {
+                var row = `<tr data-batch-id="${team.team_id}">
+                  <td>${team.team_id}</td>
+                  <td>${team.team_name}</td>
+                  
+                </tr>`;
+                tableBody.append(row);
+              });
+              // Attach event listeners to buttons after table update
+              attachEventListeners();
+            }
+          },
+          error: function(xhr, status, error) {
+            console.error("Ajax error:", xhr.responseText);
+          }
+        });
+      }
+      fetchteams();
+
 });
 </script>
 

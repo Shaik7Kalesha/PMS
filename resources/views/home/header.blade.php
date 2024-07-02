@@ -1,4 +1,4 @@
-<header class="header_section">
+<header class="header_section sticky-top bg-white border-bottom ">
    <div class="container">
       <nav class="navbar navbar-expand-lg custom_nav-container ">
          <a class="navbar-brand" href="index.html"  style="margin-right: -140px;

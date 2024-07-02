@@ -172,120 +172,120 @@
   <!-- plugins:js -->
   <script src="admin/assets/vendors/js/vendor.bundle.base.js"></script>
   <script src="https://kit.fontawesome.com/a076d05399.js"></script>
-            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-            <script src="https://code.jquery.com/jquery-3.6.0.min.js"
-              integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+    integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
   <script>
-$(document).ready(function () {
-    // Intercept the form submission
-    $('#batches-form').submit(function (event) {
+    $(document).ready(function () {
+      // Intercept the form submission
+      $('#batches-form').submit(function (event) {
         // Prevent the default form submission
         event.preventDefault();
 
         // Submit the form via AJAX
         var data = {
-            '_token': $('meta[name="csrf-token"]').attr('content'), // Retrieve CSRF token from meta tag
-            'batch_id': $('#batchid').val(),
-            'batch_name': $('#batch_name').val()         
+          '_token': $('meta[name="csrf-token"]').attr('content'), // Retrieve CSRF token from meta tag
+          'batch_id': $('#batchid').val(),
+          'batch_name': $('#batch_name').val()         
         };
 
         $.ajax({
-            type: "POST",
-            url: "{{ route('add_batches') }}",
-            data: data,
-            dataType: "json",
-            success: function (response) {
-                // Display success message in alert popup
-                alert('Batch added successfully');
-                location.reload();
-                // Optionally, reset the form
-                $('#batches-form')[0].reset();
-                // Optionally, update the table
-                $('#batch-table-body').append('<tr data-batch-id="' + response.batch_id + '"><td>' + response.batch_id + '</td><td>' + response.batch_name + '</td><td><button class="btn btn-primary open-btn">Open</button><button class="btn btn-secondary close-btn">Close</button></td></tr>');
-                
-                // Attach event listeners to new buttons
-                attachEventListeners();
-            },
-            error: function(xhr, status, error) {
-                // Display error message in alert popup
-                alert('An error occurred. Please try again.');
-                console.error('error:', error);
-            }
+          type: "POST",
+          url: "{{ route('add_batches') }}",
+          data: data,
+          dataType: "json",
+          success: function (response) {
+            // Display success message in alert popup
+            alert('Batch added successfully');
+            location.reload();
+            // Optionally, reset the form
+            $('#batches-form')[0].reset();
+            // Optionally, update the table
+            $('#batch-table-body').append('<tr data-batch-id="' + response.batch_id + '"><td>' + response.batch_id + '</td><td>' + response.batch_name + '</td><td><button class="btn btn-primary open-btn">Open</button><button class="btn btn-secondary close-btn">Close</button></td></tr>');
+            
+            // Attach event listeners to new buttons
+            attachEventListeners();
+          },
+          error: function(xhr, status, error) {
+            // Display error message in alert popup
+            alert('An error occurred. Please try again.');
+            console.error('error:', error);
+          }
         });
-    });
+      });
 
-    // Function to fetch batches and populate the table
-    function fetchBatches() {
+      // Function to fetch batches and populate the table
+      function fetchBatches() {
         $.ajax({
-            type: "GET",
-            url: "/getbatches",
-            dataType: "json",
-            success: function(response) {
-                var tableBody = $('#batch-table-body');
-                tableBody.empty();
-                if (response.batches) {
-                    response.batches.forEach(function(batch) {
-                        var row = `<tr data-batch-id="${batch.batch_id}">
-                            <td>${batch.batch_id}</td>
-                            <td>${batch.batch_name}</td>
-                            <td>
-                                <button class="btn btn-primary open-btn">Open</button>
-                                <button class="btn btn-danger close-btn">Close</button>
-                            </td>
-                        </tr>`;
-                        tableBody.append(row);
-                    });
-                    // Attach event listeners to buttons after table update
-                    attachEventListeners();
-                }
-            },
-            error: function(xhr, status, error) {
-                console.error("Ajax error:", xhr.responseText);
+          type: "GET",
+          url: "/getbatches",
+          dataType: "json",
+          success: function(response) {
+            var tableBody = $('#batch-table-body');
+            tableBody.empty();
+            if (response.batches) {
+              response.batches.forEach(function(batch) {
+                var row = `<tr data-batch-id="${batch.batch_id}">
+                  <td>${batch.batch_id}</td>
+                  <td>${batch.batch_name}</td>
+                  <td>
+                    <button class="btn btn-primary open-btn">Open</button>
+                    <button class="btn btn-danger close-btn">Close</button>
+                  </td>
+                </tr>`;
+                tableBody.append(row);
+              });
+              // Attach event listeners to buttons after table update
+              attachEventListeners();
             }
+          },
+          error: function(xhr, status, error) {
+            console.error("Ajax error:", xhr.responseText);
+          }
         });
-    }
-fetchBatches();
-    // Function to update batch status
-    function updateBatchStatus(batchid, status) {
-        $.ajax({
-            url: '/update-batch-status', // Replace with your actual route
-            method: 'POST',
-            data: {
-                '_token': $('meta[name="csrf-token"]').attr('content'),
-                'batchid': batchId,
-                'status': status
-            },
-            success: function(response) {
-                // Update status in the table row
-                var row = $('tr[data-batchid="' + batchid + '"]');
-                row.find('.batch-status').text(status); // Assuming a class 'batch-status' for status cell
-                alert(response.message);
-            },
-            error: function(xhr, status, error) {
-                console.error("Update status error:", xhr.responseText);
-            }
-        });
-    }
+      }
 
-    // Function to attach event listeners to buttons
-    function attachEventListeners() {
+      // Function to update batch status
+      function updateBatchStatus(batchId, status) {
+        $.ajax({
+          url: '/update-batch-status', // Replace with your actual route
+          method: 'POST',
+          data: {
+            '_token': $('meta[name="csrf-token"]').attr('content'),
+            'batchid': batchId,
+            'status': status
+          },
+          success: function(response) {
+            // Update status in the table row
+            var row = $('tr[data-batch-id="' + batchId + '"]');
+            row.find('.batch-status').text(status); // Assuming a class 'batch-status' for status cell
+            alert(response.message);
+          },
+          error: function(xhr, status, error) {
+            console.error("Update status error:", xhr.responseText);
+          }
+        });
+      }
+
+      // Function to attach event listeners to buttons
+      function attachEventListeners() {
         // Event listener for Open button
         $('.open-btn').click(function() {
-            var batchId = $(this).closest('tr').data('batchid');
-            updateBatchStatus(batcid, 'open');
+          var batchId = $(this).closest('tr').data('batch-id');
+          updateBatchStatus(batchId, 'accepted');
         });
 
         // Event listener for Close button
         $('.close-btn').click(function() {
-            var batchId = $(this).closest('tr').data('batchid');
-            updateBatchStatus(batchid, 'close');
+          var batchId = $(this).closest('tr').data('batch-id');
+          updateBatchStatus(batchId, 'closed');
         });
-    }
+      }
 
-    // Initial fetch of batches on page load
-    fetchBatches();
-});
-</script>
+      // Initial fetch of batches on page load
+      fetchBatches();
+    });
+  </script>
   <!-- End custom js for this page-->
 </body>
 </html>

@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
 <head>
     <title>Student Registration</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -34,17 +33,18 @@
 </head>
 
 <body>
-
+    <!-- Display the registration form -->
     <div class="container mt-5">
         <div class="text-center">
             <h3>STUDENT REGISTRATION</h3>
         </div>
         <div class="mt-4">
+            <!-- Your form code here -->
             <form method="POST" id="student-form" action="{{ route('student_store') }}">
                 @csrf
                 <div class="form-row mb-4">
                     <div class="col-sm-6 col-md-4">
-                        <label for="regno">Reg NO</label>
+                        <label for="regno">Reg No</label>
                         <input class="form-control" id="regno" name="regno" type="text" placeholder="Reg No" required>
                     </div>
                     <div class="col-sm-6 col-md-4">
@@ -89,55 +89,55 @@
                     <button type="submit" class="btn btn-primary mt-4"><i class="fas fa-paper-plane"></i> Submit</button>
                 </div>
             </form>
-            <!-- Response message placeholder -->
-            <div id="response-message" class="mt-4"></div>
+
         </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script>
-        $(document).ready(function () {
-            // Intercept the form submission
-            $('#student-form').submit(function (event) {
-                // Prevent the default form submission
-                event.preventDefault();
 
-                // Submit the form via AJAX
-                var data = {
-                    '_token': $('meta[name="csrf-token"]').attr('content'),
-                    'regno': $('#regno').val(),
-                    'name': $('#name').val(),
-                    'email': $('#email').val(),
-                    'password': $('#password').val(),
-                    'department': $('#department').val(),
-                    'batch_year': $('#batch_year').val(),
-                    'mentor_name': $('#mentor_name').val(),
-                    'mentor_number': $('#mentor_number').val(),
-                    'student_number': $('#student_number').val()
-                };
 
-                $.ajax({
-                    type: "POST",
-                    url: "{{ url('/createstudent') }}",
-                    data: data,
-                    dataType: "json",
-                    success: function (response) {
-                        console.log(response); // Debugging line
-                        if (response.status == 200) {
-                            alert(response.message || 'Student added successfully');
-                            location.reload(); // Refresh the page
-                        } else {
-                            alert(response.message || 'An error occurred. Please try again.');
-                        }
-                    },
-                    error: function (xhr, status, error) {
-                        alert('An error occurred. Please try again.');
-                        console.error(xhr.responseText);
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // Intercept the form submission
+        $('#student-form').submit(function (event) {
+            // Prevent the default form submission
+            event.preventDefault();
+
+            // Submit the form via AJAX
+            var data = {
+                '_token': $('meta[name="csrf-token"]').attr('content'),
+                'regno': $('#regno').val(),
+                'name': $('#name').val(),
+                'email': $('#email').val(),
+                'password': $('#password').val(),
+                'department': $('#department').val(),
+                'batch_year': $('#batch_year').val(),
+                'mentor_name': $('#mentor_name').val(),
+                'mentor_number': $('#mentor_number').val(),
+                'student_number': $('#student_number').val()
+            };
+
+            $.ajax({
+                type: "POST",
+                url: "{{ route('student_store') }}",
+                data: data,
+                dataType: "json",
+                success: function (response) {
+                    console.log(response); // Debugging line
+                    if (response.status == 200) {
+                        alert(response.message || 'Student added successfully');
+                        location.reload(); // Refresh the page
+                    } else {
+                        alert(response.message || 'An error occurred. Please try again.');
                     }
-                });
+                },
+                error: function (xhr, status, error) {
+                    alert('An error occurred. Please try again.');
+                    console.error(xhr.responseText);
+                }
             });
         });
-    </script>
+    });
+</script>
 </body>
-
 </html>

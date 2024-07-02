@@ -227,8 +227,8 @@
                                 Accept
                             </button>
                             <ul class="dropdown-menu" aria-labelledby="acceptDropdown${member.id}">
-                                <li><a class="accept-btn dropdown-item accept-option" data-id="${member.id}" data-value="option1" data-user-type="TL">Accept as TL</a></li>
-                                <li><a class="reject-btn dropdown-item accept-option" data-id="${member.id}" data-value="option2" data-user-type="developer">Accept as Developer</a></li>
+                                 <li><a class="accept-btn dropdown-item accept-option" data-id="${member.id}" data-value="option1" data-usertype="tl">Accept as TL</a></li>
+                                            <li><a class="accept-btn dropdown-item accept-option" data-id="${member.id}" data-value="option2" data-usertype="developer">Accept as Developer</a></li>
                             </ul>
                         </div>
                     </td>
@@ -311,23 +311,30 @@
 
     //accept code
     $(document).on('click', '.accept-btn', function(e) {
-    e.preventDefault();
-    var id = $(this).data('id');
+  e.preventDefault();
+  var id = $(this).data('id');
+  var usertype = $(this).data('usertype'); // Get the usertype from the button data attribute
 
-    $.ajax({
-        type: "POST",
-        url: "/accept_member/" + id,
-        dataType: "json",
-        success: function(response) {
-            alert(response.message);
-            // Optionally, reload the members list
-            loadMembers();
-        },
-        error: function(xhr, status, error) {
-            console.error("Ajax error:", xhr.responseText);
-        }
-    });
+  $.ajax({
+    type: "POST",
+    url: "/accept_member/" + id,
+    contentType: "application/json",
+    dataType: "json",
+    data: JSON.stringify({ // Send data as JSON
+      id: id,
+      usertype: usertype
+    }),
+    success: function(response) {
+      alert(response.message);
+      // Optionally, reload the members list
+      loadMembers();
+    },
+    error: function(xhr, status, error) {
+      console.error("Ajax error:", xhr.responseText);
+    }
+  });
 });
+
 
 //reject code 
 $(document).on('click', '.reject-btn', function(e) {
@@ -341,7 +348,7 @@ $(document).on('click', '.reject-btn', function(e) {
         success: function(response) {
             alert(response.message);
             // Optionally, reload the members list
-            loadMembers();
+            // loadMembers();
         },
         error: function(xhr, status, error) {
             console.error("Ajax error:", xhr.responseText);

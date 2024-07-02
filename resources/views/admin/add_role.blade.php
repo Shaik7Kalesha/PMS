@@ -6,7 +6,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="csrf-token" content="{{ csrf_token() }}">
 
-
   <title>Admin Home</title>
   <!-- plugins:css -->
   <link rel="stylesheet" href="admin/assets/vendors/mdi/css/materialdesignicons.min.css">
@@ -43,13 +42,28 @@
       border-color: #f8f9fa;
     }
 
-    #roleName{
-        color:#fff;
+    #roleName {
+        color: #fff;
     }
-    .form-control, .form-control:focus{
+    .form-control, .form-control:focus {
         background: #fff;
     }
-  </style>
+
+    .table th, .table td {
+        color: black !important;
+    }
+    .table thead th {
+        background-color: #007bff;
+        color: #fff;
+    }
+    .table-striped tbody tr:nth-of-type(odd) {
+        background-color: rgba(0, 0, 0, 0.05);
+    }
+    .table-striped tbody tr:hover {
+        background-color: rgba(0, 123, 255, 0.15);
+    }
+</style>
+
 </head>
 <body>
   <div class="container-scroller">
@@ -58,7 +72,6 @@
         <div class="card-body card-body-padding d-flex align-items-center justify-content-between">
           <div class="ps-lg-1">
             <div class="d-flex align-items-center justify-content-between">
-              <!-- <p class="mb-0 font-weight-medium me-3 buy-now-text">Free 24/7 customer support, updates, and more with this template!</p> -->
               <a href="https://www.bootstrapdash.com/product/corona-free/?utm_source=organic&utm_medium=banner&utm_campaign=buynow_demo" target="_blank" class="btn me-2 buy-now-btn border-0">Get Pro</a>
             </div>
           </div>
@@ -91,10 +104,9 @@
                   <form method="post" id="roles-form">
                     @csrf
                     <div class="form-group">
-                      <label for="roleName">Role Name</label>
-                      <input type="text" class="form-control" id="role_name" name="roleName" placeholder="Role Name">
+                      <label for="role_name">Role Name</label>
+                      <input type="text" class="form-control" id="role_name" name="role_name" placeholder="Role Name">
                     </div>
-                   
                     <button type="submit" class="btn btn-primary me-2">Submit</button>
                     <button type="reset" class="btn btn-light">Cancel</button>
                   </form>
@@ -102,10 +114,30 @@
               </div>
             </div>
           </div>
+          <div class="row">
+            <div class="col-12">
+              <div class="card">
+                <div class="card-body">
+                  <h4 class="card-title">Role</h4>
+                  <table class="table table-striped">
+                    <thead>
+                      <tr>
+                        <th scope="col">Id</th>
+                        <th scope="col">Role Name</th>
+                      </tr>
+                    </thead>
+                    <tbody id="roles-table-body">
+                      <!-- Role data will go here -->
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
         <!-- content-wrapper ends -->
         <!-- partial:partials/_footer.html -->
-        
+         
         <!-- partial -->
       </div>
       <!-- main-panel ends -->
@@ -115,6 +147,10 @@
   <!-- container-scroller -->
   <!-- plugins:js -->
   <script src="admin/assets/vendors/js/vendor.bundle.base.js"></script>
+  <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+    integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
   <script>
 $(document).ready(function () {
     // Intercept the form submission
@@ -138,38 +174,42 @@ $(document).ready(function () {
                 alert('Role added successfully');
                 // Optionally, reset the form
                 $('#roles-form')[0].reset();
+                $('#roles-table-body').append('<tr><td>' + response.id + '</td><td>' + response.role_name + '</td></tr>');
             },
             error: function(xhr, status, error) {
                 // Display error message in alert popup
                 alert('An error occurred. Please try again.');
-                // Optionally, display error message in a specific element on the page
-                // $('#response-message').html('<div class="alert alert-danger">An error occurred. Please try again.</div>');
-                console.error('error:', error);
+                console.error('Error:', error);
             }
         });
     });
+
+    function fetchRoles() {
+        $.ajax({
+            type: "GET",
+            url: "/getroles",
+            dataType: "json",
+            success: function(response) {
+                var tableBody = $('#roles-table-body');
+                tableBody.empty();
+                if (response.roles) {
+                    response.roles.forEach(function(role) {
+                        var row = `<tr>
+                            <td>${role.id}</td>
+                            <td>${role.role_name}</td>
+                        </tr>`;
+                        tableBody.append(row);
+                    });
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error("Ajax error:", xhr.responseText);
+            }
+        });
+    }
+    fetchRoles();
 });
 </script>
-
-</body>
-</html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   <!-- endinject -->
   <!-- Plugin js for this page -->
   <script src="admin/assets/vendors/chart.js/Chart.min.js"></script>

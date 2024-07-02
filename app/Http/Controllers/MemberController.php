@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Member;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class MemberController extends Controller
@@ -131,32 +132,58 @@ class MemberController extends Controller
         }
     }
 
-    public function acceptMember($id)
+    public function acceptMember(Request $request, $id)
     {
-        // Your logic to accept the member
+        // Find the member by ID
         $member = Member::find($id);
+
         if ($member) {
+            // Check if a user already exists for this member
+            $user = User::where('email', $member->personalemail)->first();
+
+            if ($user) {
+                // If user already exists, update the user details
+                $user->name = $member->name;
+                $user->usertype = $request->usertype;
+                $user->status = 'accepted';
+                $user->save();
+            } else {
+                // If user does not exist, create a new user
+                $newUser = new User();
+                $newUser->name = $member->name;
+                $newUser->email = $member->personalemail;
+                $newUser->password = bcrypt($member->password); // Assuming the password is stored in a hashed form
+                $newUser->usertype = $request->usertype;
+                $newUser->save();
+            }
+
+            // Update member status to "accepted"
             $member->status = 'accepted';
             $member->save();
 
-            return response()->json(['message' => 'Member accepted successfully.']);
-        }
+            // Customize the success message based on user type
+            $message = ($request->input('usertype') == 'tl') ? 'TL added and stored successfully' : 'Member added and stored successfully';
 
-        return response()->json(['error' => 'Member not found.'], 404);
+            return response()->json(['message' => $message], 200);
+        } else {
+            return response()->json(['message' => 'Member not found'], 404);
+        }
     }
+
+
 
     public function rejectMember($id)
     {
+        // Find the member by ID
         $member = Member::find($id);
 
         if ($member) {
-            // Perform the rejection logic here
-            $member->status = 'rejected';
-            $member->save();
+            // Handle the rejection logic, for example, delete the member
+            $member->delete();
 
-            return response()->json(['message' => 'Member has been rejected.']);
+            return response()->json(['message' => 'Member rejected successfully']);
         } else {
-            return response()->json(['message' => 'Member not found.'], 404);
+            return response()->json(['message' => 'Member not found'], 404);
         }
     }
 
