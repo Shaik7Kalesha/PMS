@@ -6,6 +6,10 @@ use App\Models\Batch;
 use App\Models\Student;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Projects;
+use App\Models\Member;
+use Illuminate\Support\Facades\Hash;
+
 
 
 class StudentController extends Controller
@@ -75,9 +79,9 @@ class StudentController extends Controller
     }
     public function modify(Request $request, $id)
     {
-        // Validate the incoming request data as needed
         $validatedData = $request->validate([
-            'regno' => 'required|int:11',
+            'member_id' => 'exists:members,bioid', // Ensure member_id exists in 'members' table
+            'regno' => 'required|int',
             'name' => 'required|string|max:255',
             'email' => 'required|email|min:8',
             'password' => 'required|string|min:8',
@@ -86,33 +90,42 @@ class StudentController extends Controller
             'mentor_name' => 'required|string|max:255',
             'mentor_number' => 'required|max:255',
             'student_number' => 'required|max:255',
+            'project_title' => 'required|string|max:255', // Ensure project_title is a string and not an ID
+            'project_description' => 'required|string',
         ]);
-
+    
         // Find the student by ID
         $student = Student::find($id);
-
-        if ($student) {
-            // Update student data
-            $student->regno = $request->regno;
-            $student->name = $request->name;
-            $student->email = $request->email;
-            $student->password = bcrypt($request->password); // Encrypt the password
-            $student->department = $request->department;
-            $student->batch_year = $request->batch_year;
-            $student->mentor_name = $request->mentor_name;
-            $student->mentor_number = $request->mentor_number;
-            $student->student_number = $request->student_number;
-
-            // Save the updated student data
-            $student->save();
-
-            // Return success response
-            return response()->json(['status' => 'success', 'message' => 'Student data updated successfully']);
-        } else {
-            // Return error response if student is not found
+    
+        if (!$student) {
+            \Log::error('Student not found with ID: ' . $id);
             return response()->json(['status' => 'error', 'message' => 'Student not found'], 404);
         }
+    
+        // Update student data
+        $student->member_id = $request->member_id;
+        $student->regno = $request->regno;
+        $student->name = $request->name;
+        $student->email = $request->email;
+        $student->password = Hash::make($request->password);
+        $student->department = $request->department;
+        $student->batch_year = $request->batch_year;
+        $student->mentor_name = $request->mentor_name;
+        $student->mentor_number = $request->mentor_number;
+        $student->student_number = $request->student_number;
+        $student->project_title = $request->project_title;
+        $student->project_description = $request->project_description;
+    
+        // Save the updated student data
+        $student->save();
+    
+        // Log success and return response
+        \Log::info('Student updated successfully: ' . $student->id);
+        return response()->json(['status' => 'success', 'message' => 'Student data updated successfully']);
     }
+    
+
+    
 
     public function checkStatus()
     {
@@ -132,31 +145,66 @@ class StudentController extends Controller
     public function acceptStudent(Request $request, $id)
     {
         $student = Student::find($id);
-
+    
         if ($student) {
+            // Update student's status to 'accepted'
+            $student->status = 'accepted';
+            $student->save();
+    
             // Add student to the users table with user_type as student
             $user = User::create([
                 'name' => $student->name,
                 'email' => $student->email,
                 'password' => bcrypt($student->password), // Ensure password encryption
-                'usertype' => 'student', // Set user_type to student
+                'usertype' => 'student', // Set usertype to student
                 // Add other fields as needed
             ]);
-
-            // Optional: Remove the student from the students table
-            // $student->delete();
-
+    
             return response()->json(['message' => 'Student accepted successfully.']);
         }
-
+    
         return response()->json(['message' => 'Student not found.'], 404);
     }
 
     public function rejectStudent($id)
-    {
-        // Simply respond with a success message
-        return response()->json(['message' => 'Student rejected.']);
+{
+    // Find the student by ID
+    $student = Student::find($id);
+
+    if ($student) {
+        // Update the student's status to 'rejected'
+        $student->status = 'rejected';
+        $student->save();
+
+        // Find the associated user by email
+        $user = User::where('email', $student->email)->first();
+
+        // If the user exists, delete the user
+        if ($user) {
+            $user->delete();
+        }
+
+        return response()->json(['message' => 'Student and associated user rejected successfully']);
+    } else {
+        return response()->json(['message' => 'Student not found'], 404);
     }
+}
+
+    
+
+    public function getMembers()
+    {
+        $members = Member::all();
+        return response()->json(['getmember' => $members]);
+    }
+
+    public function getProjects()
+    {
+        $projects = Projects::all();
+        return response()->json(['projects' => $projects]);
+    }
+
+   
 }
 
 

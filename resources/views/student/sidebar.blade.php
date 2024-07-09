@@ -1,7 +1,6 @@
 <style>
   .sidebar{
     background: #fff !important;
-    /* position: none !important; */
 
   }
   .sidebar .sidebar-brand-wrapper{
@@ -29,54 +28,21 @@
                   <h5 class="mb-0 font-weight-normal text-dark">{{ Auth::user()->name }}</h5>
                     </div>
               </div>
-              <li class="nav-item menu-items">
-            <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
-              <span class="menu-icon">
-                <i class="mdi mdi-laptop"></i>
-              </span>
-              <span class="menu-title">Home</span>
-              <i class="menu-arrow"></i>
-            </a>
-            <div class="collapse" id="ui-basic">
-              <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="pages/ui-features/buttons.html">Dashboard</a></li>
-                <li class="nav-item"> <a class="nav-link" href="{{route('addteams')}}">Tasks</a></li>
-                <li class="nav-item"> <a class="nav-link" href="{{route('addroles')}}">Attendance</a></li>
-              </ul>
-            </div>
-          </li>
-
-          <li class="nav-item menu-items">
-            <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
-              <span class="menu-icon">
-                <i class="mdi mdi-laptop"></i>
-              </span>
-              <span class="menu-title">Details</span>
-              <i class="menu-arrow"></i>
-            </a>
-            <div class="collapse" id="ui-basic">
-              <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="pages/ui-features/buttons.html">Projects</a></li>
-                <li class="nav-item"> <a class="nav-link" href="{{route('addteams')}}">Team</a></li>
-                <li class="nav-item"> <a class="nav-link" href="{{route('addroles')}}">Reviews</a></li>
-              </ul>
-            </div>
-          </li>
 
               <li class="nav-item menu-items">
             <a class="nav-link">
               <span class="menu-icon">
                 <i class="mdi mdi-contacts"></i>
               </span>
-              <span class="menu-title">Leave Request</span>
+              <span class="menu-title">Taks</span>
             </a>
           </li>
           <li class="nav-item menu-items">
-            <a class="nav-link" href="{{route('student_assigned')}}">
+            <a class="nav-link">
               <span class="menu-icon">
                 <i class="mdi mdi-contacts"></i>
               </span>
-              <span class="menu-title">Students Assigned</span>
+              <span class="menu-title">Projects</span>
             </a>
             
           </li>

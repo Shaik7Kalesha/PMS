@@ -258,22 +258,23 @@
                 tableBody.empty();
                 if (response.projects) {
                     response.projects.forEach(function(project) {
+                        var editButton = project.status.toLowerCase() === 'accepted' ? 
+                            `<a class="editbtn btn btn-primary" data-bs-toggle="modal" href="#exampleModalToggle" role="button" data-id="${project.id}">Edit</a>` : '';
                         var row = `<tr data-title="${project.id}">
                             <td>${project.title}</td>
                             <td>${project.batch_year}</td>
-                             <td>${project.team}</td>
+                            <td>${project.team}</td>
                             <td>${project.developers}</td>
                             <td>${project.platform}</td>
                             <td>${project.student_name}</td>
                             <td>${project.start_date}</td>
                             <td>${project.end_date}</td>
-                            
                             <td>${project.description}</td>
                             <td>${project.status}</td>
                             <td>
                                 <button class="accept-btn btn btn-primary">Accept</button>
                                 <button class="reject-btn btn btn-danger">Reject</button>
-                                <a class="editbtn btn btn-primary" data-bs-toggle="modal" href="#exampleModalToggle" role="button" data-id="${project.id}">Edit</a>
+                                ${editButton}
                             </td>
                         </tr>`;
                         tableBody.append(row);
@@ -293,24 +294,49 @@
     $(document).on('click', '.editbtn', function(e) {
         e.preventDefault();
         var id = $(this).data('id');
+        var status = $(this).closest('tr').find('td:eq(9)').text().trim(); // Assuming status is in the 9th column, adjust if necessary
+
+        if (status.toLowerCase() === 'accepted') {
+            $.ajax({
+                type: "GET",
+                url: "/edit_project/" + id,
+                dataType: "json",
+                success: function(response) {
+                    var project = response.project;
+                    $('#project_id').val(project.id); // Ensure the project ID is set here
+                    $('#title').val(project.title);
+                    $('#batch_name').val(project.batch_year); // Ensure correct ID for batch/year
+                    $('#team_name').val(project.team); // Adjust according to your data
+                    $('#developer').val(project.developers);
+                    $('#platform').val(project.platform);
+                    $('#student_name').val(project.student_name);
+                    $('#start_date').val(project.start_date);
+                    $('#end_date').val(project.end_date);
+                    $('#description').val(project.description);
+                    $('#exampleModalToggle').modal('show'); // Open the modal only if the status is accepted
+                },
+                error: function(xhr, status, error) {
+                    console.error("Ajax error:", xhr.responseText);
+                }
+            });
+        } else if (status.toLowerCase() === 'rejected') {
+            alert("You cannot edit projects that are in 'Rejected' status.");
+        }
+    });
+
+    // Ensure that the modal is hidden after an alert if it was shown before
+    $(document).on('click', '.reject-btn', function(e) {
+        e.preventDefault();
+        var id = $(this).closest('tr').data('title');
 
         $.ajax({
-            type: "GET",
-            url: "/edit_project/" + id,
+            type: "POST",
+            url: "/reject_project/" + id,
             dataType: "json",
             success: function(response) {
-                var project = response.project;
-                $('#project_id').val(project.id); // Ensure the member ID is set here
-                $('#title').val(project.title);
-                $('#batch_year').val(project.batch_year); // Ensure correct ID for batch/year
-                $('#team_name').val(project.team); // Adjust according to your data
-                $('#developer').val(project.developer);
-                $('#platform').val(project.platform);
-                $('#student_name').val(project.student);
-                $('#start_date').val(project.start_date);
-                $('#end_date').val(project.end_date);
-                $('#description').val(project.description);
-                $('#exampleModalToggle').modal('show'); // Open the modal
+                alert(response.message);
+                location.reload();
+                fetchProjects(); // Reload projects after update
             },
             error: function(xhr, status, error) {
                 console.error("Ajax error:", xhr.responseText);
@@ -441,67 +467,13 @@
 
     // Attach event listeners to dynamically added buttons
     function attachEventListeners() {
-    $(document).on('click', '.accept-btn', function(e) {
-        e.preventDefault();
-        var id = $(this).closest('tr').data('title');
-
-        $.ajax({
-            type: "POST",
-            url: "/accept_project/" + id,
-            dataType: "json",
-            success: function(response) {
-                alert(response.message);
-                location.reload();
-                fetchProjects(); // Reload projects after update
-            },
-            error: function(xhr, status, error) {
-                console.error("Ajax error:", xhr.responseText);
-            }
-        });
-    });
-
-    $(document).on('click', '.editbtn', function(e) {
-        e.preventDefault();
-        var id = $(this).data('id');
-        var status = $(this).closest('tr').find('td:eq(9)').text().trim(); // Assuming status is in the 9th column, adjust if necessary
-
-        if (status.toLowerCase() === 'accepted') {
-            $.ajax({
-                type: "GET",
-                url: "/edit_project/" + id,
-                dataType: "json",
-                success: function(response) {
-                    var project = response.project;
-                    $('#project_id').val(project.id); // Ensure the member ID is set here
-                    $('#title').val(project.title);
-                    $('#batch_name').val(project.batch_year); // Ensure correct ID for batch/year
-                    $('#team_name').val(project.team); // Adjust according to your data
-                    $('#developer').val(project.developers);
-                    $('#platform').val(project.platform);
-                    $('#student_name').val(project.student_name);
-                    $('#start_date').val(project.start_date);
-                    $('#end_date').val(project.end_date);
-                    $('#description').val(project.description);
-                    $('#exampleModalToggle').modal('show'); // Open the modal
-                },
-                error: function(xhr, status, error) {
-                    console.error("Ajax error:", xhr.responseText);
-                }
-            });
-        } else {
-            alert("You can only edit projects that are in 'Accepted' status.");
-        }
-    });
-}
-
-
-        $(document).on('click', '.reject-btn', function(e) {
+        $(document).on('click', '.accept-btn', function(e) {
             e.preventDefault();
             var id = $(this).closest('tr').data('title');
 
             $.ajax({
                 type: "POST",
-                url: "/reject_project/" + id,
+                url: "/accept_project/" + id,
                 dataType: "json",
                 success: function(response) {
                     alert(response.message);
@@ -513,7 +485,9 @@
                 }
             });
         });
+    }
 </script>
+
   <!-- End custom js for this page-->
 </body>
 </html>

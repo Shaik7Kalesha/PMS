@@ -4,7 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Member;
 use App\Models\User;
+use App\Models\Student;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
+
+
 
 class MemberController extends Controller
 {
@@ -136,16 +140,16 @@ class MemberController extends Controller
     {
         // Find the member by ID
         $member = Member::find($id);
-
+    
         if ($member) {
             // Check if a user already exists for this member
             $user = User::where('email', $member->personalemail)->first();
-
+    
             if ($user) {
                 // If user already exists, update the user details
                 $user->name = $member->name;
                 $user->usertype = $request->usertype;
-                $user->status = 'accepted';
+                $user->member_id = $member->id;
                 $user->save();
             } else {
                 // If user does not exist, create a new user
@@ -154,37 +158,102 @@ class MemberController extends Controller
                 $newUser->email = $member->personalemail;
                 $newUser->password = bcrypt($member->password); // Assuming the password is stored in a hashed form
                 $newUser->usertype = $request->usertype;
+                $newUser->member_id = $member->id;
                 $newUser->save();
             }
-
+    
             // Update member status to "accepted"
             $member->status = 'accepted';
             $member->save();
-
+    
             // Customize the success message based on user type
             $message = ($request->input('usertype') == 'tl') ? 'TL added and stored successfully' : 'Member added and stored successfully';
-
+    
             return response()->json(['message' => $message], 200);
         } else {
             return response()->json(['message' => 'Member not found'], 404);
         }
     }
-
+    
 
 
     public function rejectMember($id)
     {
         // Find the member by ID
         $member = Member::find($id);
-
+    
         if ($member) {
-            // Handle the rejection logic, for example, delete the member
-            $member->delete();
-
-            return response()->json(['message' => 'Member rejected successfully']);
+            // Find the associated user by email
+            $user = User::where('email', $member->personalemail)->first();
+    
+            // If the user exists, delete the user
+            if ($user) {
+                $user->delete();
+            }
+    
+            // Delete the member
+            $user->delete();
+    
+            return response()->json(['message' => 'Member and associated user rejected successfully']);
         } else {
             return response()->json(['message' => 'Member not found'], 404);
         }
     }
+    
+    public function getUser()
+    {
+        // Retrieve member_id from the session
+        $loggedUserId = Session::get('member_id');
+        $user = Member::where('bioid', $loggedUserId)->first();
+    
+        if ($user) {
+            // If user exists, store member_id in the session
+            $users = $user->member_id;
+            Session::put('member_id', $users);
+    
+            // Return JSON response
+            return response()->json([
+                'status' => 'success',
+                'message' => 'User found',
+                'member_id' => $users
+            ]);
+        } else {
+            // Handle the case when the user is not found
+            return response()->json([
+                'status' => 'error',
+                'message' => 'User not found'
+            ], 404);
+        }
+    }
+    
+    public function getUserView()
+    {
+        // Retrieve member_id from the session
+        $users = Session::get('member_id');
+        
+        // Return the view with the member_id
+        return view('member.student_assigned', compact('users'));
+    }
 
+
+    public function fetchstudent()
+    {
+        // Retrieve the member_id from the session
+        $loggedin = session()->get('member_id');
+
+        // Fetch students assigned to the logged-in member
+        $studentlist = Student::where('member_id', $loggedin)->get();
+
+        // Check if the request expects a JSON response
+        if (request()->expectsJson()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Student list fetched successfully',
+                'studentlist' => $studentlist,
+            ]);
+        } else {
+            // Render the view with the student list
+            return view('member.student_assigned', compact('studentlist'));
+        }
+    }
 }

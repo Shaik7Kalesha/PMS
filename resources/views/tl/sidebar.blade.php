@@ -1,7 +1,6 @@
 <style>
   .sidebar{
     background: #fff !important;
-    /* position: none !important; */
 
   }
   .sidebar .sidebar-brand-wrapper{
@@ -72,7 +71,7 @@
             </a>
           </li>
           <li class="nav-item menu-items">
-            <a class="nav-link" href="{{route('student_assigned')}}">
+            <a class="nav-link">
               <span class="menu-icon">
                 <i class="mdi mdi-contacts"></i>
               </span>

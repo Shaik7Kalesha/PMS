@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\StudentController;
+use App\Http\Controllers\LoginController;
 use App\Http\Controllers\AdminController;
 /*
 |--------------------------------------------------------------------------
@@ -19,6 +20,7 @@ use App\Http\Controllers\AdminController;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+Route::get('/getusers',[LoginController::class,'getusers']);
 
 
 Route::get('/add_role',[AdminController::class,'add_role'])->name('addroles');
@@ -56,6 +58,11 @@ Route::post('/reject_project/{id}', [AdminController::class, 'rejectProject']);
 
 
 
+
+
+
+
+
 Route::get('/getbatches',[AdminController::class,'getBatches'])->name('getbatches');
 Route::get('/getTeams',[AdminController::class,'getTeams'])->name('getTeams');
 Route::get('/getMembers',[AdminController::class,'getMembers'])->name('getMembers');
@@ -77,9 +84,13 @@ Route::post('/update-member/{id}', [MemberController::class, 'update']);
 Route::post('/accept_member/{id}', [MemberController::class, 'acceptMember']);
 Route::post('/reject_member/{id}', [MemberController::class, 'rejectMember']);
 
+Route::get('/get-user', [MemberController::class, 'getUser']);
+
+// Route to get user view
+Route::get('/get-user-view', [MemberController::class, 'getUserView']);
 
 
-
+Route::get('/fetch_student',[MemberController::class,'fetchstudent']);
 
 
 Route::post('/createstudent', [StudentController::class, 'store_student']);
@@ -90,6 +101,10 @@ Route::post('/student_accept', [StudentController::class, 'take'])->name('projec
 Route::post('/student-project', [StudentController::class, 'remove']);
 Route::post('/accept_student/{id}', [StudentController::class, 'acceptStudent']);
 Route::post('/reject_student/{id}', [StudentController::class, 'rejectStudent']);
+Route::get('/getmember',[StudentController::class,'getMembers']);
+Route::get('/getproject',[StudentController::class,'getproject']);
+
+
 
 
 Route::get('/add_faculty',[AdminController::class,'add_faculty'])->name('addfaculties');

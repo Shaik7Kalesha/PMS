@@ -188,19 +188,56 @@
     </div>
     <!-- page-body-wrapper ends -->
   </div>
-    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+   
+
+
+
+    <!-- container-scroller -->
+    <!-- plugins:js -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.min.js"></script>
+    <script src="admin/assets/vendors/js/vendor.bundle.base.js"></script>
+    <!-- endinject -->
+    <!-- Plugin js for this page -->
+    <script src="admin/assets/vendors/chart.js/Chart.min.js"></script>
+    <script src="admin/assets/vendors/progressbar.js/progressbar.min.js"></script>
+    <script src="admin/assets/vendors/jvectormap/jquery-jvectormap.min.js"></script>
+    <script src="admin/assets/vendors/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
+    <script src="admin/assets/vendors/owl-carousel-2/owl.carousel.min.js"></script>
+    <script src="admin/assets/js/jquery.cookie.js" type="text/javascript"></script>
+    <!-- End plugin js for this page -->
+    <!-- inject:js -->
+    <script src="admin/assets/js/off-canvas.js"></script>
+    <script src="admin/assets/js/hoverable-collapse.js"></script>
+    <script src="admin/assets/js/misc.js"></script>
+    <script src="admin/assets/js/settings.js"></script>
+    <script src="admin/assets/js/todolist.js"></script>
+    <!-- endinject -->
+    <!-- Custom js for this page -->
+    <script src="admin/assets/js/dashboard.js"></script>
+    <!-- End custom js for this page -->
+     <style>
+      .modal-dialog.mem-reg{
+        max-width: 900px;
+
+      }
+
+    </style>
+     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
             <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
             <script src="https://code.jquery.com/jquery-3.6.0.min.js"
               integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 
               <script>
+               $.ajaxSetup({
+    headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
+});
     $(document).ready(function() {
     // Set up CSRF token for AJAX requests
-    $.ajaxSetup({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        }
-    });
+   
 
     // AJAX Request to Populate Member List
     $.ajax({
@@ -360,40 +397,5 @@ $(document).on('click', '.reject-btn', function(e) {
   
 </script>
 
-
-
-
-    <!-- container-scroller -->
-    <!-- plugins:js -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.min.js"></script>
-    <script src="admin/assets/vendors/js/vendor.bundle.base.js"></script>
-    <!-- endinject -->
-    <!-- Plugin js for this page -->
-    <script src="admin/assets/vendors/chart.js/Chart.min.js"></script>
-    <script src="admin/assets/vendors/progressbar.js/progressbar.min.js"></script>
-    <script src="admin/assets/vendors/jvectormap/jquery-jvectormap.min.js"></script>
-    <script src="admin/assets/vendors/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
-    <script src="admin/assets/vendors/owl-carousel-2/owl.carousel.min.js"></script>
-    <script src="admin/assets/js/jquery.cookie.js" type="text/javascript"></script>
-    <!-- End plugin js for this page -->
-    <!-- inject:js -->
-    <script src="admin/assets/js/off-canvas.js"></script>
-    <script src="admin/assets/js/hoverable-collapse.js"></script>
-    <script src="admin/assets/js/misc.js"></script>
-    <script src="admin/assets/js/settings.js"></script>
-    <script src="admin/assets/js/todolist.js"></script>
-    <!-- endinject -->
-    <!-- Custom js for this page -->
-    <script src="admin/assets/js/dashboard.js"></script>
-    <!-- End custom js for this page -->
-     <style>
-      .modal-dialog.mem-reg{
-        max-width: 900px;
-
-      }
-
-    </style>
   </body>
 </html>

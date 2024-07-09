@@ -4,7 +4,7 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Student Home</title>
+    <title>TL Home</title>
     <!-- plugins:css -->
     <link rel="stylesheet" href="admin/assets/vendors/mdi/css/materialdesignicons.min.css">
     <link rel="stylesheet" href="admin/assets/vendors/css/vendor.bundle.base.css">
@@ -24,11 +24,11 @@
   </head>
   <body>
       <!-- partial:partials/_sidebar.html -->
-      @include('student.sidebar')
+      @include('tl.sidebar')
       <!-- partial -->
       <div class="container-fluid page-body-wrapper">
         <!-- partial:partials/_navbar.html -->
-       @include('student.header')
+       @include('tl.header')
       </div>
       <!-- page-body-wrapper ends -->
     </div>
