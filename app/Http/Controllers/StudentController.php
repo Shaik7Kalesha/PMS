@@ -78,54 +78,63 @@ class StudentController extends Controller
 
     }
     public function modify(Request $request, $id)
-    {
-        $validatedData = $request->validate([
-            'member_id' => 'exists:members,bioid', // Ensure member_id exists in 'members' table
-            'regno' => 'required|int',
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|min:8',
-            'password' => 'required|string|min:8',
-            'department' => 'required|max:255',
-            'batch_year' => 'required|string|max:255',
-            'mentor_name' => 'required|string|max:255',
-            'mentor_number' => 'required|max:255',
-            'student_number' => 'required|max:255',
-            'project_title' => 'required|string|max:255', // Ensure project_title is a string and not an ID
-            'project_description' => 'required|string',
-        ]);
-    
-        // Find the student by ID
-        $student = Student::find($id);
-    
-        if (!$student) {
-            \Log::error('Student not found with ID: ' . $id);
-            return response()->json(['status' => 'error', 'message' => 'Student not found'], 404);
-        }
-    
-        // Update student data
-        $student->member_id = $request->member_id;
-        $student->regno = $request->regno;
-        $student->name = $request->name;
-        $student->email = $request->email;
-        $student->password = Hash::make($request->password);
-        $student->department = $request->department;
-        $student->batch_year = $request->batch_year;
-        $student->mentor_name = $request->mentor_name;
-        $student->mentor_number = $request->mentor_number;
-        $student->student_number = $request->student_number;
-        $student->project_title = $request->project_title;
-        $student->project_description = $request->project_description;
-    
-        // Save the updated student data
-        $student->save();
-    
-        // Log success and return response
-        \Log::info('Student updated successfully: ' . $student->id);
-        return response()->json(['status' => 'success', 'message' => 'Student data updated successfully']);
-    }
-    
+{
+    // Log the incoming request data
+    \Log::info('Incoming request data: ', $request->all());
 
-    
+    // Validate the incoming request data
+    $validatedData = $request->validate([
+        'member_id' => 'exists:members,id', // Ensure member_id exists in 'members' table
+        'regno' => 'required|int',
+        'name' => 'required|string|max:255',
+        'email' => 'required|email|min:8',
+        'password' => 'required|string|min:8',
+        'department' => 'required|max:255',
+        'batch_year' => 'required|string|max:255',
+        'mentor_name' => 'required|string|max:255',
+        'mentor_number' => 'required|max:255',
+        'student_number' => 'required|max:255',
+        'project_title' => 'required|string|max:255',
+        'project_description' => 'required|string',
+    ]);
+
+    // Log the student ID
+    \Log::info('Student ID: ' . $id);
+
+    // Log the member ID
+    \Log::info('Member ID: ' . $request->member_id);
+
+    // Find the student by ID
+    $student = Student::find($id);
+
+    if (!$student) {
+        \Log::error('Student not found with ID: ' . $id);
+        return response()->json(['status' => 'error', 'message' => 'Student not found'], 404);
+    }
+
+    // Update student data
+    $student->member_id = $request->member_id;
+    $student->regno = $request->regno;
+    $student->name = $request->name;
+    $student->email = $request->email;
+    $student->password = Hash::make($request->password);
+    $student->department = $request->department;
+    $student->batch_year = $request->batch_year;
+    $student->mentor_name = $request->mentor_name;
+    $student->mentor_number = $request->mentor_number;
+    $student->student_number = $request->student_number;
+    $student->project_title = $request->project_title;
+    $student->project_description = $request->project_description;
+
+    // Save the updated student data
+    $student->save();
+
+    // Log success and return response
+    \Log::info('Student updated successfully: ' . $student->id);
+    return response()->json(['status' => 'success', 'message' => 'Student data updated successfully']);
+}
+
+
 
     public function checkStatus()
     {
