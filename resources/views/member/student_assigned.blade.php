@@ -20,6 +20,8 @@
     <link rel="stylesheet" href="admin/assets/css/style.css">
     <!-- End layout styles -->
     <link rel="shortcut icon" href="admin/assets/images/favicon.png" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
     <style>
         table.table-hover tbody tr:hover {
             background-color: white !important;
@@ -39,7 +41,7 @@
                 <div class="content-wrapper">
                     <!-- Table to display students -->
                     <h2 class="text-center">Assigned Students</h2>
-                    <table class="table table-bordered table-hover">
+                    <table class="table table-bordered ">
                         <thead class="thead-light">
                             <tr>
                                 <th>Reg No</th>
@@ -50,7 +52,7 @@
                                 <th>Actions</th>
                             </tr>
                         </thead>
-                        <tbody id="students-table-body" >
+                        <tbody id="students-table-body">
                             <!-- Students will be dynamically added here -->
                         </tbody>
                     </table>
@@ -58,6 +60,45 @@
                 <!-- content-wrapper ends -->
             </div>
             <!-- main-panel ends -->
+        </div>
+        
+        <!-- Modal HTML -->
+        <div class="modal fade" id="taskModal" tabindex="-1" role="dialog" aria-labelledby="taskModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="taskModalLabel">Add Task</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="taskForm">
+                            <div class="form-group">
+                                <label for="taskName">Task Name</label>
+                                <input type="text" class="form-control" id="taskName" name="taskName" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="taskTitle">Task Title</label>
+                                <input type="text" class="form-control" id="taskTitle" name="taskTitle" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="taskDescription">Task Description</label>
+                                <textarea class="form-control" id="taskDescription" name="taskDescription" rows="3" required></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="taskDate">Task Date</label>
+                                <input type="date" class="form-control" id="taskDate" name="taskDate" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="taskEta">ETA</label>
+                                <input type="time" class="form-control" id="taskEta" name="taskEta" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
         <!-- page-body-wrapper ends -->
     </div>
@@ -94,7 +135,7 @@
                                     <td>${student.project_title}</td>
                                     <td>${student.mentor_name}</td>
                                     <td>
-                                        <a class="accept-btn btn btn-primary" data-id="${student.id}">ADD TASK</a>
+                                        <a class="accept-btn btn btn-primary" data-id="${student.id}" data-toggle="modal" data-target="#taskModal">ADD TASK</a>
                                         <a class="reject-btn btn btn-danger" data-id="${student.id}">VIEW REPORT</a>
                                     </td>
                                 </tr>`;
@@ -110,6 +151,31 @@
 
             // Function to load student data when the page loads
             loadStudents();
+
+            // Handle form submission
+            $('#taskForm').submit(function(e) {
+                e.preventDefault();
+                
+                var studentId = $(this).data('student-id');
+                var formData = $(this).serialize() + `&studentId=${studentId}`;
+                
+                $.ajax({
+                    type: "POST",
+                    url: "/add_task",
+                    data: formData,
+                    success: function(response) {
+                        if (response.success) {
+                            $('#taskModal').modal('hide');
+                            alert('Task added successfully!');
+                        } else {
+                            alert('Error adding task.');
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error("Ajax error:", xhr.responseText);
+                    }
+                });
+            });
         });
     </script>
 

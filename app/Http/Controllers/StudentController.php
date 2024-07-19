@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Projects;
 use App\Models\Member;
+use App\Models\Tasks;
+use Auth;
 use Illuminate\Support\Facades\Hash;
 
 
@@ -213,7 +215,30 @@ class StudentController extends Controller
         return response()->json(['projects' => $projects]);
     }
 
-   
+    public function addTask(Request $request)
+    {
+        $request->validate([
+            'taskName' => 'required|string|max:255',
+            'taskTitle' => 'required|string|max:255',
+            'taskDescription' => 'required|string',
+            'taskDate' => 'required|date',
+            'taskEta' => 'required|date_format:H:i',
+            'studentId' => 'required|integer|exists:students,id',
+        ]);
+
+        $task = new Tasks();
+        $task->name = $request->taskName;
+        $task->title = $request->taskTitle;
+        $task->description = $request->taskDescription;
+        $task->date = $request->taskDate;
+        $task->eta = $request->taskEta;
+        $task->student_id = $request->studentId;
+        $task->member_id = Auth::id();  // Assuming member is authenticated user
+        $task->save();
+
+        return response()->json(['success' => true]);
+    }
+
 }
 
 
