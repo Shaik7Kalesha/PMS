@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Member;
+use App\Models\Tasks;
 use App\Models\User;
 use App\Models\Student;
 use Illuminate\Http\Request;
+use App\Models\projects;
 use Illuminate\Support\Facades\Session;
 
 
@@ -140,11 +142,11 @@ class MemberController extends Controller
     {
         // Find the member by ID
         $member = Member::find($id);
-    
+
         if ($member) {
             // Check if a user already exists for this member
             $user = User::where('email', $member->personalemail)->first();
-    
+
             if ($user) {
                 // If user already exists, update the user details
                 $user->name = $member->name;
@@ -161,56 +163,56 @@ class MemberController extends Controller
                 $newUser->member_id = $member->id;
                 $newUser->save();
             }
-    
+
             // Update member status to "accepted"
             $member->status = 'accepted';
             $member->save();
-    
+
             // Customize the success message based on user type
             $message = ($request->input('usertype') == 'tl') ? 'TL added and stored successfully' : 'Member added and stored successfully';
-    
+
             return response()->json(['message' => $message], 200);
         } else {
             return response()->json(['message' => 'Member not found'], 404);
         }
     }
-    
+
 
 
     public function rejectMember($id)
     {
         // Find the member by ID
         $member = Member::find($id);
-    
+
         if ($member) {
             // Find the associated user by email
             $user = User::where('email', $member->personalemail)->first();
-    
+
             // If the user exists, delete the user
             if ($user) {
                 $user->delete();
             }
-    
+
             // Delete the member
             $user->delete();
-    
+
             return response()->json(['message' => 'Member and associated user rejected successfully']);
         } else {
             return response()->json(['message' => 'Member not found'], 404);
         }
     }
-    
+
     public function getUser()
     {
         // Retrieve member_id from the session
         $loggedUserId = Session::get('member_id');
         $user = Member::where('bioid', $loggedUserId)->first();
-    
+
         if ($user) {
             // If user exists, store member_id in the session
             $users = $user->member_id;
             Session::put('member_id', $users);
-    
+
             // Return JSON response
             return response()->json([
                 'status' => 'success',
@@ -225,12 +227,12 @@ class MemberController extends Controller
             ], 404);
         }
     }
-    
+
     public function getUserView()
     {
         // Retrieve member_id from the session
         $users = Session::get('member_id');
-        
+
         // Return the view with the member_id
         return view('member.student_assigned', compact('users'));
     }
@@ -256,4 +258,47 @@ class MemberController extends Controller
             return view('member.student_assigned', compact('studentlist'));
         }
     }
+
+
+
+    public function add_task(Request $request)
+{
+    $validatedData = $request->validate([
+        'student_id' => 'exists:students,id',
+        'member_id' => 'exists:members,bioid',
+        'title' => 'required|string',
+        'description' => 'required|string',
+        'task_name' => 'required|string',
+        'task_date' => 'required|date',
+        'eta' => 'required|date',
+        'completed_date' => 'required|date',
+        'status' => 'required|string',
+    ]);
+
+    $task = new Tasks();
+    $task->student_id = $validatedData['student_id'];
+    $task->member_id = $validatedData['member_id'];
+    $task->title = $validatedData['title'];
+    $task->description = $validatedData['description'];
+    $task->task_name = $validatedData['task_name'];
+    $task->task_date = $validatedData['task_date'];
+    $task->eta = $validatedData['eta'];
+    $task->completed_date = $validatedData['completed_date'];
+    $task->status = $validatedData['status'];
+    $task->save();
+
+    return response()->json(['success' => true, 'message' => 'Task added successfully']);
+}
+
+// app/Http/Controllers/YourController.php
+public function fetchProject($student_name) {
+    $project = projects::where('student_name', $student_name)->first();
+
+    if ($project) {
+        return response()->json(['success' => true, 'project' => $project]);
+    } else {
+        return response()->json(['success' => false, 'message' => 'Project not found']);
+    }
+}
+
 }

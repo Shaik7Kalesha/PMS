@@ -1,598 +1,331 @@
 <!DOCTYPE html>
-<html>
-   <head>
-      <!-- Basic -->
-      <meta charset="utf-8" />
-      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-      <!-- Mobile Metas -->
-      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-      <!-- Site Metas -->
-      <meta name="keywords" content="" />
-      <meta name="description" content="" />
-      <meta name="author" content="" />
-      <link rel="shortcut icon" href="images/pms-logo.png" type="">
-      <title>Project Management System</title>
-      <!-- bootstrap core css -->
-      <link rel="stylesheet" type="text/css" href="home/css/bootstrap.css" />
-      <!-- font awesome style -->
-      <link href="home/css/font-awesome.min.css" rel="stylesheet" />
-      <!-- Custom styles for this template -->
-      <link href="home/css/style.css" rel="stylesheet" />
-      <!-- responsive style -->
-      <link href="home/css/responsive.css" rel="stylesheet" />
-      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-
-   </head>
-   <body>
-      <!-- <div class="hero_area"> -->
-         <!-- header section strats -->
-         @include('home.header')
-         <!-- end header section -->
-         <!-- slider section -->
-         <!-- @include('home.slider') -->
-         <!-- end slider section -->
-      <!-- </div> -->
-      <!-- why section -->
-      <!-- @include('home.why') -->
-      <!-- end why section -->
-
-      <!-- arrival section -->
-      <!-- @include('home.arrival') -->
-      <!-- end arrival section -->
-
-      <!-- product section -->
-      <!-- @include('home.product') -->
-      <!-- end product section -->
-
-      <!-- subscribe section -->
-      <!-- @include('home.subscribe') -->
-      <!-- end subscribe section -->
-      <!-- client section -->
-      <!-- @include('home.client') -->
-      <!-- end client section -->
-      <!-- footer start -->
-      <!-- @include('home.footer') -->
-      <!-- footer end -->
-
-      <!DOCTYPE html>
-<html lang="en-US" dir="ltr">
+<html lang="en">
 
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Project Management System</title>
-
-    <!-- Favicons -->
-    <link rel="apple-touch-icon" sizes="180x180" href="assets/img/favicons/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicons/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="assets/img/favicons/favicon-16x16.png">
-    <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicons/favicon.ico">
-    <link rel="manifest" href="assets/img/favicons/manifest.json">
-    <meta name="theme-color" content="#ffffff">
-
-    <!-- Stylesheets -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.8/css/line.css">
-    <link href="assets/css/theme.min.css" type="text/css" rel="stylesheet" id="style-default">
-    <link href="assets/css/user.min.css" type="text/css" rel="stylesheet" id="user-style-default">
-
     <style>
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes dropdown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
         body {
-            font-family: 'Nunito Sans', sans-serif;
-            background-color: #f8f9fa;
             margin: 0;
-            padding: 0;
-            color: #343a40;
+            font-family: 'Times New Roman', Times, serif;
+            background-color: #ffffff;
+            color: #000000;
+            scroll-behavior: smooth;
+        }
+
+        header {
+            background-color: #007BFF;
+            position: fixed;
+            width: 100%;
+            z-index: 10;
+            color: #ffffff;
         }
 
         .container {
-            max-width: 1200px;
-            margin: auto;
-            padding: 10px;
+            width: 80%;
+            margin: 0 auto;
+            /* display: flex; */
+            justify-content: space-between;
+            align-items: center;
         }
 
-        .header {
+        nav {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 1rem 0;
-            background-color: #615DFF;
-            color: white;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
+            width: 100%;
         }
 
-        .header .logo {
+        nav h1 {
+            font-size: 1.5em;
+            color: #ffffff;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
             display: flex;
-            align-items: center;
+            gap: 20px;
+            margin: 0;
         }
 
-        .header .logo img {
-            width: 50px;
-            height: 50px;
-            margin-right: 10px;
+        nav ul li {
+            display: inline;
         }
 
-        .header nav {
-            flex-grow: 1;
-            display: flex;
-            justify-content: center;
-        }
-
-        .header nav a {
+        nav ul li a {
             text-decoration: none;
-            color: white;
-            margin: 0 1rem;
-            font-weight: bold;
+            color: #ffffff;
+            font-size: 1em;
         }
 
-        .header nav a:hover {
-            color: #3DD9EB;
-        }
-
-        .header .buttons {
+        .auth-buttons {
             display: flex;
-            gap: 1rem;
+            gap: 10px;
+            position: relative;
         }
 
-        .header .buttons a {
+        .auth-buttons button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .sign-in {
+            background-color: #0056b3;
+            color: #ffffff;
+        }
+
+        .sign-in:hover {
+            background-color: #004494;
+        }
+
+        .sign-up {
+            background-color: #ffffff;
+            color: #007BFF;
+            position: relative;
+            transition: background-color 0.3s ease;
+        }
+
+        .sign-up:hover {
+            background-color: #e6e6e6;
+        }
+
+        .dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: #ffffff;
+            border: 1px solid #ccc;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+            border-radius: 5px;
+            overflow: hidden;
+            animation: dropdown 0.3s ease forwards;
+        }
+
+        .dropdown a {
+            color: #007BFF;
+            padding: 10px 20px;
             text-decoration: none;
-            padding: 0.5rem 1rem;
-            background-color: #3DD9EB;
-            color: #fff;
-            border-radius: 0.25rem;
+            display: block;
+            transition: background-color 0.3s ease;
         }
 
-        .header .buttons a:hover {
-            background-color: #32B6C6;
+        .dropdown a:hover {
+            background-color: #f1f1f1;
+        }
+
+        .sign-up:hover .dropdown {
+            display: block;
         }
 
         .hero {
             text-align: center;
-            padding: 8rem 0;
-            background: linear-gradient(to right, #615DFF, #3DD9EB);
-            color: white;
+            padding: 200px 0;
+            background: url('images/image.png') no-repeat center center/cover;
+            position: relative;
+            z-index: 0;
+            color: #000000;
+            animation: fadeIn 1s ease;
         }
 
-        .hero h1 {
-            font-size: 3rem;
-            margin-bottom: 1rem;
+        .hero::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.8);
+            z-index: 1;
+        }
+
+        .hero h2,
+        .hero p,
+        .hero .explore-btn {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero h2 {
+            font-size: 3em;
+            margin-bottom: 20px;
+            color: #000000;
         }
 
         .hero p {
-            font-size: 1.25rem;
-            margin-bottom: 2rem;
+            font-size: 1.5em;
+            margin-bottom: 40px;
+            color: #000000;
         }
 
-        .hero .cta {
-            text-decoration: none;
-            padding: 1rem 2rem;
-            background-color: white;
-            color: #615DFF;
-            border-radius: 0.25rem;
-            font-size: 1.25rem;
+        .explore-btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007BFF;
+            color: #ffffff;
+            font-size: 1.2em;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
         }
 
-        .hero .cta:hover {
-            background-color: #f1f1f1;
+        .explore-btn:hover {
+            background-color: #0056b3;
         }
 
-        .content {
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            padding: 50px 0;
+            background-color: #f8f9fa;
+            color: #000000;
+            animation: fadeIn 1s ease;
+        }
+
+        .stat {
             text-align: center;
-            margin: 1rem 0;
-            /* background-color: #ffffff; */
-            border-radius: 0.5rem;
-            /* box-shadow: 0 0 15px rgba(0, 0, 0, 0.1); */
         }
 
-        .content img {
-            width: 80%;
-            max-width: 600px;
-            animation: float 5s ease-in-out infinite;
-        }
-
-        @keyframes float {
-            0%,
-            100% {
-                transform: translateY(0);
-            }
-
-            50% {
-                transform: translateY(-20px);
-            }
+        .stat h3 {
+            font-size: 2.5em;
+            color: #007BFF;
         }
 
         .features {
+            padding: 50px 0;
+            background-color: #ffffff;
+            color: #000000;
+            animation: fadeIn 1s ease;
+        }
+
+        .features .container {
             display: flex;
             flex-wrap: wrap;
-            justify-content: space-around;
-            gap: 1.5rem;
-            margin-top: 2rem;
+            gap: 20px;
+            /* Adjust this value for spacing between cards */
+            justify-content: center;
+            /* Center the cards horizontally */
         }
 
         .feature {
-            flex: 1 1 calc(33% - 1.5rem);
-            min-width: 280px;
-            background-color: #f1f1f1;
-            padding: 1.5rem;
-            border-radius: 0.5rem;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s;
+            flex: 1 1 calc(33.333% - 40px);
+            /* Adjust the width of each card */
+            box-sizing: border-box;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            /* Floating effect */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
         }
 
         .feature:hover {
             transform: translateY(-10px);
+            /* Moves the card up slightly on hover */
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
         }
 
-        .feature i {
-            font-size: 3rem;
-            color: #615DFF;
-            margin-bottom: 1rem;
+        .feature h3 {
+            font-size: 1.8em;
+            margin-bottom: 10px;
+            color: #007BFF;
         }
 
-        .about {
-            /* padding: 4rem 0; */
-            background-color: #f8f9fa;
+        .feature p {
+            font-size: 1em;
+            color: #000000;
+        }
+
+        footer {
             text-align: center;
+            padding: 20px 0;
+            background-color: #007BFF;
+            color: #ffffff;
         }
 
-        .about h2 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .about p {
-            font-size: 1.25rem;
-            max-width: 800px;
-            margin: auto;
-        }
-
-        .pricing {
-            padding: 4rem 0;
-            text-align: center;
-        }
-
-        .pricing h2 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .pricing .plans {
-            display: flex;
-            justify-content: center;
-            gap: 1.5rem;
-            flex-wrap: wrap;
-        }
-
-        .pricing .plan {
-            flex: 1 1 calc(33% - 1.5rem);
-            min-width: 280px;
-            background-color: #f1f1f1;
-            padding: 2rem;
-            border-radius: 0.5rem;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s;
-        }
-
-        .pricing .plan:hover {
-            transform: translateY(-10px);
-        }
-
-        .pricing .plan h3 {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .pricing .plan p {
-            font-size: 1.25rem;
-        }
-
-        .testimonials {
-            padding: 4rem 0;
-            background-color: #ffffff;
-            text-align: center;
-        }
-
-        .testimonials h2 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .testimonials .testimonials-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 1.5rem;
-        }
-
-        .testimonials .testimonial {
-            flex: 1 1 calc(33% - 1.5rem);
-            min-width: 280px;
-            background-color: #f1f1f1;
-            padding: 1.5rem;
-            border-radius: 0.5rem;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s;
-        }
-
-        .testimonials .testimonial:hover {
-            transform: translateY(-10px);
-        }
-
-        .testimonials .testimonial p {
-            font-size: 1rem;
-            color: #6c757d;
-        }
-
-        .testimonials .testimonial h4 {
-            margin-top: 1rem;
-            font-size: 1.25rem;
-            color: #343a40;
-        }
-
-        .contact {
-            padding: 4rem 0;
-            text-align: center;
-            background-color: #f8f9fa;
-        }
-
-        .contact h2 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .contact form {
-            max-width: 600px;
-            margin: auto;
-        }
-
-        .contact form .form-group {
-            margin-bottom: 1rem;
-        }
-
-        .contact form .form-group input,
-        .contact form .form-group textarea {
-            width: 100%;
-            padding: 0.75rem;
-            border-radius: 0.25rem;
-            border: 1px solid #ced4da;
-        }
-
-        .contact form .form-group textarea {
-            resize: vertical;
-        }
-
-        .contact form button {
-            padding: 0.75rem 1.5rem;
-    background-color: #615DFF;
-    color: white;
-    border: none;
-    border-radius: 0.25rem;
-    cursor: pointer;
-    width: auto;
-    text-align: center;
-    margin: 0 auto;
-        }
-
-        .contact form button:hover {
-            background-color: #4944CC;
-        }
-
-        .newsletter {
-            padding: 4rem 0;
-            background-color: #ffffff;
-            text-align: center;
-        }
-
-        .newsletter h2 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .newsletter p {
-            font-size: 1.25rem;
-            margin-bottom: 2rem;
-        }
-
-        .newsletter form {
-            max-width: 600px;
-            margin: auto;
-        }
-
-        .newsletter form .form-group {
-            display: flex;
-            justify-content: center;
-        }
-
-        .newsletter form .form-group input {
-            flex: 1;
-            padding: 0.75rem;
-            border-radius: 0.25rem 0 0 0.25rem;
-            border: 1px solid #ced4da;
-        }
-
-        .newsletter form .form-group button {
-            padding: 0.75rem 1.5rem;
-            background-color: #615DFF;
-            color: white;
-            border: none;
-            border-radius: 0 0.25rem 0.25rem 0;
-            cursor: pointer;
-        }
-
-        .newsletter form .form-group button:hover {
-            background-color: #4944CC;
-        }
-
-        .footer {
-            text-align: center;
-    padding: 1rem 0;
-    background-color: #615DFF;
-    color: white;
-    margin-top: 4rem;
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-        }
-
-        .footer p {
+        footer p {
             margin: 0;
-        }
-
-        .footer a {
-            color: #3DD9EB;
-            text-decoration: none;
-            margin: 0 0.5rem;
-        }
-
-        .footer a:hover {
-            color: #32B6C6;
-        }
-        .feature:hover{
-            background-color: #c6c5dd;
-            box-shadow: 1px 1px 5px #8a91b3;
-
         }
     </style>
 </head>
 
-<!-- <body> -->
-    <!-- <header class="header">
-        <div class="logo">
-            <img src="assets/img/logo.png" alt="Project Management System Logo">
-            <h1>Project Management System</h1>
-        </div>
-        <nav>
-            <a href="#">Home</a>
-            <a href="#about">About</a>
-            <a href="#features">Features</a>
-            <a href="#pricing">Pricing</a>
-            <a href="#testimonials">Testimonials</a>
-            <a href="#contact">Contact</a>
-        </nav>
-        <div class="buttons">
-            <a href="login.html">Login</a>
-            <a href="register.html">Register</a>
-        </div>
-    </header> -->
-
-    <section class="hero">
-        <h1>Welcome to the Project Management System</h1>
-        <p>Manage your projects efficiently and effectively.</p>
-        <a href="{{ route('login') }}" class="cta">Get Started</a>
-    </section>
-
-
-    <section class="about mt-5" id="about">
+<body>
+    <header>
         <div class="container">
-        <h2>About Us</h2>
-    <p>Project Management System is designed to help teams collaborate and manage projects effectively. Our mission is to streamline project management and improve productivity.</p>
-    
+            <nav>
+                <h1>Project Management</h1>
+                <div class="auth-buttons">
+                    <a href="{{route('login')}}"><button class="sign-in">Sign In</button></a>
+                    <div class="sign-up">
+                        <button>Sign Up</button>
+                        <div class="dropdown">
+                            <a href="{{route('member_register')}}">Member</a>
+                            <a href="{{route('student_register')}}">Student</a>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+    <main>
+    <section class="hero">
+    <div class="container">
+        <h2>"The only way to do great work is to love what you do." – Steve Jobs</h2>
     </div>
-    
-    </section>
+</section>
 
 
-    <main class="content">
-       
-
-        <div class="features container" id="features">
-            <div class="feature">
-                <i class="fas fa-tasks"></i>
-                <h3>Task Management</h3>
-                <p>Organize and prioritize your tasks with ease using our intuitive interface.</p>
+        
+        <section class="features">
+            <div class="container">
+                <div class="feature">
+                    <h3>Task Management</h3>
+                    <p>Create, assign, and manage tasks with ease using our advanced task management tools.</p>
+                </div>
+                <div class="feature">
+                    <h3>Team Collaboration</h3>
+                    <p>Collaborate in real-time with your team, share files, and communicate effortlessly.</p>
+                </div>
+                <div class="feature">
+                    <h3>Analytics</h3>
+                    <p>Gain insights into your project's progress with our powerful analytics and reporting tools.</p>
+                </div>
             </div>
-            <div class="feature">
-                <i class="fas fa-users"></i>
-                <h3>Team Collaboration</h3>
-                <p>Collaborate with your team in real-time and keep everyone on the same page.</p>
-            </div>
-            <div class="feature">
-                <i class="fas fa-chart-line"></i>
-                <h3>Progress Tracking</h3>
-                <p>Monitor project progress with detailed reports and analytics.</p>
-            </div>
-        </div>
+        </section>
     </main>
-
-   
-
-    <!-- <section class="pricing" id="pricing">
-        <h2>Pricing Plans</h2>
-        <div class="plans">
-            <div class="plan">
-                <h3>Basic</h3>
-                <p>Perfect for small teams</p>
-                <p>$9.99/month</p>
-            </div>
-            <div class="plan">
-                <h3>Pro</h3>
-                <p>Ideal for growing businesses</p>
-                <p>$29.99/month</p>
-            </div>
-            <div class="plan">
-                <h3>Enterprise</h3>
-                <p>Best for large organizations</p>
-                <p>$99.99/month</p>
-            </div>
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Project Management System. All Rights Reserved.</p>
         </div>
-    </section> -->
-
-
-    <section class="contact" id="contact">
-        <h2>Contact Us</h2>
-        <form class="row">
-            <div class="form-group col-lg-6">
-                <input type="text" name="name" placeholder="Your Name" required>
-            </div>
-            <div class="form-group col-lg-6">
-                <input type="email" name="email" placeholder="Your Email" required>
-            </div>
-            <div class="form-group col-lg-12">
-                <textarea name="message" rows="5" placeholder="Your Message" required></textarea>
-            </div>
-            <button type="submit">Send Message</button>
-        </form>
-    </section>
-
-    <!-- <section class="newsletter">
-        <h2>Subscribe to Our Newsletter</h2>
-        <p>Stay updated with the latest news and updates from our team.</p>
-        <form>
-            <div class="form-group">
-                <input type="email" name="email" placeholder="Your Email" required>
-                <button type="submit">Subscribe</button>
-            </div>
-        </form>
-    </section> -->
-
-    <footer class="footer">
-        <p>&copy; 2024 Project Management System. All rights reserved.</p>
-
     </footer>
-<!-- </body> -->
+</body>
 
-</html>
-
-
-
-
-
-
-
-      <!-- jQery -->
-      <script src="home/js/jquery-3.4.1.min.js"></script>
-      <!-- popper js -->
-      <script src="home/js/popper.min.js"></script>
-      <!-- bootstrap js -->
-      <script src="home/js/bootstrap.js"></script>
-      <!-- custom js -->
-      <script src="home/js/custom.js"></script>
-
-      <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
-   </body>
 </html>

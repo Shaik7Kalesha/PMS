@@ -97,7 +97,7 @@ class StudentController extends Controller
         'mentor_number' => 'required|max:255',
         'student_number' => 'required|max:255',
         'project_title' => 'required|string|max:255',
-        'project_description' => 'required|string',
+        'project_description' => 'required|string:max:500',
     ]);
 
     // Log the student ID

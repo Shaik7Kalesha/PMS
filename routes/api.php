@@ -91,6 +91,12 @@ Route::get('/get-user-view', [MemberController::class, 'getUserView']);
 
 
 Route::get('/fetch_student',[MemberController::class,'fetchstudent']);
+Route::post('/add_task',[MemberController::Class,'add_task']);
+Route::get('/fetch_project/{student_name}', [MemberController::class, 'fetchProject'])->name('fetch_project');
+
+
+
+
 
 
 Route::post('/createstudent', [StudentController::class, 'store_student']);
