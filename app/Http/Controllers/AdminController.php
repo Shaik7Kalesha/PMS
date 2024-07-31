@@ -36,8 +36,9 @@ class AdminController extends Controller
     }
 
 
-    public function getrole(){
-        $roles=Role::all();
+    public function getrole()
+    {
+        $roles = Role::all();
         return response()->json([
             'success' => 200,
             'roles' => $roles
@@ -56,7 +57,7 @@ class AdminController extends Controller
     {
         // Validate the incoming request data
         $validatedData = $request->validate([
-            'team_id'=>'required',
+            'team_id' => 'required',
             'team_name' => 'required|string|max:255',
         ]);
 
@@ -71,8 +72,9 @@ class AdminController extends Controller
 
 
 
-    public function getteam(){
-        $teams=Team::all();
+    public function getteam()
+    {
+        $teams = Team::all();
         return response()->json([
             'success' => 200,
             'teams' => $teams
@@ -108,8 +110,9 @@ class AdminController extends Controller
 
 
 
-    public function getfaculty(){
-        $faculties=Faculty::all();
+    public function getfaculty()
+    {
+        $faculties = Faculty::all();
         return response()->json([
             'success' => 200,
             'faculties' => $faculties
@@ -132,7 +135,7 @@ class AdminController extends Controller
     {
         // Validate the incoming request data
         $validatedData = $request->validate([
-            'batch_id'=>'required',
+            'batch_id' => 'required',
             'batch_name' => 'required|string|max:255',
         ]);
 
@@ -146,8 +149,9 @@ class AdminController extends Controller
     }
 
 
-    public function getbatch(){
-        $batches=Batch::all();
+    public function getbatch()
+    {
+        $batches = Batch::all();
         return response()->json([
             'success' => 200,
             'batches' => $batches
@@ -162,7 +166,7 @@ class AdminController extends Controller
     {
         // Validate the incoming request data
         $validatedData = $request->validate([
-            'title'=>'required',
+            'title' => 'required',
             'source' => 'required|url|max:255',
             'description' => 'required|string|max:255',
 
@@ -178,8 +182,9 @@ class AdminController extends Controller
     }
 
 
-    public function getproject(){
-        $projects=Projects::all();
+    public function getproject()
+    {
+        $projects = Projects::all();
         return response()->json([
             'success' => 200,
             'projects' => $projects
@@ -249,22 +254,10 @@ class AdminController extends Controller
         }
     }
 
-
-
-
-
-
-
-
-
-
-
-
-    
     public function updateBatchStatus(Request $request)
     {
         $batch = Batch::where('batch_id', $request->input('batchid'))->first();
-        
+
         if ($batch) {
             $batch->status = $request->input('status');
             $batch->save();
@@ -303,8 +296,9 @@ class AdminController extends Controller
 
 
     //get stduent
-    public function getStudents(){
-        $students=Student::all();
+    public function getStudents()
+    {
+        $students = Student::all();
         return response()->json(['students' => $students]);
 
     }
@@ -312,36 +306,56 @@ class AdminController extends Controller
     public function acceptProject(Request $request, $id)
     {
         $project = Projects::find($id);
-    
+
         if ($project) {
             // Update the project status to 'accepted'
             $project->status = 'accepted';
             $project->save();
-    
+
             // Optionally, you can perform additional actions here, such as creating a user or sending notifications.
-    
+
             return response()->json(['message' => 'Project accepted successfully.', 'project' => $project], 200);
         }
-    
+
         return response()->json(['message' => 'Project not found.'], 404);
     }
 
     public function rejectProject($id)
     {
         $project = Projects::find($id);
-    
+
         if ($project) {
             // Update the project status to 'accepted'
             $project->status = 'rejected';
             $project->save();
-    
+
             // Optionally, you can perform additional actions here, such as creating a user or sending notifications.
-    
+
             return response()->json(['message' => 'Project rejected successfully.', 'project' => $project], 200);
         }
-    
+
         // Simply respond with a success message
         return response()->json(['message' => 'Project rejected.']);
+    }
+
+
+    public function getProjectcount()
+    {
+        $getprojectscount = Projects::count();
+        return response()->json(['count' => $getprojectscount]);
+        // return view('admin.adminhome',compact('getprojects'));
+    }
+
+    public function getMemberscount()
+    {
+        $getmemberscount = Member::count();
+        return response()->json(['count' => $getmemberscount]);
+    }
+
+
+    public function grtstudentscount(){
+        $getstudentscount = Student::count();
+        return response()->json(['count' => $getstudentscount]);
     }
 }
 

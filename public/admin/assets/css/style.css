@@ -29397,7 +29397,7 @@ div.tagsinput span.tag a {
 }
 
 .auth .terms a {
-  text-decoration: underline;
+  text-decoration: none;
 }
 
 /* Navbar */

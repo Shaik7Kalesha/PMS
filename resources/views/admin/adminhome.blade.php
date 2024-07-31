@@ -22,6 +22,8 @@
   <link rel="stylesheet" href="admin/assets/css/style.css">
   <!-- End layout styles -->
   <link rel="shortcut icon" href="admin/assets/images/favicon.png" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font/css/materialdesignicons.min.css">
+
 </head>
 
 <body>
@@ -39,8 +41,8 @@
     @include('admin.body')
     <!-- main-panel ends -->
   </div>
-  <footer class="footer">
-            <div class="text-center text-white">
+  <footer class="footer bg-light">
+            <div class="text-center text-black ">
               <p>Copyright © sudhar.com 2024</p>
             </div>
           </footer>
@@ -68,6 +70,8 @@
   <!-- Custom js for this page -->
   <script src="admin/assets/js/dashboard.js"></script>
   <!-- End custom js for this page -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
 </body>
 
 </html>

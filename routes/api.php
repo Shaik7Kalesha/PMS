@@ -56,19 +56,14 @@ Route::post('/accept_project/{id}', [AdminController::class, 'acceptProject']);
 Route::post('/reject_project/{id}', [AdminController::class, 'rejectProject']);
 
 
-
-
-
-
-
-
-
 Route::get('/getbatches',[AdminController::class,'getBatches'])->name('getbatches');
 Route::get('/getTeams',[AdminController::class,'getTeams'])->name('getTeams');
 Route::get('/getMembers',[AdminController::class,'getMembers'])->name('getMembers');
 Route::get('/getStudents',[AdminController::class,'getStudents'])->name('getStudents');
 
 
+Route::get('/getprojectcount',[AdminController::class,'getProjectcount']);
+Route::get('/getmembercount',[AdminController::class,'getMemberscount']);
 
 
 

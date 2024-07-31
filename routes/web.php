@@ -70,11 +70,15 @@ Route::get('/getTeams',[AdminController::class,'getTeams'])->name('getTeams');
 Route::get('/getMembers',[AdminController::class,'getMembers'])->name('getMembers');
 Route::get('/getStudents',[AdminController::class,'getStudents'])->name('getStudents');
  
+Route::get('/getprojectcount',[AdminController::class,'getProjectcount']);
+Route::get('/getmembercount',[AdminController::class,'getMemberscount']);
+Route::get('getstudentcount',[AdminController::class,'grtstudentscount']);
 
 
 
-
-
+Route::get('/add_faculty',[AdminController::class,'add_faculty'])->name('addfaculties');
+Route::post('/createfaculties',[AdminController::class,'store_faculty'])->name('add_faculties');
+Route::get('/getfaculties',[AdminController::class,'getfaculty'])->name('getfaculty');
 
 
 
@@ -112,14 +116,10 @@ Route::post('/reject_student/{id}', [StudentController::class, 'rejectStudent'])
 Route::get('/getmember', [StudentController::class, 'getMembers']);
 Route::get('/getproject', [StudentController::class, 'getProjects']);
 
+Route::get('/gettask_student',[StudentController::class,'gettask_student'])->name('gettask_student');
 
 
 
-
-
-Route::get('/add_faculty',[AdminController::class,'add_faculty'])->name('addfaculties');
-Route::post('/createfaculties',[AdminController::class,'store_faculty'])->name('add_faculties');
-Route::get('/getfaculties',[AdminController::class,'getfaculty'])->name('getfaculty');
 
 
 

@@ -239,6 +239,10 @@ class StudentController extends Controller
         return response()->json(['success' => true]);
     }
 
+    public function gettask_student(){
+        return view('student.tasks');
+    }
+
 }
 
 

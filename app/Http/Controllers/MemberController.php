@@ -206,47 +206,64 @@ class MemberController extends Controller
     {
         // Retrieve member_id from the session
         $loggedUserId = Session::get('member_id');
+    
+        if (!$loggedUserId) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Session member_id not found'
+            ], 404);
+        }
+    
+        // Retrieve the user by bioid
         $user = Member::where('bioid', $loggedUserId)->first();
-
+    
         if ($user) {
-            // If user exists, store member_id in the session
-            $users = $user->member_id;
-            Session::put('member_id', $users);
-
-            // Return JSON response
+            // Store member_id in the session if user is found
+            Session::put('member_id', $user->member_id);
+    
             return response()->json([
                 'status' => 'success',
                 'message' => 'User found',
-                'member_id' => $users
+                'member_id' => $user->member_id
             ]);
         } else {
-            // Handle the case when the user is not found
             return response()->json([
                 'status' => 'error',
                 'message' => 'User not found'
             ], 404);
         }
     }
-
+    
     public function getUserView()
     {
         // Retrieve member_id from the session
-        $users = Session::get('member_id');
-
-        // Return the view with the member_id
-        return view('member.student_assigned', compact('users'));
+        $memberId = Session::get('member_id');
+    
+        if (!$memberId) {
+            return response()->json(['status' => 'error', 'message' => 'Member ID not found in session']);
+        }
+    
+        // Return JSON response
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Successfully fetched the user',
+            'member_id' => $memberId
+        ]);
     }
-
-
+    
     public function fetchstudent()
     {
         // Retrieve the member_id from the session
         $loggedin = session()->get('member_id');
-
+    
+        if (!$loggedin) {
+            return response()->json(['status' => 'error', 'message' => 'Member ID not found in session']);
+        }
+    
         // Fetch students assigned to the logged-in member
         $studentlist = Student::where('member_id', $loggedin)->get();
-
-        // Check if the request expects a JSON response
+    
+        // Return the response based on request type
         if (request()->expectsJson()) {
             return response()->json([
                 'success' => true,
@@ -254,11 +271,10 @@ class MemberController extends Controller
                 'studentlist' => $studentlist,
             ]);
         } else {
-            // Render the view with the student list
             return view('member.student_assigned', compact('studentlist'));
         }
     }
-
+    
 
 
     public function add_task(Request $request)

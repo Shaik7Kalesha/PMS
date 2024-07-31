@@ -10,8 +10,9 @@ class Student extends Model
     use HasFactory;
     public function member()
     {
-        return $this->belongsTo(Member::class, 'member_id', 'bioid');
+        return $this->belongsTo(Member::class, 'member_id', 'member_id');
     }
+
 
     
 
