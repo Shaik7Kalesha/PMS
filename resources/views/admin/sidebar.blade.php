@@ -1,6 +1,3 @@
-
-
-
 <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 
@@ -13,6 +10,7 @@
             background: #f8f9fa !important;
             width: 250px;
             /* position: fixed; */
+            height: 730px;
             top: 0;
             bottom: 0;
             left: 0;
