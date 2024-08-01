@@ -89,54 +89,34 @@ class MemberController extends Controller
 
     }
 
-    public function update(Request $request, $id)
-    {
-        // Validate the incoming request data as needed
-        $validatedData = $request->validate([
-            'bioid' => 'required|int',
-            'name' => 'required|string|max:255',
-            'password' => 'required|string|min:8',
-            'personal_email' => 'required|email|max:255',
-            'official_email' => 'required|email|max:255',
-            'employee_id' => 'required|string|max:255',
-            'experience' => 'required|string|max:255',
-            'linkedin' => 'required|url|max:255',
-            'portfolio' => 'required|url|max:255',
-            'mobile_number' => 'required|string|max:255',
-            'tech_stack' => 'required|string|max:255',
-            'designation' => 'required|string|max:255',
-            'date_of_joining' => 'required|date',
-        ]);
+    public function update(Request $request, $bioid)
+{
+    // Find the member by bioid
+    $member = Member::where('bioid', $bioid)->first();
 
-        // Find the member by ID
-        $member = Member::find($id);
-
-        if ($member) {
-            // Update member data
-            $member->bioid = $request->bioid;
-            $member->name = $request->name;
-            $member->password = bcrypt($request->password); // Encrypt the password
-            $member->personalemail = $request->personal_email;
-            $member->officialemail = $request->official_email;
-            $member->employeeid = $request->employee_id;
-            $member->experience = $request->experience;
-            $member->linkedin = $request->linkedin;
-            $member->portfolio = $request->portfolio;
-            $member->mobilenumber = $request->mobile_number;
-            $member->techstack = $request->tech_stack;
-            $member->designation = $request->designation;
-            $member->dateofjoining = $request->date_of_joining;
-
-            // Save the updated member data
-            $member->save();
-
-            // Return success response
-            return response()->json(['status' => 'success', 'message' => 'Member data updated successfully']);
-        } else {
-            // Return error response if member is not found
-            return response()->json(['status' => 'error', 'message' => 'Member not found'], 404);
-        }
+    // Check if member exists
+    if (!$member) {
+        return response()->json(['status' => 'error', 'message' => 'Member not found.'], 404);
     }
+
+    // Update member data
+    $member->update([
+        'name' => $request->input('name'),
+        'personalemail' => $request->input('personal_email'),
+        'officialemail' => $request->input('official_email'),
+        'employeeid' => $request->input('employee_id'),
+        'experience' => $request->input('experience'),
+        'linkedin' => $request->input('linkedin'),
+        'portfolio' => $request->input('portfolio'),
+        'mobilenumber' => $request->input('mobile_number'),
+        'techstack' => $request->input('tech_stack'),
+        'designation' => $request->input('designation'),
+        'dateofjoining' => $request->input('date_of_joining'),
+    ]);
+
+    return response()->json(['status' => 'success', 'message' => 'Member data updated successfully!']);
+}
+
 
     public function acceptMember(Request $request, $id)
     {

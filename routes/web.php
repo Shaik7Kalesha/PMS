@@ -90,7 +90,7 @@ Route::get('/member_register',[MemberController::class,'reg_mem'])->name('member
 Route::post('/createmember', [MemberController::class, 'store'])->name('member_store');
 Route::get('/member_list',[MemberController::class,'mem_list'])->name('member_list');
 Route::get('/edit_member/{id}',[MemberController::class,'edit']);
-Route::post('/update-member/{id}', [MemberController::class, 'update']);
+Route::post('/update-member/{bioid}', [MemberController::class, 'update']);
 Route::post('/accept_member/{id}', [MemberController::class, 'acceptMember']);
 Route::post('/reject_member/{id}', [MemberController::class, 'rejectMember']);
 Route::get('/get-user', [MemberController::class, 'getUser'])->name('get.user');

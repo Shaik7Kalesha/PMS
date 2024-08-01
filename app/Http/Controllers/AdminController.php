@@ -121,12 +121,6 @@ class AdminController extends Controller
 
 
 
-
-
-
-
-
-
     public function add_batch()
     {
         return view('admin.add_batch');
@@ -168,7 +162,7 @@ class AdminController extends Controller
         $validatedData = $request->validate([
             'title' => 'required',
             'source' => 'required|url|max:255',
-            'description' => 'required|string|max:255',
+            'description' => 'required|string|max:1000',
 
         ]);
 
@@ -214,45 +208,49 @@ class AdminController extends Controller
     }
 
     public function update_project(Request $request, $id)
-    {
-        // Validate the incoming request data as needed
-        $validatedData = $request->validate([
-            'title' => 'required|string|max:255',
-            'batch_year' => 'required|string|max:255',
-            'team' => 'required|string|max:255',
-            'developers' => 'required|string|max:255',
-            'platform' => 'required|string|max:255',
-            'student_name' => 'required|string|max:255',
-            'start_date' => 'required|string|max:255',
-            'end_date' => 'required|string|max:255',
-            'description' => 'required|string|max:255',
-        ]);
+{
+    // Validate the incoming request data as needed
+    $validatedData = $request->validate([
+        'title' => 'required|string|max:255',
+        'batch_year' => 'required|string|max:255',
+        'team' => 'required|string|max:255',
+        'developers' => 'required|string|max:255',
+        'platform' => 'required|string|max:255',
+        'student_name' => 'required|string|max:255',
+        'start_date' => 'required|string|max:255',
+        'end_date' => 'required|string|max:255',
+        'description' => 'required|string|max:1000',
+    ]);
 
-        // Find the project by ID
-        $project = Projects::find($id);
+    // Find the project by ID
+    $project = Projects::find($id);
 
-        if ($project) {
-            // Update project data
-            $project->title = $request->title;
-            $project->batch_year = $request->batch_year;
-            $project->team = $request->team; // Encrypt the password
-            $project->developers = $request->developers;
-            $project->platform = $request->platform;
-            $project->student_name = $request->student_name;
-            $project->start_date = $request->start_date;
-            $project->end_date = $request->end_date;
-            $project->description = $request->description;
+    if ($project) {
+        // Log the incoming data for debugging
+        \Log::info('Updating project:', $request->all());
 
-            // Save the updated project data
-            $project->save();
+        // Update project data
+        $project->title = $request->title;
+        $project->batch_year = $request->batch_year;
+        $project->team = $request->team;
+        $project->developers = $request->developers;
+        $project->platform = $request->platform;
+        $project->student_name = $request->student_name;
+        $project->start_date = $request->start_date;
+        $project->end_date = $request->end_date;
+        $project->description = $request->description;
 
-            // Return success response
-            return response()->json(['status' => 'success', 'message' => 'Project data updated successfully']);
-        } else {
-            // Return error response if project is not found
-            return response()->json(['status' => 'error', 'message' => 'Project not found'], 404);
-        }
+        // Save the updated project data
+        $project->save();
+
+        // Return success response
+        return response()->json(['status' => 'success', 'message' => 'Project data updated successfully']);
+    } else {
+        // Return error response if project is not found
+        return response()->json(['status' => 'error', 'message' => 'Project not found'], 404);
     }
+}
+
 
     public function updateBatchStatus(Request $request)
     {

@@ -60,7 +60,7 @@
         <div class="text-center">
           <h3>MEMBER LIST</h3>
         </div>
-        <div class="content-wrapper">
+        <div >
           <div>
             <table class="table table-striped">
               <thead>
@@ -322,20 +322,20 @@
         });
     });
 
-    // AJAX Request to Update Member Data
+    // AJAX Request to Update Member Data based on bioid
     $('#member-form').on('submit', function(e) {
         e.preventDefault(); // Prevent the default form submission
-        var id = $('#member_id').val(); // Ensure this ID is correct
+        var bioid = $('#bioid').val(); // Use bioid instead of id
         var formData = $(this).serialize();
 
         $.ajax({
             type: "POST",
-            url: "/update-member/" + id, // Check this URL
+            url: "/update-member/" + bioid, // Use bioid in the URL
             data: formData,
             success: function(response) {
                 if (response.status == 'success') {
                     alert("Member data updated successfully!");
-                    location.reload();
+                    location.reload(); // Reload the page to reflect changes
                 } else {
                     alert("Error: " + response.message);
                 }
@@ -346,52 +346,50 @@
         });
     });
 
-    //accept code
+    // Accept member
     $(document).on('click', '.accept-btn', function(e) {
-  e.preventDefault();
-  var id = $(this).data('id');
-  var usertype = $(this).data('usertype'); // Get the usertype from the button data attribute
+        e.preventDefault();
+        var id = $(this).data('id');
+        var usertype = $(this).data('usertype');
 
-  $.ajax({
-    type: "POST",
-    url: "/accept_member/" + id,
-    contentType: "application/json",
-    dataType: "json",
-    data: JSON.stringify({ // Send data as JSON
-      id: id,
-      usertype: usertype
-    }),
-    success: function(response) {
-      alert(response.message);
-      // Optionally, reload the members list
-      loadMembers();
-    },
-    error: function(xhr, status, error) {
-      console.error("Ajax error:", xhr.responseText);
-    }
-  });
-});
-
-
-//reject code 
-$(document).on('click', '.reject-btn', function(e) {
-    e.preventDefault();
-    var id = $(this).data('id');
-
-    $.ajax({
-        type: "POST",
-        url: "/reject_member/" + id,
-        dataType: "json",
-        success: function(response) {
-            alert(response.message);
-            // Optionally, reload the members list
-            // loadMembers();
-        },
-        error: function(xhr, status, error) {
-            console.error("Ajax error:", xhr.responseText);
-        }
+        $.ajax({
+            type: "POST",
+            url: "/accept_member/" + id,
+            contentType: "application/json",
+            dataType: "json",
+            data: JSON.stringify({ id: id, usertype: usertype }),
+            success: function(response) {
+                alert(response.message);
+                // Optionally, reload the members list
+                loadMembers();
+            },
+            error: function(xhr, status, error) {
+                console.error("Ajax error:", xhr.responseText);
+            }
+        });
     });
-});
+
+    // Reject member
+    $(document).on('click', '.reject-btn', function(e) {
+        e.preventDefault();
+        var id = $(this).data('id');
+
+        $.ajax({
+            type: "POST",
+            url: "/reject_member/" + id,
+            dataType: "json",
+            success: function(response) {
+                alert(response.message);
+                // Optionally, reload the members list
+                // loadMembers();
+            },
+            error: function(xhr, status, error) {
+                console.error("Ajax error:", xhr.responseText);
+            }
+        });
+    });
+
+
 
 });
   

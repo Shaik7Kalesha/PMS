@@ -11,6 +11,22 @@ class Member extends Model
 
     public function students()
     {
-        return $this->hasMany(Student::class, 'member_id', 'bioid');
+        return $this->hasMany(Student::class, 'member_id', 'id');
     }
+
+
+    protected $fillable=[
+        'name',
+        'bioid',
+        'personalemail',
+        'officialemail',
+        'employeeid',
+        'experience',
+        'linkedin',
+        'portfolio',
+        'mobilenumber',
+        'techstack',
+        'designation',
+        'datofjoining'
+    ];
 }

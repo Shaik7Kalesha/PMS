@@ -153,7 +153,7 @@
     </div>
 
 
-    
+
 
   </div>
   <!-- Script Files -->
@@ -177,233 +177,227 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"
     integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-  <script>
-   
-    $(document).ready(function () {
-      $.ajaxSetup({
+    <script>
+  $(document).ready(function () {
+    // Setup AJAX headers for CSRF token
+    $.ajaxSetup({
       headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
       }
     });
-      // Function to load student data
-      function loadStudents() {
-        $.ajax({
-          type: "GET",
-          url: "/student_list",
-          dataType: "json",
-          success: function (response) {
-            var tableBody = $('#students-table-body');
-            tableBody.empty();
-            if (response.students && response.students.length) {
-              response.students.forEach(function (student) {
-                var data = `<tr>
-                            <td>${student.regno}</td>
-                            <td>${student.name}</td>
-                            <td>${student.email}</td>
-                            <td>${student.department}</td>
-                            <td>${student.batch_year}</td>
-                            <td>${student.mentor_name}</td>
-                            <td><a class="editbtn btn btn-primary" data-bs-toggle="modal" href="#exampleModalToggle" role="button" data-id="${student.id}">Edit</a></td>
-                            <td><a class="accept-btn btn btn-primary" data-id="${student.id}">Accept</a></td>
-                            <td><a class="reject-btn btn btn-danger" data-id="${student.id}">Reject</a></td>
-                        </tr>`;
-                tableBody.append(data);
-              });
-            }
-          },
-          error: function (xhr, status, error) {
-            console.error("Ajax error:", xhr.responseText);
+
+    // Function to load the list of students
+    function loadStudents() {
+      $.ajax({
+        type: "GET",
+        url: "/student_list",
+        dataType: "json",
+        success: function (response) {
+          var tableBody = $('#students-table-body');
+          tableBody.empty();
+          if (response.students && response.students.length) {
+            response.students.forEach(function (student) {
+              var data = `<tr>
+                        <td>${student.regno}</td>
+                        <td>${student.name}</td>
+                        <td>${student.email}</td>
+                        <td>${student.department}</td>
+                        <td>${student.batch_year}</td>
+                        <td>${student.mentor_name}</td>
+                        <td><a class="editbtn btn btn-primary" data-bs-toggle="modal" href="#exampleModalToggle" role="button" data-id="${student.id}">Edit</a></td>
+                        <td><a class="accept-btn btn btn-primary" data-id="${student.id}">Accept</a></td>
+                        <td><a class="reject-btn btn btn-danger" data-id="${student.id}">Reject</a></td>
+                    </tr>`;
+              tableBody.append(data);
+            });
           }
-        });
-      }
-
-      // Function to load student data when the page loads
-      loadStudents();
-
-      // Function to handle edit button click and populate modal
-      $(document).on('click', '.editbtn', function (e) {
-        e.preventDefault();
-        var id = $(this).data('id');
-
-        // AJAX request to fetch student data
-        $.ajax({
-          type: "GET",
-          url: "/edit_student/" + id,
-          dataType: "json",
-          success: function (response) {
-            if (response.student) {
-              var student = response.student;
-              $('#regno').val(student.regno);
-              $('#name').val(student.name);
-              $('#email').val(student.email);
-              $('#password').val(student.password); // Ensure you handle passwords securely
-              $('#department').val(student.department);
-              $('#batch_year').val(student.batch_year);
-              $('#mentor_name').val(student.mentor_name);
-              $('#mentor_number').val(student.mentor_number);
-              $('#student_number').val(student.student_number);
-
-              // Set selected guide and project details in the modal
-              $('#guide').val(student.member_id); // Assuming member_id is used for guide selection
-              $('#title').val(student.project_title);
-              $('#description').val(student.project_description);
-
-              $('#exampleModalToggle').modal('show'); // Show the modal with populated data
-            } else {
-              console.error("No student found in the response");
-            }
-          },
-          error: function (xhr, status, error) {
-            console.error("Ajax error:", xhr.responseText);
-          }
-        });
+        },
+        error: function (xhr, status, error) {
+          console.error("Ajax error:", xhr.responseText);
+        }
       });
+    }
 
-      // Function to handle form submission for updating student data
-      $('#student-form').on('submit', function (e) {
-        e.preventDefault();
+    // Load students on page load
+    loadStudents();
 
-        // Example: Fetch member_id from #guide dropdown or any other source
-        var id = $('#regno').val(); // Assuming this should be the student ID, not regno
+    // Edit button click handler
+    $(document).on('click', '.editbtn', function (e) {
+      e.preventDefault();
+      var id = $(this).data('id');
 
-        var member_id = $('#guide').val();
-        var formData = $(this).serialize();
+      $.ajax({
+        type: "GET",
+        url: "/edit_student/" + id,
+        dataType: "json",
+        success: function (response) {
+          if (response.student) {
+            var student = response.student;
+            $('#regno').val(student.regno);
+            $('#name').val(student.name);
+            $('#email').val(student.email);
+            $('#password').val(student.password); // Ensure you handle passwords securely
+            $('#department').val(student.department);
+            $('#batch_year').val(student.batch_year);
+            $('#mentor_name').val(student.mentor_name);
+            $('#mentor_number').val(student.mentor_number);
+            $('#student_number').val(student.student_number);
 
-        // Add member_id to formData if not directly from form fields
-        formData += '&member_id=' + member_id;
+            // Set selected guide and project details in the modal
+            $('#guide').val(student.member_id); // Assuming member_id is used for guide selection
+            $('#title').val(student.project_title);
+            $('#description').val(student.project_description);
 
-        $.ajax({
-          type: "POST",
-          url: "/update-student/" + id,
-          data: formData,
-          success: function (response) {
-            if (response.status === 'success') {
-              alert("Student data updated successfully!");
-              location.reload(); // Reload the page after successful update
-            } else {
-              console.error("Error:", response.message);
-              alert("Error: " + response.message);
-            }
-          },
-          error: function (xhr, status, error) {
-            console.error("AJAX Request Error:", xhr.responseText);
-            alert("AJAX Request Error: " + xhr.responseText);
+            $('#exampleModalToggle').modal('show');
+          } else {
+            console.error("No student found in the response");
           }
-        });
-      });
-
-
-      // Function to handle accepting a student
-      $(document).on('click', '.accept-btn', function (e) {
-        e.preventDefault();
-        var id = $(this).data('id');
-
-        // AJAX request to accept student
-        $.ajax({
-          type: "POST",
-          url: "/accept_student/" + id,
-          dataType: "json",
-          success: function (response) {
-            alert(response.message);
-            loadStudents(); // Reload student list after action
-          },
-          error: function (xhr, status, error) {
-            console.error("Ajax error:", xhr.responseText);
-          }
-        });
-      });
-
-      // Function to handle rejecting a student
-      $(document).on('click', '.reject-btn', function (e) {
-        e.preventDefault();
-        var id = $(this).data('id');
-
-        // AJAX request to reject student
-        $.ajax({
-          type: "POST",
-          url: "/reject_student/" + id,
-          dataType: "json",
-          success: function (response) {
-            alert(response.message);
-            loadStudents(); // Reload student list after action
-          },
-          error: function (xhr, status, error) {
-            console.error("Ajax error:", xhr.responseText);
-          }
-        });
-      });
-
-      // Function to populate guide and project dropdowns in the modal
-      $('#exampleModalToggle').on('show.bs.modal', function () {
-        getMembersAndProjects();
-      });
-
-      // Function to fetch guide and project data
-      function getMembersAndProjects() {
-        // AJAX request to fetch guides (members)
-        $.ajax({
-          type: "GET",
-          url: "/getmember",
-          dataType: "json",
-          success: function (response) {
-            var memberSelect = $('#guide');
-            memberSelect.empty();
-            if (response.getmember) {
-              response.getmember.forEach(function (member) {
-                var option = $('<option></option>').attr('value', member.bioid).text(member.name);
-                memberSelect.append(option);
-              });
-            }
-          },
-          error: function (xhr, status, error) {
-            console.error("Ajax error:", xhr.responseText);
-          }
-        });
-
-        // AJAX request to fetch projects
-        $.ajax({
-          type: "GET",
-          url: "/getproject",
-          dataType: "json",
-          success: function (response) {
-            var projectSelect = $('#title');
-            var descriptionSelect = $('#description');
-            projectSelect.empty();
-            descriptionSelect.empty();
-            projectSelect.append('<option value="">Select Title</option>');
-            descriptionSelect.append('<option value="">Select Description</option>');
-            if (response.projects) {
-              response.projects.forEach(function (project) {
-                var projectOption = $('<option></option>')
-                  .attr('value', project.title)
-                  .attr('data-description', project.description) // Add description as a data attribute
-                  .text(project.title);
-                projectSelect.append(projectOption);
-
-                var descriptionOption = $('<option></option>')
-                  .attr('value', project.description)
-                  .text(project.description);
-                descriptionSelect.append(descriptionOption);
-              });
-            }
-          },
-          error: function (xhr, status, error) {
-            console.error("Ajax error:", xhr.responseText);
-          }
-        });
-      }
-
-      // Function to update project description based on selected project title
-      $('#title').change(function () {
-        var selectedDescription = $(this).find('option:selected').data('description');
-        var descriptionSelect = $('#description');
-        descriptionSelect.val(selectedDescription);
+        },
+        error: function (xhr, status, error) {
+          console.error("Ajax error:", xhr.responseText);
+        }
       });
     });
 
+    // Form submission handler for updating student information
+    $('#student-form').on('submit', function (e) {
+      e.preventDefault();
 
+      var id = $('#regno').val(); // Assuming this should be the student ID
+      var member_id = $('#guide').val();
+      var formData = $(this).serialize();
+      formData += '&member_id=' + encodeURIComponent(member_id);
 
-  </script>
+      $.ajax({
+        type: "POST",
+        url: "/update-student/" + id,
+        data: formData,
+        success: function (response) {
+          if (response.status === 'success') {
+            alert("Student data updated successfully!");
+            location.reload();
+          } else {
+            console.error("Error:", response.message);
+            alert("Error: " + response.message);
+          }
+        },
+        error: function (xhr, status, error) {
+          console.error("AJAX Request Error:", xhr.responseText);
+          alert("AJAX Request Error: " + xhr.responseText);
+        }
+      });
+    });
+
+    // Accept button click handler
+    $(document).on('click', '.accept-btn', function (e) {
+      e.preventDefault();
+      var id = $(this).data('id');
+
+      $.ajax({
+        type: "POST",
+        url: "/accept_student/" + id,
+        dataType: "json",
+        success: function (response) {
+          alert(response.message);
+          loadStudents();
+        },
+        error: function (xhr, status, error) {
+          console.error("Ajax error:", xhr.responseText);
+        }
+      });
+    });
+
+    // Reject button click handler
+    $(document).on('click', '.reject-btn', function (e) {
+      e.preventDefault();
+      var id = $(this).data('id');
+
+      $.ajax({
+        type: "POST",
+        url: "/reject_student/" + id,
+        dataType: "json",
+        success: function (response) {
+          alert(response.message);
+          loadStudents();
+        },
+        error: function (xhr, status, error) {
+          console.error("Ajax error:", xhr.responseText);
+        }
+      });
+    });
+
+    // Load members and projects when the modal is opened
+    $('#exampleModalToggle').on('show.bs.modal', function () {
+      getMembersAndProjects();
+    });
+
+    // Function to load members and accepted, unassigned projects
+    function getMembersAndProjects() {
+      $.ajax({
+        type: "GET",
+        url: "/getmember",
+        dataType: "json",
+        success: function (response) {
+          var memberSelect = $('#guide');
+          memberSelect.empty();
+          if (response.getmember) {
+            response.getmember.forEach(function (member) {
+              var option = $('<option></option>').attr('value', member.bioid).text(member.name);
+              memberSelect.append(option);
+            });
+          }
+        },
+        error: function (xhr, status, error) {
+          console.error("Ajax error:", xhr.responseText);
+        }
+      });
+
+      $.ajax({
+  type: "GET",
+  url: "/getproject",
+  dataType: "json",
+  success: function (response) {
+    var projectSelect = $('#title');
+    var descriptionSelect = $('#description');
+    projectSelect.empty();
+    descriptionSelect.empty();
+    projectSelect.append('<option value="">Select Title</option>');
+    descriptionSelect.append('<option value="">Select Description</option>');
+    
+    if (response.projects) {
+      response.projects.forEach(function (project) {
+        // Check if the project status is 'accepted' and it's not assigned
+        if (project.status === 'accepted' && !project.assigned_to) {
+          var projectOption = $('<option></option>')
+            .attr('value', project.title)
+            .attr('data-description', project.description)
+            .text(project.title);
+          projectSelect.append(projectOption);
+
+          // Optional: Populate descriptions if needed
+          var descriptionOption = $('<option></option>')
+            .attr('value', project.description)
+            .text(project.description);
+          descriptionSelect.append(descriptionOption);
+        }
+      });
+    }
+  },
+  error: function (xhr, status, error) {
+    console.error("Ajax error:", xhr.responseText);
+  }
+});
+
+    }
+
+    // Populate description based on selected title
+    $('#title').change(function () {
+      var selectedDescription = $(this).find('option:selected').data('description');
+      var descriptionSelect = $('#description');
+      descriptionSelect.val(selectedDescription);
+    });
+  });
+</script>
 
 
 </body>
