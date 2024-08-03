@@ -90,32 +90,32 @@ class MemberController extends Controller
     }
 
     public function update(Request $request, $bioid)
-{
-    // Find the member by bioid
-    $member = Member::where('bioid', $bioid)->first();
+    {
+        // Find the member by bioid
+        $member = Member::where('bioid', $bioid)->first();
 
-    // Check if member exists
-    if (!$member) {
-        return response()->json(['status' => 'error', 'message' => 'Member not found.'], 404);
+        // Check if member exists
+        if (!$member) {
+            return response()->json(['status' => 'error', 'message' => 'Member not found.'], 404);
+        }
+
+        // Update member data
+        $member->update([
+            'name' => $request->input('name'),
+            'personalemail' => $request->input('personal_email'),
+            'officialemail' => $request->input('official_email'),
+            'employeeid' => $request->input('employee_id'),
+            'experience' => $request->input('experience'),
+            'linkedin' => $request->input('linkedin'),
+            'portfolio' => $request->input('portfolio'),
+            'mobilenumber' => $request->input('mobile_number'),
+            'techstack' => $request->input('tech_stack'),
+            'designation' => $request->input('designation'),
+            'dateofjoining' => $request->input('date_of_joining'),
+        ]);
+
+        return response()->json(['status' => 'success', 'message' => 'Member data updated successfully!']);
     }
-
-    // Update member data
-    $member->update([
-        'name' => $request->input('name'),
-        'personalemail' => $request->input('personal_email'),
-        'officialemail' => $request->input('official_email'),
-        'employeeid' => $request->input('employee_id'),
-        'experience' => $request->input('experience'),
-        'linkedin' => $request->input('linkedin'),
-        'portfolio' => $request->input('portfolio'),
-        'mobilenumber' => $request->input('mobile_number'),
-        'techstack' => $request->input('tech_stack'),
-        'designation' => $request->input('designation'),
-        'dateofjoining' => $request->input('date_of_joining'),
-    ]);
-
-    return response()->json(['status' => 'success', 'message' => 'Member data updated successfully!']);
-}
 
 
     public function acceptMember(Request $request, $id)
@@ -131,7 +131,7 @@ class MemberController extends Controller
                 // If user already exists, update the user details
                 $user->name = $member->name;
                 $user->usertype = $request->usertype;
-                $user->member_id = $member->id;
+                $user->member_id = $member->bioid;
                 $user->save();
             } else {
                 // If user does not exist, create a new user
@@ -140,7 +140,7 @@ class MemberController extends Controller
                 $newUser->email = $member->personalemail;
                 $newUser->password = bcrypt($member->password); // Assuming the password is stored in a hashed form
                 $newUser->usertype = $request->usertype;
-                $newUser->member_id = $member->id;
+                $newUser->member_id = $member->bioid;
                 $newUser->save();
             }
 
@@ -173,34 +173,36 @@ class MemberController extends Controller
                 $user->delete();
             }
 
-            // Delete the member
-            $user->delete();
+            // Update the member's status to "rejected"
+            $member->status = 'rejected'; // Assuming there's a 'status' column in the Member table
+            $member->save();
 
-            return response()->json(['message' => 'Member and associated user rejected successfully']);
+            return response()->json(['message' => 'Member status updated to rejected and associated user deleted successfully']);
         } else {
             return response()->json(['message' => 'Member not found'], 404);
         }
     }
 
+
     public function getUser()
     {
         // Retrieve member_id from the session
         $loggedUserId = Session::get('member_id');
-    
+
         if (!$loggedUserId) {
             return response()->json([
                 'status' => 'error',
                 'message' => 'Session member_id not found'
             ], 404);
         }
-    
+
         // Retrieve the user by bioid
         $user = Member::where('bioid', $loggedUserId)->first();
-    
+
         if ($user) {
             // Store member_id in the session if user is found
             Session::put('member_id', $user->member_id);
-    
+
             return response()->json([
                 'status' => 'success',
                 'message' => 'User found',
@@ -213,16 +215,16 @@ class MemberController extends Controller
             ], 404);
         }
     }
-    
+
     public function getUserView()
     {
         // Retrieve member_id from the session
         $memberId = Session::get('member_id');
-    
+
         if (!$memberId) {
             return response()->json(['status' => 'error', 'message' => 'Member ID not found in session']);
         }
-    
+
         // Return JSON response
         return response()->json([
             'status' => 'success',
@@ -230,19 +232,19 @@ class MemberController extends Controller
             'member_id' => $memberId
         ]);
     }
-    
+
     public function fetchstudent()
     {
         // Retrieve the member_id from the session
         $loggedin = session()->get('member_id');
-    
+
         if (!$loggedin) {
             return response()->json(['status' => 'error', 'message' => 'Member ID not found in session']);
         }
-    
+
         // Fetch students assigned to the logged-in member
         $studentlist = Student::where('member_id', $loggedin)->get();
-    
+
         // Return the response based on request type
         if (request()->expectsJson()) {
             return response()->json([
@@ -254,47 +256,46 @@ class MemberController extends Controller
             return view('member.student_assigned', compact('studentlist'));
         }
     }
-    
-
 
     public function add_task(Request $request)
-{
-    $validatedData = $request->validate([
-        'student_id' => 'exists:students,id',
-        'member_id' => 'exists:members,bioid',
-        'title' => 'required|string',
-        'description' => 'required|string',
-        'task_name' => 'required|string',
-        'task_date' => 'required|date',
-        'eta' => 'required|date',
-        'completed_date' => 'required|date',
-        'status' => 'required|string',
-    ]);
+    {
+        $validatedData = $request->validate([
+            'student_id' => 'exists:students,id',
+            'member_id' => 'exists:members,bioid',
+            'title' => 'required|string',
+            'description' => 'required|string',
+            'task_name' => 'required|string',
+            'task_date' => 'required|date',
+            'eta' => 'required|date',
+            'completed_date' => 'required|date',
+            'status' => 'required|string',
+        ]);
 
-    $task = new Tasks();
-    $task->student_id = $validatedData['student_id'];
-    $task->member_id = $validatedData['member_id'];
-    $task->title = $validatedData['title'];
-    $task->description = $validatedData['description'];
-    $task->task_name = $validatedData['task_name'];
-    $task->task_date = $validatedData['task_date'];
-    $task->eta = $validatedData['eta'];
-    $task->completed_date = $validatedData['completed_date'];
-    $task->status = $validatedData['status'];
-    $task->save();
+        $task = new Tasks();
+        $task->student_id = $validatedData['student_id'];
+        $task->member_id = $validatedData['member_id'];
+        $task->title = $validatedData['title'];
+        $task->description = $validatedData['description'];
+        $task->task_name = $validatedData['task_name'];
+        $task->task_date = $validatedData['task_date'];
+        $task->eta = $validatedData['eta'];
+        $task->completed_date = $validatedData['completed_date'];
+        $task->status = $validatedData['status'];
+        $task->save();
 
-    return response()->json(['success' => true, 'message' => 'Task added successfully']);
-}
-
-// app/Http/Controllers/YourController.php
-public function fetchProject($student_name) {
-    $project = projects::where('student_name', $student_name)->first();
-
-    if ($project) {
-        return response()->json(['success' => true, 'project' => $project]);
-    } else {
-        return response()->json(['success' => false, 'message' => 'Project not found']);
+        return response()->json(['success' => true, 'message' => 'Task added successfully']);
     }
-}
+
+    // app/Http/Controllers/YourController.php
+    public function fetchProject($student_name)
+    {
+        $project = projects::where('student_name', $student_name)->first();
+
+        if ($project) {
+            return response()->json(['success' => true, 'project' => $project]);
+        } else {
+            return response()->json(['success' => false, 'message' => 'Project not found']);
+        }
+    }
 
 }

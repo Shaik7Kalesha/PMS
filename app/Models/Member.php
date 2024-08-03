@@ -11,7 +11,7 @@ class Member extends Model
 
     public function students()
     {
-        return $this->hasMany(Student::class, 'member_id', 'id');
+        return $this->hasMany(Student::class, 'member_id', 'bioid');
     }
 
 

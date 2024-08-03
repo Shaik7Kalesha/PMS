@@ -87,10 +87,10 @@ Route::get('/edit_member/{id}',[MemberController::class,'edit']);
 Route::post('/update-member/{bioid}', [MemberController::class, 'update']);
 Route::post('/accept_member/{id}', [MemberController::class, 'acceptMember']);
 Route::post('/reject_member/{id}', [MemberController::class, 'rejectMember']);
-Route::get('/get-user', [MemberController::class, 'getUser'])->name('get.user');
+Route::get('/get-user/{member_id}', [MemberController::class, 'getUser'])->name('get.user');
 
 // Route to get user view
-Route::get('/get-user-view', [MemberController::class, 'getUserView']);
+Route::get('/get-user-view/{member_id}', [MemberController::class, 'getUserView']);
 
 Route::get('/fetch_student',[MemberController::class,'fetchstudent'])->name('student_assigned');
 Route::post('/add_task',[MemberController::Class,'add_task'])->name('add_task');
