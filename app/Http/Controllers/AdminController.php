@@ -57,7 +57,7 @@ class AdminController extends Controller
     {
         // Validate the incoming request data
         $validatedData = $request->validate([
-            'team_id' => 'required',
+            // 'team_id' => 'required',
             'team_name' => 'required|string|max:255',
         ]);
 
@@ -208,48 +208,48 @@ class AdminController extends Controller
     }
 
     public function update_project(Request $request, $id)
-{
-    // Validate the incoming request data as needed
-    $validatedData = $request->validate([
-        'title' => 'required|string|max:255',
-        'batch_year' => 'required|string|max:255',
-        'team' => 'required|string|max:255',
-        'developers' => 'required|string|max:255',
-        'platform' => 'required|string|max:255',
-        'student_name' => 'required|string|max:255',
-        'start_date' => 'required|string|max:255',
-        'end_date' => 'required|string|max:255',
-        'description' => 'required|string|max:1000',
-    ]);
+    {
+        // Validate the incoming request data as needed
+        $validatedData = $request->validate([
+            'title' => 'required|string|max:255',
+            'batch_year' => 'required|string|max:255',
+            'team' => 'required|string|max:255',
+            'developers' => 'required|string|max:255',
+            'platform' => 'required|string|max:255',
+            'student_name' => 'required|string|max:255',
+            'start_date' => 'required|string|max:255',
+            'end_date' => 'required|string|max:255',
+            'description' => 'required|string|max:1000',
+        ]);
 
-    // Find the project by ID
-    $project = Projects::find($id);
+        // Find the project by ID
+        $project = Projects::find($id);
 
-    if ($project) {
-        // Log the incoming data for debugging
-        \Log::info('Updating project:', $request->all());
+        if ($project) {
+            // Log the incoming data for debugging
+            \Log::info('Updating project:', $request->all());
 
-        // Update project data
-        $project->title = $request->title;
-        $project->batch_year = $request->batch_year;
-        $project->team = $request->team;
-        $project->developers = $request->developers;
-        $project->platform = $request->platform;
-        $project->student_name = $request->student_name;
-        $project->start_date = $request->start_date;
-        $project->end_date = $request->end_date;
-        $project->description = $request->description;
+            // Update project data
+            $project->title = $request->title;
+            $project->batch_year = $request->batch_year;
+            $project->team = $request->team;
+            $project->developers = $request->developers;
+            $project->platform = $request->platform;
+            $project->student_name = $request->student_name;
+            $project->start_date = $request->start_date;
+            $project->end_date = $request->end_date;
+            $project->description = $request->description;
 
-        // Save the updated project data
-        $project->save();
+            // Save the updated project data
+            $project->save();
 
-        // Return success response
-        return response()->json(['status' => 'success', 'message' => 'Project data updated successfully']);
-    } else {
-        // Return error response if project is not found
-        return response()->json(['status' => 'error', 'message' => 'Project not found'], 404);
+            // Return success response
+            return response()->json(['status' => 'success', 'message' => 'Project data updated successfully']);
+        } else {
+            // Return error response if project is not found
+            return response()->json(['status' => 'error', 'message' => 'Project not found'], 404);
+        }
     }
-}
 
 
     public function updateBatchStatus(Request $request)
@@ -351,10 +351,26 @@ class AdminController extends Controller
     }
 
 
-    public function grtstudentscount(){
+    public function grtstudentscount()
+    {
         $getstudentscount = Student::count();
         return response()->json(['count' => $getstudentscount]);
     }
+
+    public function getBatchesCount()
+    {
+        // Assuming 'batch_id' is the unique identifier for a batch
+        $getBatchesCount = Batch::distinct('batch_id')->count('batch_id');
+        return response()->json(['count' => $getBatchesCount]);
+    }
+
+
+    public function getteamcount()
+    {
+        $getteamcount = Team::count();
+        return response()->json(['count' => $getteamcount]);
+    }
+
 }
 
 

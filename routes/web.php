@@ -73,16 +73,13 @@ Route::get('/getStudents',[AdminController::class,'getStudents'])->name('getStud
 Route::get('/getprojectcount',[AdminController::class,'getProjectcount']);
 Route::get('/getmembercount',[AdminController::class,'getMemberscount']);
 Route::get('getstudentcount',[AdminController::class,'grtstudentscount']);
-
+Route::get('/getbatchcount',[AdminController::class,'getbatchescount']);
+Route::get('/getteamcount',[AdminController::class,'getteamcount']);
 
 
 Route::get('/add_faculty',[AdminController::class,'add_faculty'])->name('addfaculties');
 Route::post('/createfaculties',[AdminController::class,'store_faculty'])->name('add_faculties');
 Route::get('/getfaculties',[AdminController::class,'getfaculty'])->name('getfaculty');
-
-
-
-
 
 
 //member part
