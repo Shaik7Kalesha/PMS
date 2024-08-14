@@ -16,6 +16,10 @@
   .navbar-brand{
     color: #fff;
   }
+  .btn:hover{
+background-color: #fff;
+color: black;
+  }
 </style>
 
 
@@ -58,17 +62,16 @@
         <li class="nav-item">
           <a class="nav-link" href="#"><i class="fas fa-envelope-open-text"></i> Leave Request</a>
         </li>
-       
-       
+        
       </ul>
     </div>
-    <!-- @if (Auth::check())
+    @if (Auth::check())
       <li>
       <form method="post" action="{{ route('logout') }}">
         @csrf
         <button class="btn btn-primary">LOGOUT ({{ Auth::user()->name }})</button>
       </form>
       </li>
-    @endif -->
+    @endif
   </div>
 </nav>

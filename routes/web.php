@@ -49,10 +49,11 @@ Route::get('/getprojects',[AdminController::class,'getproject'])->name('getproje
 Route::get('/all_project',[AdminController::class,'all_project'])->name('allprojects');
 Route::get('/edit_project/{id}',[AdminController::class,'edit_project']);
 Route::post('/update_project/{id}', [AdminController::class, 'update_project']);
+// Route::post('/accept_project/{id}', [AdminController::class, 'acceptProject']);
+// Route::post('/reject_project/{id}', [AdminController::class, 'rejectProject']);
+
 Route::post('/accept_project/{id}', [AdminController::class, 'acceptProject']);
 Route::post('/reject_project/{id}', [AdminController::class, 'rejectProject']);
-
-
 
 
 

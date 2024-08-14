@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Role;
 use App\Models\Team;
 use App\Models\Batch;
-use App\Models\Projects;
+use App\Models\Project;
 use App\Models\Faculty;
 use App\Models\Member;
 use App\Models\Student;
@@ -120,7 +120,6 @@ class AdminController extends Controller
     }
 
 
-
     public function add_batch()
     {
         return view('admin.add_batch');
@@ -166,7 +165,7 @@ class AdminController extends Controller
 
         ]);
 
-        $projects = Projects::create($validatedData);
+        $projects = Project::create($validatedData);
 
         return response()->json([
             'success' => true,
@@ -178,7 +177,7 @@ class AdminController extends Controller
 
     public function getproject()
     {
-        $projects = Projects::all();
+        $projects = Project::all();
         return response()->json([
             'success' => 200,
             'projects' => $projects
@@ -192,7 +191,7 @@ class AdminController extends Controller
 
     public function edit_project($id)
     {
-        $project = Projects::find($id);
+        $project = Project::find($id);
         if ($project) {
             return response()->json([
                 'status' => 200,
@@ -223,7 +222,7 @@ class AdminController extends Controller
         ]);
 
         // Find the project by ID
-        $project = Projects::find($id);
+        $project = Project::find($id);
 
         if ($project) {
             // Log the incoming data for debugging
@@ -301,45 +300,36 @@ class AdminController extends Controller
 
     }
 
-    public function acceptProject(Request $request, $id)
+    public function acceptProject($id)
     {
-        $project = Projects::find($id);
-
+        // Logic to accept the project
+        $project = Project::find($id);
         if ($project) {
-            // Update the project status to 'accepted'
-            $project->status = 'accepted';
+            $project->status = 'Accepted';
             $project->save();
-
-            // Optionally, you can perform additional actions here, such as creating a user or sending notifications.
-
-            return response()->json(['message' => 'Project accepted successfully.', 'project' => $project], 200);
+    
+            return response()->json(['message' => 'Project accepted successfully']);
         }
-
-        return response()->json(['message' => 'Project not found.'], 404);
+        return response()->json(['message' => 'Project not found'], 404);
     }
-
+    
     public function rejectProject($id)
     {
-        $project = Projects::find($id);
-
+        // Logic to reject the project
+        $project = Project::find($id);
         if ($project) {
-            // Update the project status to 'accepted'
-            $project->status = 'rejected';
+            $project->status = 'Rejected';
             $project->save();
-
-            // Optionally, you can perform additional actions here, such as creating a user or sending notifications.
-
-            return response()->json(['message' => 'Project rejected successfully.', 'project' => $project], 200);
+    
+            return response()->json(['message' => 'Project rejected successfully']);
         }
-
-        // Simply respond with a success message
-        return response()->json(['message' => 'Project rejected.']);
+        return response()->json(['message' => 'Project not found'], 404);
     }
 
 
     public function getProjectcount()
     {
-        $getprojectscount = Projects::count();
+        $getprojectscount = Project::count();
         return response()->json(['count' => $getprojectscount]);
         // return view('admin.adminhome',compact('getprojects'));
     }

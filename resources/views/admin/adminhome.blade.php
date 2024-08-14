@@ -58,8 +58,8 @@
     @include('admin.header')
 
     <div class="container mt-4">
-        <div class="row">
-            <div class="col-lg-3 col-md-6 mb-4">
+        <div class="row col-lg-12">
+            <div class="col-lg-4 col-md-6 mb-4">
                 <div class="card shadow-sm border-primary">
                     <div class="card-body text-center">
                         <i class="fas fa-users fa-3x text-primary mb-3"></i>
@@ -69,7 +69,7 @@
                 </div>
             </div>
 
-            <div class="col-lg-3 col-md-6 mb-4">
+            <div class="col-lg-4 col-md-6 mb-4">
                 <div class="card shadow-sm border-success">
                     <div class="card-body text-center">
                         <i class="fas fa-layer-group fa-3x text-success mb-3"></i>
@@ -79,7 +79,7 @@
                 </div>
             </div>
 
-            <div class="col-lg-3 col-md-6 mb-4">
+            <div class="col-lg-4 col-md-6 mb-4">
                 <div class="card shadow-sm border-info">
                     <div class="card-body text-center">
                         <i class="fas fa-project-diagram fa-3x text-info mb-3"></i>
@@ -89,7 +89,7 @@
                 </div>
             </div>
 
-            <div class="col-lg-3 col-md-6 mb-4">
+            <div class="col-lg-4 col-md-6 mb-4 offset-lg-2">
                 <div class="card shadow-sm border-warning">
                     <div class="card-body text-center">
                         <i class="fas fa-user-tie fa-3x text-warning mb-3"></i>
@@ -99,7 +99,7 @@
                 </div>
             </div>
 
-            <div class="col-lg-3 col-md-6 mb-4">
+            <div class="col-lg-4 col-md-6 mb-4">
                 <div class="card shadow-sm border-secondary">
                     <div class="card-body text-center">
                         <i class="fas fa-user-graduate fa-3x text-secondary mb-3"></i>

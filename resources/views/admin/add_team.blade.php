@@ -45,11 +45,7 @@
   <!-- Footer -->
   <footer class="bg-light text-center py-4 mt-4">
     <div class="container">
-      <p class="mb-0">&copy; 2024 Your Company. All rights reserved.</p>
-      <p class="mb-0">
-        <a href="#" class="text-decoration-none">Privacy Policy</a> | 
-        <a href="#" class="text-decoration-none">Terms of Service</a>
-      </p>
+      <p class="mb-0">&copy; 2024 . All rights reserved.</p>
     </div>
   </footer>
 
