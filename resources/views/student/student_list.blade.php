@@ -53,6 +53,7 @@
               <th scope="col">Department</th>
               <th scope="col">Batch and Year</th>
               <th scope="col">Mentor</th>
+              <th scope="col">Guide name</th>
               <th scope="col">Action</th>
             </tr>
           </thead>
@@ -156,210 +157,158 @@
       </div>
     </div>
   </div>
-  <script>
-  $(document).ready(function () {
-    // Load students
-    function loadStudents() {
-      $.ajax({
-        type: "GET",
-        url: "/student_list",
-        dataType: "json",
-        success: function (response) {
-          console.log("Students Response:", response);
-          var tableBody = $('#students-table-body');
-          tableBody.empty();
 
-          if (response.students && Array.isArray(response.students)) {
-            response.students.forEach(function (student) {
-              var data = `<tr>
+  <script>
+    $(document).ready(function () {
+      // Load students
+      function loadStudents() {
+        $.ajax({
+          type: "GET",
+          url: "/student_list",
+          dataType: "json",
+          success: function (response) {
+            console.log("Students Response:", response);
+            var tableBody = $('#students-table-body');
+            tableBody.empty();
+
+            if (response.students && Array.isArray(response.students)) {
+              response.students.forEach(function (student) {
+                var data = `<tr>
                 <td>${student.regno}</td>
                 <td>${student.name}</td>
                 <td>${student.email}</td>
                 <td>${student.department}</td>
                 <td>${student.batch_year}</td>
                 <td>${student.mentor_name}</td>
+                <td>${student.member_id}</td>
                 <td>
                   <a class="editbtn btn btn-primary me-2" data-bs-toggle="modal" href="#exampleModalToggle" role="button" data-id="${student.id}">Edit</a>
                   <a class="accept-btn btn btn-success me-2" data-id="${student.id}">Accept</a>
                   <a class="reject-btn btn btn-danger" data-id="${student.id}">Reject</a>
                 </td>
               </tr>`;
-              tableBody.append(data);
-            });
-          } else {
-            console.error("Invalid response structure:", response);
+                tableBody.append(data);
+              });
+            } else {
+              console.error("Invalid response structure:", response);
+            }
+          },
+          error: function (xhr, status, error) {
+            console.error("Ajax error:", xhr.responseText);
           }
-        },
-        error: function (xhr, status, error) {
-          console.error("Ajax error:", xhr.responseText);
-        }
-      });
-    }
+        });
+      }
 
-    // Edit student
-    $(document).on('click', '.editbtn', function (e) {
-      e.preventDefault();
-      var id = $(this).data('id');
+      // Edit student
+      $(document).on('click', '.editbtn', function (e) {
+        e.preventDefault();
+        var id = $(this).data('id');
 
-      $.ajax({
-        type: "GET",
-        url: "/edit_student/" + id,
-        dataType: "json",
-        success: function (response) {
-          console.log("Edit Student Response:", response);
+        $.ajax({
+          type: "GET",
+          url: "/edit_student/" + id,
+          dataType: "json",
+          success: function (response) {
+            console.log("Edit Student Response:", response);
 
-          if (response.student) {
-            var student = response.student;
-            $('#regno').val(student.regno);
-            $('#name').val(student.name);
-            $('#email').val(student.email);
-            $('#department').val(student.department);
-            $('#batch_year').val(student.batch_year);
-            $('#mentor_name').val(student.mentor_name);
-            $('#mentor_number').val(student.mentor_number);
-            $('#student_number').val(student.student_number);
-            $('#guide').val(student.guide_id);
-            $('#title').val(student.project_title);
-            $('#description').val(student.project_description);
-          } else {
-            console.error("Invalid response structure:", response);
+            if (response.student) {
+              var student = response.student;
+              $('#regno').val(student.regno);
+              $('#name').val(student.name);
+              $('#email').val(student.email);
+              $('#department').val(student.department);
+              $('#batch_year').val(student.batch_year);
+              $('#mentor_name').val(student.mentor_name);
+              $('#mentor_number').val(student.mentor_number);
+              $('#student_number').val(student.student_number);
+              $('#guide').val(student.member_id);
+              $('#title').val(student.project_title);
+              $('#description').val(student.project_description);
+            } else {
+              console.error("Invalid response structure:", response);
+            }
+          },
+          error: function (xhr, status, error) {
+            console.error("Ajax error:", xhr.responseText);
           }
-        },
-        error: function (xhr, status, error) {
-          console.error("Ajax error:", xhr.responseText);
-        }
+        });
       });
-    });
 
-    // Update student
-    $('#student-form').on('submit', function (e) {
-      e.preventDefault();
-      var formData = $(this).serialize();
-
-      $.ajax({
-        type: "POST",
-        url: $(this).attr('action'),
-        data: formData,
-        success: function (response) {
-          $('#response-message').html('<div class="alert alert-success">Student updated successfully!</div>');
-          loadStudents();
-        },
-        error: function (xhr, status, error) {
-          $('#response-message').html('<div class="alert alert-danger">An error occurred while updating the student.</div>');
-          console.error("Ajax error:", xhr.responseText);
-        }
-      });
-    });
-
-    // Accept student
-    $(document).on('click', '.accept-btn', function () {
-      var id = $(this).data('id');
-
-      $.ajax({
-        type: "POST",
-        url: "/accept_student",
-        data: { id: id, _token: $('meta[name="csrf-token"]').attr('content') },
-        success: function (response) {
-          alert("Student accepted!");
-          loadStudents();
-        },
-        error: function (xhr, status, error) {
-          console.error("Ajax error:", xhr.responseText);
-        }
-      });
-    });
-
-    // Reject student
-    $(document).on('click', '.reject-btn', function () {
-      var id = $(this).data('id');
-
-      $.ajax({
-        type: "POST",
-        url: "/reject_student",
-        data: { id: id, _token: $('meta[name="csrf-token"]').attr('content') },
-        success: function (response) {
-          alert("Student rejected!");
-          loadStudents();
-        },
-        error: function (xhr, status, error) {
-          console.error("Ajax error:", xhr.responseText);
-        }
-      });
-    });
-
-    // Initial load
-    loadStudents();
-
-    // Function to load members and accepted, unassigned projects
-    function getMembersAndProjects() {
-      $.ajax({
-        type: "GET",
-        url: "/getmember",
-        dataType: "json",
-        success: function (response) {
-          var memberSelect = $('#guide');
-          memberSelect.empty();
-          if (response.getmember) {
-            response.getmember.forEach(function (member) {
-              var option = $('<option></option>').attr('value', member.bioid).text(member.name);
-              memberSelect.append(option);
-            });
+      // Load members and projects
+      function getMembersAndProjects() {
+        $.ajax({
+          type: "GET",
+          url: "/getmember",
+          dataType: "json",
+          success: function (response) {
+            console.log("Get Member Response:", response);
+            var memberSelect = $('#guide');
+            memberSelect.empty();
+            if (response.getmember) {
+              response.getmember.forEach(function (member) {
+                var option = $('<option></option>').attr('value', member.bioid).text(member.name);
+                memberSelect.append(option);
+              });
+            } else {
+              console.error("Invalid response structure:", response);
+            }
+          },
+          error: function (xhr, status, error) {
+            console.error("Ajax error:", xhr.responseText);
           }
-        },
-        error: function (xhr, status, error) {
-          console.error("Ajax error:", xhr.responseText);
-        }
-      });
+        });
 
-      $.ajax({
-        type: "GET",
-        url: "/getproject",
-        dataType: "json",
-        success: function (response) {
-          var projectSelect = $('#title');
-          var descriptionSelect = $('#description');
-          projectSelect.empty();
-          descriptionSelect.empty();
-          projectSelect.append('<option value="">Select Title</option>');
-          descriptionSelect.append('<option value="">Select Description</option>');
+        $.ajax({
+          type: "GET",
+          url: "/getproject",
+          dataType: "json",
+          success: function (response) {
+            console.log("Get Project Response:", response);
+            var projectSelect = $('#title');
+            var descriptionSelect = $('#description');
+            projectSelect.empty();
+            descriptionSelect.empty();
+            projectSelect.append('<option value="">Select Title</option>');
+            descriptionSelect.append('<option value="">Select Description</option>');
 
-          if (response.projects) {
-            response.projects.forEach(function (project) {
-              // Check if the project status is 'accepted' and it's not assigned
-              if (project.status === 'accepted' && !project.assigned_to) {
-                var projectOption = $('<option></option>')
-                  .attr('value', project.title)
-                  .attr('data-description', project.description)
-                  .text(project.title);
-                projectSelect.append(projectOption);
+            if (response.projects) {
+              response.projects.forEach(function (project) {
+                // Only include projects that are accepted and not assigned to anyone
+                if (project.status === 'accepted' && !project.assigned_to) {
+                  var projectOption = $('<option></option>')
+                    .attr('value', project.title)
+                    .attr('data-description', project.description)
+                    .text(project.title);
+                  projectSelect.append(projectOption);
 
-                // Optional: Populate descriptions if needed
-                var descriptionOption = $('<option></option>')
-                  .attr('value', project.description)
-                  .text(project.description);
-                descriptionSelect.append(descriptionOption);
-              }
-            });
+                  var descriptionOption = $('<option></option>')
+                    .attr('value', project.description)
+                    .text(project.description);
+                  descriptionSelect.append(descriptionOption);
+                }
+              });
+            } else {
+              console.error("Invalid response structure:", response);
+            }
+          },
+          error: function (xhr, status, error) {
+            console.error("Ajax error:", xhr.responseText);
           }
-        },
-        error: function (xhr, status, error) {
-          console.error("Ajax error:", xhr.responseText);
-        }
-      });
+        });
 
-      // Populate description based on selected title
-      $('#title').change(function () {
-        var selectedDescription = $(this).find('option:selected').data('description');
-        var descriptionSelect = $('#description');
-        descriptionSelect.val(selectedDescription);
-      });
-    }
 
-    // Initial load of members and projects
-    getMembersAndProjects();
-  });
-</script>
+        // Populate description based on selected title
+        $('#title').change(function () {
+          var selectedDescription = $(this).find('option:selected').data('description');
+          $('#description').val(selectedDescription);
+        });
+      }
 
+      // Initial load
+      loadStudents();
+      getMembersAndProjects();
+    });
+  </script>
 
   <!-- Bootstrap JS Bundle with Popper -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
