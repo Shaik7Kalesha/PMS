@@ -6,7 +6,7 @@ use App\Models\Batch;
 use App\Models\Student;
 use Illuminate\Http\Request;
 use App\Models\User;
-use App\Models\Projects;
+use App\Models\Project;
 use App\Models\Member;
 use App\Models\Tasks;
 use Auth;
@@ -218,7 +218,7 @@ class StudentController extends Controller
 
     public function getProjects()
 {
-    $projects = Projects::where('status', 'accepted')->get();
+    $projects = Project::where('status', 'accepted')->get();
     return response()->json(['projects' => $projects]);
 }
 
