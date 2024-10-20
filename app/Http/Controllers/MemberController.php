@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Member;
+use App\Models\Project;
 use App\Models\Tasks;
 use App\Models\User;
 use App\Models\Student;
@@ -289,7 +290,7 @@ class MemberController extends Controller
     // app/Http/Controllers/YourController.php
     public function fetchProject($student_name)
     {
-        $project = projects::where('student_name', $student_name)->first();
+        $project = Project::where('student_name', $student_name)->first();
 
         if ($project) {
             return response()->json(['success' => true, 'project' => $project]);
@@ -297,5 +298,6 @@ class MemberController extends Controller
             return response()->json(['success' => false, 'message' => 'Project not found']);
         }
     }
+    
 
 }

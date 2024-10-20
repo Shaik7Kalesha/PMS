@@ -5,6 +5,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AttendenceController;
 
 
 
@@ -100,6 +101,12 @@ Route::get('/fetch_student',[MemberController::class,'fetchstudent'])->name('stu
 Route::post('/add_task',[MemberController::Class,'add_task'])->name('add_task');
 Route::get('/fetch_project/{student_name}', [MemberController::class, 'fetchProject'])->name('fetch_project');
 
+//attendece
+// Route to show the attendance form
+Route::get('/attendance', [AttendenceController::class, 'showForm'])->name('attendance.form');
+
+// Route to handle the attendance form submission
+Route::post('/attendance', [AttendenceController::class, 'submitForm']);
 
 
 
