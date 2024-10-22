@@ -46,15 +46,17 @@ Route::get('/getteams',[AdminController::class,'getteam'])->name('getteam');
 
 Route::get('/add_project',[AdminController::class,'add_project'])->name('addprojects');
 Route::post('/createprojects',[AdminController::class,'store_project'])->name('add_projects');
-Route::get('/getprojects',[AdminController::class,'getproject'])->name('getproject');
+Route::get('/getprojects',[AdminController::class,'getprojects'])->name('getproject');
 Route::get('/all_project',[AdminController::class,'all_project'])->name('allprojects');
 Route::get('/edit_project/{id}',[AdminController::class,'edit_project']);
-Route::post('/update_project/{id}', [AdminController::class, 'update_project']);
+Route::post('/updateproject/{id}', [AdminController::class, 'updateproject']);
 // Route::post('/accept_project/{id}', [AdminController::class, 'acceptProject']);
 // Route::post('/reject_project/{id}', [AdminController::class, 'rejectProject']);
 
 Route::post('/accept_project/{id}', [AdminController::class, 'acceptProject']);
 Route::post('/reject_project/{id}', [AdminController::class, 'rejectProject']);
+
+Route::get('/getproject/{id}', [AdminController::class, 'getProject']);
 
 
 
@@ -115,9 +117,9 @@ Route::get('/student_register',[StudentController::class,'student_registration']
 Route::post('/createstudent', [StudentController::class, 'store_student'])->name('student_store');
 Route::get('/student_list',[StudentController::class,'stu_list'])->name('student_list');
 Route::get('/edit_student/{id}',[StudentController::class,'check']);
-Route::post('/update-student/{id}', [StudentController::class, 'modify']);
-Route::post('/accept_student/{id}', [StudentController::class, 'acceptStudent']);
-Route::post('/reject_student/{id}', [StudentController::class, 'rejectStudent']);
+Route::post('/update-student/{id}', [StudentController::class, 'updateStudent'])->name('student_update');
+Route::post('/student/accept/{id}', [StudentController::class, 'acceptStudent'])->name('student.accept');
+Route::post('/student/reject/{id}', [StudentController::class, 'rejectStudent'])->name('student.reject');
 Route::get('/getmember', [StudentController::class, 'getMembers']);
 Route::get('/getproject', [StudentController::class, 'getProjects']);
 

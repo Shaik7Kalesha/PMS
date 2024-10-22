@@ -13,6 +13,16 @@ class Student extends Model
         return $this->belongsTo(Member::class, 'member_id', 'id');
     }
 
+    protected $fillable=[
+        'name',
+        'email',
+        'department',
+        'batch_year',
+        'mentor_name',
+        'mentor_number',
+        'student_number'
+    ];
+
 
     
 

@@ -82,69 +82,64 @@ class StudentController extends Controller
         }
 
     }
-   
-    public function modify(Request $request, $id)
+    public function updateStudent(Request $request)
     {
-        Log::info('Incoming request data: ', $request->all());
-
-        // Validate the incoming data
-        $validatedData = $request->validate([
-            'member_id' => 'required|exists:members,bioid', // Validate against bioid
-            'regno' => 'required|string',
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|min:8',
-            'password' => 'required|string|min:8',
-            'department' => 'required|max:255',
-            'batch_year' => 'required|string|max:255',
-            'mentor_name' => 'required|string|max:255',
-            'mentor_number' => 'required|max:255',
-            'student_number' => 'required|max:255',
-            'project_title' => 'required|string|max:255',
-            'project_description' => 'required|string|max:500',
-        ]);
-
-        Log::info('Student regno: ' . $request->regno);
-        Log::info('Member ID (bioid): ' . $request->member_id);
-
-        // Retrieve the member based on bioid
-        $member = Member::where('bioid', $request->member_id)->first();
-
-        if (!$member) {
-            Log::error('Invalid member_id provided: ' . $request->member_id);
-            return response()->json(['status' => 'error', 'message' => 'Invalid member ID'], 400);
-        }
-
-        // Find the student by regno
+        // Find the student by their current regno
         $student = Student::where('regno', $request->regno)->first();
-
+    
         if (!$student) {
-            Log::error('Student not found with regno: ' . $request->regno);
             return response()->json(['status' => 'error', 'message' => 'Student not found'], 404);
         }
-
-        // Update student data
-        $student->member_id = $member->id; // Use the member's id, not bioid
-        $student->regno = $request->regno;
-        $student->name = $request->name;
-        $student->email = $request->email;
-        $student->password = Hash::make($request->password); // Hash the password
-        $student->department = $request->department;
-        $student->batch_year = $request->batch_year;
-        $student->mentor_name = $request->mentor_name;
-        $student->mentor_number = $request->mentor_number;
-        $student->student_number = $request->student_number;
-        $student->project_title = $request->project_title;
-        $student->project_description = $request->project_description;
-
-        // Save the updated student record
-        $student->save();
-
-        Log::info('Student updated successfully with regno: ' . $student->regno);
-
-        // Return a success response
-        return response()->json(['status' => 'success', 'message' => 'Student data updated successfully']);
+    
+        // Check if the new regno is different and already exists
+        if ($request->has('new_regno') && $request->new_regno != $student->regno) {
+            $existingStudent = Student::where('regno', $request->new_regno)->first();
+            if ($existingStudent) {
+                return response()->json(['status' => 'error', 'message' => 'Duplicate regno found'], 400);
+            }
+    
+            // If the new regno is valid, we can update it
+            $student->regno = $request->new_regno;
+        }
+    
+        // Create an array to hold the update values
+        $updateData = [];
+    
+        // Check for each field and only update if it is present in the request
+        if ($request->has('name')) {
+            $updateData['name'] = $request->name;
+        }
+        if ($request->has('email')) {
+            $updateData['email'] = $request->email;
+        }
+        if ($request->has('department')) {
+            $updateData['department'] = $request->department;
+        }
+        if ($request->has('batch_year')) {
+            $updateData['batch_year'] = $request->batch_year;
+        }
+        if ($request->has('mentor_name')) {
+            $updateData['mentor_name'] = $request->mentor_name;
+        }
+        if ($request->has('mentor_number')) {
+            $updateData['mentor_number'] = $request->mentor_number;
+        }
+        if ($request->has('student_number')) {
+            $updateData['student_number'] = $request->student_number;
+        }
+    
+        // Update the student's details with the dynamic data
+        $student->update($updateData);
+    
+        // If regno was updated, save the student object to update regno in the database
+        if (isset($request->new_regno)) {
+            $student->regno = $request->new_regno;
+            $student->save();
+        }
+    
+        return response()->json(['status' => 'success', 'message' => 'Student updated successfully']);
     }
-
+    
     public function checkStatus()
     {
         // Fetch all batches
@@ -160,54 +155,46 @@ class StudentController extends Controller
         }
     }
 
-    public function acceptStudent(Request $request, $id)
+    public function acceptStudent($id, Request $request)
     {
         $student = Student::find($id);
-
         if ($student) {
-            // Update student's status to 'accepted'
-            $student->status = 'accepted';
-            $student->save();
+            // Create a new user from the student data
+            $user = new User();
+            $user->name = $student->name;
+            $user->email = $student->email;
+            $user->password = bcrypt($request->input('password')); // Ensure you handle password securely
+            $user->usertype = 'student'; // Set user type as 'student
+            $user->save();
+    
+            return response()->json(['message' => 'Student accepted and stored in users table successfully!'], 200);
+        }
+    
+        return response()->json(['message' => 'Student not found!'], 404);
+    }
+    
 
-            // Add student to the users table with user_type as student
-            $user = User::create([
-                'name' => $student->name,
-                'email' => $student->email,
-                'password' => bcrypt($student->password), // Ensure password encryption
-                'usertype' => 'student', // Set usertype to student
-                // Add other fields as needed
-            ]);
+    // Reject a student
+    public function rejectStudent($id, Request $request)
+{
+    $student = Student::find($id);
+    if ($student) {
+        // Assuming the user is linked to the student by a foreign key, for example, student_id
+        $user = User::where('email', $student->email)->first(); // Adjust the condition as necessary
 
-            return response()->json(['message' => 'Student accepted successfully.']);
+        if ($user) {
+            // Remove the user record
+            $user->delete();
         }
 
-        return response()->json(['message' => 'Student not found.'], 404);
+        // Remove the student record
+        $student->delete();
+
+        return response()->json(['message' => 'Student rejected and removed successfully!'], 200);
     }
 
-    public function rejectStudent($id)
-    {
-        // Find the student by ID
-        $student = Student::find($id);
-
-        if ($student) {
-            // Update the student's status to 'rejected'
-            $student->status = 'rejected';
-            $student->save();
-
-            // Find the associated user by email
-            $user = User::where('email', $student->email)->first();
-
-            // If the user exists, delete the user
-            if ($user) {
-                $user->delete();
-            }
-
-            return response()->json(['message' => 'Student and associated user rejected successfully']);
-        } else {
-            return response()->json(['message' => 'Student not found'], 404);
-        }
-    }
-
+    return response()->json(['message' => 'Student not found!'], 404);
+}
 
 
     public function getMembers()

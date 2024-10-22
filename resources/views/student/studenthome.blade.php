@@ -25,9 +25,7 @@
 </head>
 
 <body>
-  <!-- partial:partials/_sidebar.html -->
-  @include('student.sidebar')
-  <!-- partial -->
+
   <div >
     <!-- partial:partials/_navbar.html -->
     @include('student.header')
@@ -37,7 +35,7 @@
   
   <footer class="footer bg-light">
             <div class="text-center text-black ">
-              <p>Copyright © sudhar.com 2024</p>
+              <p>Copyright © kalesha.com 2024</p>
             </div>
           </footer>
   <!-- container-scroller -->

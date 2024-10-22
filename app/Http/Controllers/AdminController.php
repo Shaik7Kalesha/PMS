@@ -69,7 +69,11 @@ class AdminController extends Controller
             'team' => $team
         ]);
     }
-
+    public function getProject($id)
+    {
+        $project = Project::findOrFail($id);
+        return response()->json(['project' => $project]);
+    }
 
 
     public function getteam()
@@ -175,7 +179,7 @@ class AdminController extends Controller
     }
 
 
-    public function getproject()
+    public function getprojects()
     {
         $projects = Project::all();
         return response()->json([
@@ -206,7 +210,7 @@ class AdminController extends Controller
 
     }
 
-    public function update_project(Request $request, $id)
+    public function updateproject(Request $request, $id)
     {
         // Validate the incoming request data as needed
         $validatedData = $request->validate([
@@ -216,8 +220,6 @@ class AdminController extends Controller
             'developers' => 'required|string|max:255',
             'platform' => 'required|string|max:255',
             'student_name' => 'required|string|max:255',
-            'start_date' => 'required|string|max:255',
-            'end_date' => 'required|string|max:255',
             'description' => 'required|string|max:1000',
         ]);
 
@@ -235,8 +237,6 @@ class AdminController extends Controller
             $project->developers = $request->developers;
             $project->platform = $request->platform;
             $project->student_name = $request->student_name;
-            $project->start_date = $request->start_date;
-            $project->end_date = $request->end_date;
             $project->description = $request->description;
 
             // Save the updated project data

@@ -268,7 +268,7 @@ class MemberController extends Controller
             'task_name' => 'required|string',
             'task_date' => 'required|date',
             'eta' => 'required|date',
-            'completed_date' => 'required|date',
+            'completed_date' => 'date',
             'status' => 'required|string',
         ]);
 
@@ -286,6 +286,7 @@ class MemberController extends Controller
 
         return response()->json(['success' => true, 'message' => 'Task added successfully']);
     }
+    
 
     // app/Http/Controllers/YourController.php
     public function fetchProject($student_name)
@@ -299,5 +300,5 @@ class MemberController extends Controller
         }
     }
     
-
+    
 }

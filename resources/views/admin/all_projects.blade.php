@@ -73,8 +73,6 @@
         .buttons button {
             color: #fff;
         }
-
-        
     </style>
 </head>
 
@@ -103,58 +101,56 @@
     </div>
 
     <!-- Edit Project Modal -->
-    <div class="modal fade" id="editProjectModal" tabindex="-1" role="dialog" aria-labelledby="editProjectModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="editProjectModalLabel">Edit Project</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form id="editProjectForm">
-                        <input type="hidden" id="project_id" name="project_id">
-                        <div class="form-group">
-                            <label for="title">Title</label>
-                            <input type="text" class="form-control" id="title" name="title">
-                        </div>
-                        <div class="form-group">
-                            <label for="batch_name">Batch/Year</label>
-                            <select class="form-control" id="batch_name" name="batch_name"></select>
-                        </div>
-                        <div class="form-group">
-                            <label for="team_name">Team</label>
-                            <select class="form-control" id="team_name" name="team_name"></select>
-                        </div>
-                        <div class="form-group">
-                            <label for="developer">Developers</label>
-                            <select class="form-control" id="developer" name="developer"></select>
-                        </div>
-                        <div class="form-group">
-                            <label for="platform">Platform</label>
-                            <input type="text" class="form-control" id="platform" name="platform">
-                        </div>
-                        <div class="form-group">
-                            <label for="student_name">Student Name</label>
-                            <select class="form-control" id="student_name" name="student_name"></select>
-                        </div>
-                        <div class="form-group">
-                            <label for="description">Description</label>
-                            <textarea class="form-control" id="description" name="description" rows="3"></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Save Changes</button>
-                    </form>
-                </div>
+<div class="modal fade" id="editProjectModal" tabindex="-1" role="dialog" aria-labelledby="editProjectModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editProjectModalLabel">Edit Project</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="editProjectForm">
+                    <input type="hidden" id="project_id" name="project_id">
+                    <div class="form-group">
+                        <label for="title">Title</label>
+                        <input type="text" class="form-control" id="title" name="title" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="batch_name">Batch/Year</label>
+                        <select class="form-control" id="batch_name" name="batch_year" required></select> <!-- Ensure name matches -->
+                    </div>
+                    <div class="form-group">
+                        <label for="team_name">Team</label>
+                        <select class="form-control" id="team_name" name="team" required></select> <!-- Ensure name matches -->
+                    </div>
+                    <div class="form-group">
+                        <label for="developer">Developers</label>
+                        <select class="form-control" id="developer" name="developers" required></select> <!-- Ensure name matches -->
+                    </div>
+                    <div class="form-group">
+                        <label for="platform">Platform</label>
+                        <input type="text" class="form-control" id="platform" name="platform" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="student_name">Student Name</label>
+                        <select class="form-control" id="student_name" name="student_name" required></select> <!-- Ensure name matches -->
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Description</label>
+                        <textarea class="form-control" id="description" name="description" rows="3"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </form>
             </div>
         </div>
     </div>
+</div>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
-
 
     <script>
         // CSRF token setup for all AJAX requests
@@ -175,7 +171,7 @@
                     tableBody.empty();
                     if (response.projects) {
                         response.projects.forEach(function (project) {
-                            var editButton = project.status && project.status.toLowerCase() === 'accepted' ?
+                            var editButton = project.status && project.status.toLowerCase() === 'accepted' ? 
                                 `<a class="editbtn btn btn-primary" data-toggle="modal" href="#editProjectModal" role="button" data-id="${project.id}">Edit</a>` : '';
                             var row = `<tr data-id="${project.id}">
                                 <td>${project.title}</td>
@@ -322,6 +318,7 @@
                 });
             });
 
+            // Handle edit project button click
             $('.editbtn').on('click', function () {
                 var id = $(this).data('id');
                 $.ajax({
@@ -346,23 +343,23 @@
                     }
                 });
             });
-
-            $('#editProjectForm').on('submit', function (e) {
-                e.preventDefault();
-                $.ajax({
-                    type: "POST",
-                    url: "/updateproject/" + $('#project_id').val(),
-                    data: $(this).serialize(),
-                    success: function (response) {
-                        $('#editProjectModal').modal('hide');
-                        fetchProjects();
-                    },
-                    error: function (xhr, status, error) {
-                        console.error("Ajax error:", xhr.responseText);
-                    }
-                });
-            });
         }
+
+        $('#editProjectForm').on('submit', function (e) {
+            e.preventDefault();
+            $.ajax({
+                type: "POST",
+                url: "/updateproject/" + $('#project_id').val(),
+                data: $(this).serialize(),
+                success: function (response) {
+                    $('#editProjectModal').modal('hide');
+                    fetchProjects();
+                },
+                error: function (xhr, status, error) {
+                    console.error("Ajax error:", xhr.responseText);
+                }
+            });
+        });
 
         $(document).ready(function () {
             fetchProjects();

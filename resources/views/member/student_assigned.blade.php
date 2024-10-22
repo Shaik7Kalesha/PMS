@@ -131,12 +131,6 @@
 </head>
 
 <body>
-    <div class="container-scroller">
-        <!-- partial:partials/_sidebar.html -->
-        @include('member.sidebar')
-        <!-- partial -->
-        <div class="container-fluid page-body-wrapper">
-            <!-- partial:partials/_navbar.html -->
             @include('member.header')
             <!-- partial -->
             <div class="container mt-5">
