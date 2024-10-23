@@ -268,7 +268,7 @@ class MemberController extends Controller
             'task_name' => 'required|string',
             'task_date' => 'required|date',
             'eta' => 'required|date',
-            'completed_date' => 'date',
+            // 'completed_date' => 'date',
             'status' => 'required|string',
         ]);
 
@@ -280,7 +280,7 @@ class MemberController extends Controller
         $task->task_name = $validatedData['task_name'];
         $task->task_date = $validatedData['task_date'];
         $task->eta = $validatedData['eta'];
-        $task->completed_date = $validatedData['completed_date'];
+        // $task->completed_date = $validatedData['completed_date'];
         $task->status = $validatedData['status'];
         $task->save();
 
