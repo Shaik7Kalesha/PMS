@@ -239,6 +239,28 @@ class StudentController extends Controller
         return view('student.tasks');
     }
 
+    public function fetchStudent1()
+    {
+        $students = Student::all(); // Fetch all students from the database
+        return response()->json([
+            'studentlist' => $students
+        ]);
+    }
+
+    // In StudentController.php
+public function markAttendance(Request $request) {
+    $student = Student::find($request->id);
+
+    if ($student) {
+        $student->attendance_status = $request->status; // Store attendance status
+        $student->save();
+
+        return response()->json(['message' => 'Attendance updated successfully']);
+    } else {
+        return response()->json(['message' => 'Student not found'], 404);
+    }
+}
+
 }
 
 

@@ -29,8 +29,12 @@
           <a class="nav-link" href="{{route('student_assigned')}}"><i class="fas fa-calendar-minus"></i>Show
             Students</a>
         </li>
-
-
+        <li class="nav-item">
+          <a class="nav-link" href="{{route('stu_attend')}}"><i class="fas fa-calendar-minus"></i>Attendance</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{url('/chat')}}"><i class="fas fa-comments"></i> Chat</a>
+        </li>
 
         <li class="nav-item">
           <a class="nav-link" href="#"><i class="fas fa-calendar-minus"></i> Leave Request</a>

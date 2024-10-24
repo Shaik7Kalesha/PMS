@@ -289,16 +289,22 @@ class MemberController extends Controller
     
 
     // app/Http/Controllers/YourController.php
-    public function fetchProject($student_name)
-    {
-        $project = Project::where('student_name', $student_name)->first();
 
-        if ($project) {
-            return response()->json(['success' => true, 'project' => $project]);
-        } else {
-            return response()->json(['success' => false, 'message' => 'Project not found']);
-        }
+    public function fetchProject($studentId)
+{
+    // Fetch the student's project details based on their ID
+    $student = Student::with('project')->find($studentId);
+
+    if ($student && $student->project) {
+        return response()->json([
+            'success' => true,
+            'project' => [
+                'title' => $student->project->title,
+                'description' => $student->project->description,
+            ]
+        ]);
+    } else {
+        return response()->json(['success' => false]);
     }
-    
-    
+}  
 }

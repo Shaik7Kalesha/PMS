@@ -112,6 +112,10 @@ Route::get('/getproject', [StudentController::class, 'getProjects']);
 
 Route::get('/gettask_student',[StudentController::class,'gettask_student'])->name('gettask_student');
 
+Route::get('/fetch_student1', [StudentController::class, 'fetchStudent1'])->name('stu_attend');
+
+Route::post('/mark_attendance', [StudentController::class, 'markAttendance']);
+
 
 
 

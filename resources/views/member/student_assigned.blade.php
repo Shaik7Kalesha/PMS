@@ -2,51 +2,29 @@
 <html lang="en">
 
 <head>
-    <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Member Home</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <!-- plugins:css -->
-    <link rel="stylesheet" href="admin/assets/vendors/mdi/css/materialdesignicons.min.css">
-    <link rel="stylesheet" href="admin/assets/vendors/css/vendor.bundle.base.css">
-    <!-- endinject -->
-    <!-- Plugin css for this page -->
-    <link rel="stylesheet" href="admin/assets/vendors/jvectormap/jquery-jvectormap.css">
-    <link rel="stylesheet" href="admin/assets/vendors/flag-icon-css/css/flag-icon.min.css">
-    <link rel="stylesheet" href="admin/assets/vendors/owl-carousel-2/owl.carousel.min.css">
-    <link rel="stylesheet" href="admin/assets/vendors/owl-carousel-2/owl.theme.default.min.css">
-    <!-- End plugin css for this page -->
-    <!-- inject:css -->
-    <!-- Layout styles -->
-    <link rel="stylesheet" href="admin/assets/css/style.css">
-    <!-- End layout styles -->
-    <link rel="shortcut icon" href="admin/assets/images/favicon.png" />
-    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
     <style>
-        /* General Table Hover Effect */
-        table.table-hover tbody tr:hover {
+        .table-hover tbody tr:hover {
             background-color: #f1f1f1;
         }
 
-        /* Header Style */
         .header {
             margin: 2rem 0;
             font-size: 1.5rem;
             font-weight: 600;
             color: black;
-            /* Bootstrap primary color */
             border-bottom: 2px solid #000000;
             padding-bottom: 0.5rem;
         }
 
-        /* Modal Header */
         .modal-header {
             background-color: #007bff;
-            /* Bootstrap primary color */
             color: #fff;
-            border-bottom: 1px solid #e5e5e5;
         }
 
         .modal-title {
@@ -54,72 +32,17 @@
             font-weight: 500;
         }
 
-        /* Modal Body */
-        .modal-body {
-            padding: 2rem;
-            background-color: #fff;
-        }
-
-        /* Form Labels */
-        .form-group label {
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            display: block;
-        }
-
-        /* Form Controls */
-        .form-control {
-            border: 1px solid #ced4da;
-            border-radius: 0.25rem;
-            padding: 0.75rem 1.25rem;
-            box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.075);
-            transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
-        }
-
-        /* Input Focus */
-        .form-control:focus {
-            border-color: #80bdff;
-            outline: 0;
-            box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.25);
-        }
-
-        /* Button Styles */
         .btn-primary {
             background-color: #007bff;
             border: none;
-            color: #fff;
-            font-weight: 500;
-            border-radius: 0.25rem;
-            padding: 0.5rem 1rem;
         }
 
         .btn-primary:hover {
             background-color: #0056b3;
         }
 
-        .btn-secondary {
-            background-color: #6c757d;
-            border: none;
-            color: #fff;
-            font-weight: 500;
-            border-radius: 0.25rem;
-            padding: 0.5rem 1rem;
-        }
-
         .btn-secondary:hover {
             background-color: #5a6268;
-        }
-
-        /* Modal Footer */
-        .modal-footer {
-            border-top: 1px solid #e5e5e5;
-            padding: 1rem;
-        }
-
-        /* Error Message Styles */
-        .invalid-feedback {
-            color: #dc3545;
-            font-size: 0.875rem;
         }
 
         .table td {
@@ -127,35 +50,25 @@
             overflow-wrap: break-word;
         }
 
-
         body,
         html {
             overflow-x: hidden;
-            padding-right: 0 !important;
             background-color: #ffffff;
-        }
-
-        .container {
-            max-width: 1570px;
         }
 
         .form-control {
             background-color: #fff !important;
             color: #000000;
         }
-        #taskForm{
-            color:#000000;
-        }
     </style>
 </head>
 
 <body>
     @include('member.header')
-    <!-- partial -->
+
     <div class="container mt-5">
-        <!-- Header above the table -->
         <div class="header">Assigned Students</div>
-        <table class="table table-bordered">
+        <table class="table table-hover table-bordered">
             <thead>
                 <tr>
                     <th>Reg No</th>
@@ -167,7 +80,7 @@
                 </tr>
             </thead>
             <tbody id="students-table-body">
-                <!-- Student data will be loaded here -->
+                <!-- Data will be injected here via AJAX -->
             </tbody>
         </table>
 
@@ -206,11 +119,6 @@
                                 <label for="eta">ETA</label>
                                 <input type="date" class="form-control" name="eta" id="eta" required>
                             </div>
-                            <!-- <div class="form-group">
-                                <label for="completed_date">Completed Date</label>
-                                <input type="date" class="form-control" name="completed_date" id="completed_date"
-                                    required>
-                            </div> -->
                             <div class="form-group">
                                 <label for="status">Status</label>
                                 <select class="form-control" name="status" id="status" required>
@@ -225,131 +133,101 @@
             </div>
         </div>
     </div>
-    </div>
 
-    <!-- Full version of jQuery -->
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
     <script>
         $(document).ready(function () {
-    $.ajaxSetup({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        }
-    });
-
-    function loadStudents() {
-        $.ajax({
-            type: "GET",
-            url: "/fetch_student",
-            dataType: "json",
-            success: function (response) {
-                var tableBody = $('#students-table-body');
-                tableBody.empty();
-                if (response.studentlist && response.studentlist.length) {
-                    response.studentlist.forEach(function (student) {
-                        var data = `<tr>
-                                <td>${student.regno}</td>
-                                <td>${student.name}</td>
-                                <td>${student.email}</td>
-                                <td>${student.project_title}</td>
-                                <td>${student.mentor_name}</td>
-                                <td>
-                                    <a class="accept-btn btn btn-primary" data-id="${student.id}" data-name="${student.name}" data-toggle="modal" data-target="#taskModal">ADD TASK</a>
-                                    <a class="reject-btn btn btn-danger" data-id="${student.id}">VIEW REPORT</a>
-                                </td>
-                            </tr>`;
-                        tableBody.append(data);
-                    });
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
-            },
-            error: function (xhr) {
-                console.error("Ajax error:", xhr.responseText);
+            });
+
+            function loadStudents() {
+                $.ajax({
+                    type: "GET",
+                    url: "/fetch_student",
+                    dataType: "json",
+                    success: function (response) {
+                        var tableBody = $('#students-table-body');
+                        tableBody.empty();
+                        if (response.studentlist && response.studentlist.length) {
+                            response.studentlist.forEach(function (student) {
+                                var data = `<tr>
+                                    <td>${student.regno}</td>
+                                    <td>${student.name}</td>
+                                    <td>${student.email}</td>
+                                    <td>${student.project_title}</td>
+                                    <td>${student.mentor_name}</td>
+                                    <td>
+                                        <a class="accept-btn btn btn-primary" data-id="${student.id}" data-toggle="modal" data-target="#taskModal">Add Task</a>
+                                        <a class="btn btn-danger" href="/view_report/${student.id}">View Report</a>
+                                    </td>
+                                </tr>`;
+                                tableBody.append(data);
+                            });
+                        } else {
+                            tableBody.append('<tr><td colspan="6" class="text-center">No students assigned yet.</td></tr>');
+                        }
+                    },
+                    error: function (xhr) {
+                        console.error("Ajax error:", xhr.responseText);
+                    }
+                });
             }
+
+            loadStudents();
+
+            // Fetch project title and description when "Add Task" button is clicked
+            $(document).on('click', '.accept-btn', function () {
+                var studentId = $(this).data('id');
+                $('#student_id').val(studentId); // Set student_id in the modal form
+
+                // Fetch project details for the selected student
+                $.ajax({
+                    type: "GET",
+                    url: `/fetch_project/${studentId}`,
+                    success: function (response) {
+                        if (response.success) {
+                            // Populate the form with the project title and description
+                            $('#title').val(response.project.title);
+                            $('#description').val(response.project.description);
+                        } else {
+                            alert("Project details not found for this student.");
+                        }
+                    },
+                    error: function (xhr) {
+                        console.error("Error fetching project details:", xhr.responseText);
+                    }
+                });
+            });
+
+            // Handle task form submission
+            $('#taskForm').on('submit', function (e) {
+                e.preventDefault();
+                var formData = $(this).serialize();
+                $.ajax({
+                    type: "POST",
+                    url: "{{ route('add_task') }}",
+                    data: formData,
+                    success: function (response) {
+                        if (response.success) {
+                            alert("Task added successfully");
+                            $('#taskModal').modal('hide');
+                        } else {
+                            alert("Failed to add task");
+                        }
+                    },
+                    error: function (xhr) {
+                        console.error("Form submission error:", xhr.responseText);
+                    }
+                });
+            });
         });
-    }
-
-    loadStudents();
-
-    $(document).on('click', '.accept-btn', function () {
-        var studentId = $(this).data('id'); // Get the student ID correctly
-        $('#student_id').val(studentId);
-
-        // Fetch the project details and populate the modal form
-        $.ajax({
-            type: "GET",
-            url: "/fetch_project/" + studentId, // Use studentId here
-            success: function (response) {
-                if (response.success) {
-                    $('#title').val(response.project.title);
-                    $('#description').val(response.project.description);
-                } else {
-                    alert('Project not found for this student.');
-                }
-            },
-            error: function (xhr) {
-                console.error("Ajax error:", xhr.responseText);
-            }
-        });
-    });
-
-    $('#taskForm').submit(function (e) {
-        e.preventDefault(); // Prevent the default form submission
-
-        // Clear previous error messages
-        $('.invalid-feedback').text('');
-
-        // Collect form data
-        var formData = $(this).serialize();
-
-        // Send the form data via AJAX
-        $.ajax({
-            type: "POST",
-            url: "{{ route('add_task') }}",
-            data: formData,
-            success: function (response) {
-                if (response.success) {
-                    $('#taskModal').modal('hide');
-                    alert('Task added successfully!');
-                    $('#taskForm')[0].reset(); // Reset the form
-                    loadStudents(); // Reload students to see changes
-                } else {
-                    alert('Error adding task: ' + response.message);
-                }
-            },
-            error: function (xhr) {
-                console.error("Ajax error:", xhr.responseText);
-            }
-        });
-    });
-});
-
     </script>
 
-    <!-- plugins:js -->
-    <script src="admin/assets/vendors/js/vendor.bundle.base.js"></script>
-    <!-- endinject -->
-    <!-- Plugin js for this page -->
-    <script src="admin/assets/vendors/chart.js/Chart.min.js"></script>
-    <script src="admin/assets/vendors/progressbar.js/progressbar.min.js"></script>
-    <script src="admin/assets/vendors/jvectormap/jquery-jvectormap.min.js"></script>
-    <script src="admin/assets/vendors/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
-    <script src="admin/assets/vendors/owl-carousel-2/owl.carousel.min.js"></script>
-    <script src="admin/assets/js/jquery.cookie.js" type="text/javascript"></script>
-    <!-- End plugin js for this page -->
-    <!-- inject:js -->
-    <script src="admin/assets/js/off-canvas.js"></script>
-    <script src="admin/assets/js/hoverable-collapse.js"></script>
-    <script src="admin/assets/js/misc.js"></script>
-    <script src="admin/assets/js/settings.js"></script>
-    <script src="admin/assets/js/todolist.js"></script>
-    <!-- endinject -->
-    <!-- Custom js for this page -->
-    <script src="admin/assets/js/dashboard.js"></script>
-    <!-- End custom js for this page -->
-    </div>
 </body>
 
 </html>
