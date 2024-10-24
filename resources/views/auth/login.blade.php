@@ -1,285 +1,509 @@
 <!DOCTYPE html>
-<html lang="en-US" dir="ltr">
+<html lang="en">
 
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sliding Login Page</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- ===============================================-->
-    <!--    Document Title-->
-    <!-- ===============================================-->
-    <title>Project Managaement System</title>
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800&display=swap");
 
-    <!-- ===============================================-->
-    <!--    Favicons-->
-    <!-- ===============================================-->
-  
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-    <!-- ===============================================-->
-    <!--    Stylesheets-->
-    <!-- ===============================================-->
-    <link rel="preconnect" href="https://fonts.googleapis.com/">
-    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
-    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700;800;900&amp;display=swap"
-        rel="stylesheet">
-    <link href="../../../template/vendors/simplebar/simplebar.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.8/css/line.css">
-    <link href="../../../template/assets/css/theme-rtl.min.css" type="text/css" rel="stylesheet" id="style-rtl">
-    <link href="../../../template/assets/css/theme.min.css" type="text/css" rel="stylesheet" id="style-default">
-    <link href="../../../template/assets/css/user-rtl.min.css" type="text/css" rel="stylesheet" id="user-style-rtl">
-    <link href="../../../template/assets/css/user.min.css" type="text/css" rel="stylesheet" id="user-style-default">
-    <script>
-        var phoenixIsRTL = window.config.config.phoenixIsRTL;
-        if (phoenixIsRTL) {
-            var linkDefault = document.getElementById('style-default');
-            var userLinkDefault = document.getElementById('user-style-default');
-            linkDefault.setAttribute('disabled', true);
-            userLinkDefault.setAttribute('disabled', true);
-            document.querySelector('html').setAttribute('dir', 'rtl');
-        } else {
-            var linkRTL = document.getElementById('style-rtl');
-            var userLinkRTL = document.getElementById('user-style-rtl');
-            linkRTL.setAttribute('disabled', true);
-            userLinkRTL.setAttribute('disabled', true);
-        }
-    </script>
-   <style>/* General Styles */
-body {
-  font-family: 'Nunito Sans', sans-serif;
-  background-color: #f8f9fa;
-  margin: 0;
-  padding: 0;
-}
+    *,
+    *::before,
+    *::after {
+      padding: 0;
+      margin: 0;
+      box-sizing: border-box;
+    }
 
-.container {
-  max-width: 1200px;
-  margin: auto;
-  /* padding: 2rem; */
-}
+    body,
+    input {
+      font-family: sans-serif;
+    }
 
-.row {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-}
+    main {
+      width: 100%;
+      min-height: 100vh;
+      overflow: hidden;
+      background-color: #e8dada;
+      padding: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
 
-.flex-center {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+    .box {
+      position: relative;
+      width: 100%;
+      max-width: 1020px;
+      height: 640px;
+      background-color: #fff;
+      border-radius: 3.3rem;
+      box-shadow: 0 60px 40px -30px rgba(0, 0, 0, 0.27);
+    }
 
-.text-center {
-  text-align: center;
-}
+    .inner-box {
+      position: absolute;
+      width: calc(100% - 4.1rem);
+      height: calc(100% - 4.1rem);
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
 
-.text-1000 {
-  color: #212529;
-}
+    .forms-wrap {
+      position: absolute;
+      height: 100%;
+      width: 45%;
+      top: 0;
+      left: 0;
+      display: grid;
+      grid-template-columns: 1fr;
+      grid-template-rows: 1fr;
+      transition: 0.8s ease-in-out;
+    }
 
-.text-700 {
-  color: #6c757d;
-}
+    form {
+      max-width: 260px;
+      width: 100%;
+      margin: 0 auto;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-evenly;
+      grid-column: 1 / 2;
+      grid-row: 1 / 2;
+      transition: opacity 0.02s 0.4s;
+    }
 
-.mb-3, .mb-4, .mb-7 {
-  margin-bottom: 1rem !important;
-}
+    form.sign-up-form {
+      opacity: 0;
+      pointer-events: none;
+    }
 
-/* .py-5 {
-  padding-top: 3rem;
-  padding-bottom: 3rem;
-} */
+    .logo {
+      display: flex;
+      align-items: center;
+    }
 
-/* Form Styles */
-.form-label {
-  display: block;
-  margin-bottom: 0.5rem;
-}
+    .logo img {
+      width: 27px;
+      margin-right: 0.3rem;
+    }
 
-.form-control {
-  display: block;
-  width: 100%;
-  padding: 0.375rem 2.5rem 0.375rem 0.75rem; /* Increased right padding to accommodate the icon */
-  font-size: 1rem;
-  font-weight: 400;
-  line-height: 1.5;
-  color: #495057;
-  background-color: #fff;
-  background-clip: padding-box;
-  border: 1px solid #ced4da;
-  border-radius: 0.25rem;
-  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-}
+    .logo h4 {
+      font-size: 1.1rem;
+      margin-top: -9px;
+      letter-spacing: -0.5px;
+      color: #151111;
+    }
 
-.form-icon-container {
-  position: relative;
-}
+    .heading h2 {
+      font-size: 2.1rem;
+      font-weight: 600;
+      color: #151111;
+    }
 
-.form-icon {
-  position: absolute;
-  left: 10px;
-  top: 44%;
-  transform: translateY(-50%);
-  z-index: 2; /* Ensures the icon is in front */
-}
+    .heading h6 {
+      color: #bababa;
+      font-weight: 400;
+      font-size: 0.75rem;
+      display: inline;
+    }
 
-.form-icon-input {
-  padding-right: 2.5rem; /* Ensure there's space for the icon */
-  position: relative;
-  z-index: 1;
-}
-.form-control.form-icon-input{
-    text-indent:20px;
-}
+    .toggle {
+      color: #151111;
+      text-decoration: none;
+      font-size: 0.75rem;
+      font-weight: 500;
+      transition: 0.3s;
+    }
 
-/* Button Styles */
-.btn-primary {
-  color: #fff;
-  background-color: #615DFF;
-  border-color: #615DFF;
-  display: block;
-  width: 120%;
-  padding: 0.5rem;
-  font-size: 1rem;
-  border-radius: 0.25rem;
-  margin-top: 20px;
-}
+    .toggle:hover {
+      color: #8371fd;
+    }
 
-.btn-primary:hover {
-  background-color: #4944CC;
-  border-color: #4944CC;
-}
+    .input-wrap {
+      position: relative;
+      height: 37px;
+      margin-bottom: 2rem;
+    }
 
-/* Link Styles */
-a {
-  color: #3DD9EB;
-  text-decoration: none;
-}
+    .input-field {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: none;
+      border: none;
+      outline: none;
+      border-bottom: 1px solid #bbb;
+      padding: 0;
+      font-size: 0.95rem;
+      color: #151111;
+      transition: 0.4s;
+    }
 
-a:hover {
-  color: #32B6C6;
-  text-decoration: underline;
-}
+    label {
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 0.95rem;
+      color: #bbb;
+      pointer-events: none;
+      transition: 0.4s;
+    }
 
-/* Checkbox Styles */
-.form-check-input {
-  width: 1.25em;
-  height: 1.25em;
-  margin-top: 0.25em;
-  vertical-align: top;
-  background-color: #fff;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: contain;
-  border: 1px solid rgba(0, 0, 0, 0.25);
-  border-radius: 0.25rem;
-  appearance: none;
-  -webkit-print-color-adjust: exact;
-  color-adjust: exact;
-  display: inline-block;
-  position: relative;
-  cursor: pointer;
-}
+    .input-field.active {
+      border-bottom-color: #151111;
+    }
 
-.form-check-label {
-  margin-left: 0.5rem;
-}
+    .input-field.active+label {
+      font-size: 0.75rem;
+      top: -2px;
+    }
 
-/* Responsive Adjustments */
-@media (max-width: 768px) {
-  .container {
-    padding: 1rem;
-  }
+    .sign-btn {
+      display: inline-block;
+      width: 100%;
+      height: 43px;
+      background-color: #151111;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      border-radius: 0.8rem;
+      font-size: 0.8rem;
+      margin-bottom: 2rem;
+      transition: 0.3s;
+    }
 
-  .col-sm-10,
-  .col-md-8,
-  .col-lg-5,
-  .col-xl-5,
-  .col-xxl-3 {
-    padding: 0 1rem;
-  }
-}
-.fa-user:before .fa-key:before{
-  font-size: 12px;
-}
-</style>
+    .sign-btn:hover {
+      background-color: #8371fd;
+    }
+
+    .text {
+      color: #bbb;
+      font-size: 0.7rem;
+    }
+
+    .text a {
+      color: #bbb;
+      transition: 0.3s;
+    }
+
+    .text a:hover {
+      color: #8371fd;
+    }
+
+    main.sign-up-mode form.sign-in-form {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    main.sign-up-mode form.sign-up-form {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    main.sign-up-mode .forms-wrap {
+      left: 55%;
+    }
+
+    main.sign-up-mode .carousel {
+      left: 0%;
+    }
+
+    .carousel {
+      position: absolute;
+      height: 100%;
+      width: 55%;
+      left: 45%;
+      top: 0;
+      background-color: #ffe0d2;
+      border-radius: 2rem;
+      display: grid;
+      grid-template-rows: auto 1fr;
+      padding-bottom: 2rem;
+      overflow: hidden;
+      transition: 0.8s ease-in-out;
+    }
+
+    .images-wrapper {
+      display: grid;
+      grid-template-columns: 1fr;
+      grid-template-rows: 1fr;
+    }
+
+    .image {
+      width: 100%;
+      grid-column: 1/2;
+      grid-row: 1/2;
+      opacity: 0;
+      transition: opacity 0.3s, transform 0.5s;
+    }
+
+    .img-1 {
+      transform: translate(0, -50px);
+    }
+
+    .img-2 {
+      transform: scale(0.4, 0.5);
+    }
+
+    .img-3 {
+      transform: scale(0.3) rotate(-20deg);
+    }
+
+    .image.show {
+      opacity: 1;
+      transform: none;
+    }
+
+    .text-slider {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+    }
+
+    .text-wrap {
+      max-height: 2.2rem;
+      overflow: hidden;
+      margin-bottom: 2.5rem;
+    }
+
+    .text-group {
+      display: flex;
+      flex-direction: column;
+      text-align: center;
+      transform: translateY(0);
+      transition: 0.5s;
+    }
+
+    .text-group h2 {
+      line-height: 2.2rem;
+      font-weight: 600;
+      font-size: 1.6rem;
+    }
+
+    .bullets {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .bullets span {
+      display: block;
+      width: 0.5rem;
+      height: 0.5rem;
+      background-color: #aaa;
+      margin: 0 0.25rem;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .bullets span.active {
+      width: 1.1rem;
+      background-color: #151111;
+      border-radius: 1rem;
+    }
+
+    @media (max-width: 850px) {
+      .box {
+        height: auto;
+        max-width: 550px;
+        overflow: hidden;
+      }
+
+      .inner-box {
+        position: static;
+        transform: none;
+        width: revert;
+        height: revert;
+        padding: 2rem;
+      }
+
+      .forms-wrap {
+        position: revert;
+        width: 100%;
+        height: auto;
+      }
+
+      form {
+        max-width: revert;
+        padding: 1.5rem 2.5rem 2rem;
+        transition: transform 0.8s ease-in-out, opacity 0.45s linear;
+      }
+
+      .heading {
+        margin: 2rem 0;
+      }
+
+      form.sign-up-form {
+        transform: translateX(100%);
+      }
+
+      main.sign-up-mode form.sign-in-form {
+        transform: translateX(-100%);
+      }
+
+      main.sign-up-mode form.sign-up-form {
+        transform: translateX(0%);
+      }
+
+      .carousel {
+        position: revert;
+        height: auto;
+        width: 100%;
+        padding: 3rem 2rem;
+        display: flex;
+      }
+
+      .images-wrapper {
+        display: none;
+      }
+
+      .text-slider {
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 530px) {
+      main {
+        padding: 1rem;
+      }
+
+      .box {
+        border-radius: 2rem;
+      }
+
+      .inner-box {
+        padding: 1rem;
+      }
+
+      .carousel {
+        padding: 1.5rem 1rem;
+        border-radius: 1.6rem;
+      }
+
+      .text-wrap {
+        margin-bottom: 1rem;
+      }
+
+      .text-group h2 {
+        font-size: 1.2rem;
+      }
+
+      form {
+        padding: 1rem 2rem 1.5rem;
+      }
+    }
+  </style>
 </head>
 
 <body>
-    <!-- ===============================================-->
-    <!--    Main Content-->
-    <!-- ===============================================-->
-    <main class="main" id="top">
-        <div class="container">
-            <div class="row flex-center min-vh-100 py-5">
-                <div class="col-sm-10 col-md-8 col-lg-5 col-xl-5 col-xxl-3">
-                    <div class="d-flex justify-content-center">
-                        <a class="d-flex flex-center text-decoration-none mb-4" href="../../../index-2.html" style="margin-left:141px;">
-                            <img src="data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='174' height='26' viewBox='0 0 174 26' fill='none'%3E%3Cpath d='M20.1369 26C22.8983 26 25.1842 23.7425 24.6732 21.0288C24.3528 19.3274 23.8679 17.6594 23.2235 16.0502C21.9602 12.8958 20.1087 10.0295 17.7745 7.61522C15.4403 5.2009 12.6692 3.28575 9.61949 1.97913C8.11383 1.33406 6.55481 0.843538 4.96489 0.512196C2.26154 -0.0511821 0 2.23858 0 5V21C0 23.7614 2.23858 26 5 26H20.1369Z' fill='%23615DFF'/%3E%3Cg style='mix-blend-mode:multiply'%3E%3Cpath d='M13.7013 26C10.9399 26 8.65395 23.7425 9.16502 21.0288C9.48544 19.3274 9.97031 17.6594 10.6147 16.0502C11.878 12.8958 13.7295 10.0295 16.0637 7.61522C18.3979 5.2009 21.169 3.28575 24.2187 1.97913C25.7244 1.33406 27.2834 0.843538 28.8733 0.512196C31.5767 -0.0511821 33.8382 2.23858 33.8382 5V21C33.8382 23.7614 31.5996 26 28.8382 26H13.7013Z' fill='%233DD9EB'/%3E%3C/g%3E%3C/svg%3E"
-                                alt="SVG Image">
-                        </a>
-                    </div>
-                    <div class="text-center mb-7">
-                        <h3 class="text-1000">Sign In</h3>
-                        <p class="text-700">Get access to your account</p>
-                    </div>
+  <main>
+    <div class="box">
+      <div class="inner-box">
+        <div class="forms-wrap">
+          <!-- Sign In Form -->
+          <!-- Sign In Form -->
+<form method="POST" action="{{ route('login') }}" autocomplete="off" class="sign-in-form">
+  @csrf
+  <div class="logo">
+    <h4>GOLD SMITH</h4>
+  </div>
+  <div class="heading">
+    <h2>Welcome Back</h2>
+    <h6>Not registered yet?</h6>
+    <a href="#" class="toggle">Sign up</a>
+  </div>
+  <div class="form-floating mb-3">
+    <input id="floatingInput" class="form-control" type="email" name="email" required autofocus autocomplete="username" />
+    <label for="floatingInput">Email</label>
+  </div>
+  <div class="form-floating mb-3">
+    <input id="password" class="form-control" type="password" name="password" required autocomplete="current-password" />
+    <label for="password">Password</label>
+  </div>
+  <input type="submit" value="Sign In" class="sign-btn" />
+  <p class="text">
+    Forgotten your password or login details?
+    <a href="{{ route('password.request') }}">Get help signing in</a>
+  </p>
+</form>
 
-                    <form method="POST" action="{{ route('login') }}">
-                        @csrf
+<!-- Sign Up Form -->
+<form method="POST" action="{{ route('register') }}" autocomplete="off" class="sign-up-form">
+  @csrf
+  <div class="logo">
+    <h4>GOLD SMITH</h4>
+  </div>
+  <div class="heading">
+    <h2>Get Started</h2>
+    <h6>Already have an account?</h6>
+    <a href="#" class="toggle">Sign in</a>
+  </div>
+  <div class="form-floating mb-3">
+    <input id="name" class="form-control" type="text" name="name" required autofocus autocomplete="name" />
+    <label for="name">Name</label>
+  </div>
+  <div class="form-floating mb-3">
+    <input id="email" class="form-control" type="email" name="email" required autocomplete="username" />
+    <label for="email">Email</label>
+  </div>
+  <div class="form-floating mb-3">
+    <input id="password" class="form-control" type="password" name="password" required autocomplete="new-password" minlength="4" />
+    <label for="password">Password</label>
+  </div>
+  <div class="form-floating mb-3">
+    <input id="password_confirmation" class="form-control" type="password" name="password_confirmation" required autocomplete="new-password" minlength="4" />
+    <label for="password_confirmation">Confirm Password</label>
+  </div>
+  <input type="submit" value="Sign Up" class="sign-btn" />
+  <p class="text">
+    By signing up, I agree to the
+    <a href="#">Terms of Services</a> and
+    <a href="#">Privacy Policy</a>
+  </p>
+</form>
+        </div>
+        <div class="carousel">
+          <div class="images-wrapper">
+            <img src="../images/pms-imag.jpg" class="image img-1 show" alt="Task Management" style="height:590px;object-fit:cover;  object-position: 100% 100%;
+" />
 
-                        <div class="mb-3 text-start">
-                            <label class="form-label" for="email">Email address</label>
-                            <div class="form-icon-container">
-                            <span class="fas fa-user text-900 fs--1 form-icon"></span>
-                                <input class="form-control form-icon-input" id="email" type="email" name="email"
-                                    placeholder="name@example.com" required autofocus autocomplete="email" />
-                               
-                            </div>
-                        </div>
-                        <div class="mb-3 text-start">
-                            <label class="form-label" for="password">Password</label>
-                            <div class="form-icon-container">
-                            <span class="fas fa-key text-900 fs--1 form-icon"></span>
-                                <input class="form-control form-icon-input" id="password" type="password"
-                                    name="password" placeholder="Password" required autocomplete="current-password" />
-                                
-                            </div>
-                        </div>
-                        
-                        <button class="btn btn-primary w-100 mb-3" type="submit">Sign In</button>
-                    </form>
-                    <!-- <div class="text-center"><a class="fs--1 fw-bold" href="sign-up.html">Create an account</a></div> -->
-                </div>
+          </div>
+
+          <div class="text-slider">
+            <div class="text-wrap">
+              <div class="text-group">
+                <h2>GOLD SMITH </h2>
+              </div>
             </div>
 
+
+          </div>
         </div>
 
-    </main><!-- ===============================================-->
-    <!--    End of Main Content-->
-    <!-- ===============================================-->
+      </div>
+    </div>
+  </main>
 
+  <script>
+    const toggle_btn = document.querySelectorAll(".toggle");
+    const main = document.querySelector("main");
 
-
-    <!-- ===============================================-->
-    <!--    JavaScripts-->
-    <!-- ===============================================-->
-    <script src="../../../template/vendors/popper/popper.min.js"></script>
-    <script src="../../../template/vendors/bootstrap/bootstrap.min.js"></script>
-    <script src="../../../template/vendors/anchorjs/anchor.min.js"></script>
-    <script src="../../../template/vendors/is/is.min.js"></script>
-    <script src="../../../template/vendors/fontawesome/all.min.js"></script>
-    <script src="../../../template/vendors/lodash/lodash.min.js"></script>
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=window.scroll"></script>
-    <script src="../../../template/vendors/list.js/list.min.js"></script>
-    <script src="../../../template/vendors/feather-icons/feather.min.js"></script>
-    <script src="../../../template/vendors/dayjs/dayjs.min.js"></script>
-    <script src="../../../template/assets/js/phoenix.js"></script>
+    toggle_btn.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        main.classList.toggle("sign-up-mode");
+      });
+    });
+  </script>
 </body>
 
 </html>
-<!--
-Downloaded from https://nullforums.net/resources/phoenix-admin-dashboard-webapp-template-html.6657/
-2914167K3MLX7LFILQLTDIPN2TOWXFI5HGR7MU
--->

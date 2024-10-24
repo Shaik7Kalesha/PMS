@@ -5,7 +5,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\AdminController;
-use App\Http\Controllers\AttendenceController;
+use App\Http\Controllers\ChatController;
 
 
 
@@ -128,6 +128,10 @@ Route::get('/gettask_student',[StudentController::class,'gettask_student'])->nam
 
 
 
+//chat part
+Route::get('/chat', [ChatController::class, 'chat'])->name('chat');
+// Route::get('/fetch-contacts/{usertype}', [ChatController::class, 'fetchContacts'])->name('fetch.contacts');
 
-
-
+Route::middleware(['auth'])->group(function () {
+    Route::get('/contacts/{usertype}', [ChatController::class, 'fetchContacts'])->name('fetch.contacts');
+});

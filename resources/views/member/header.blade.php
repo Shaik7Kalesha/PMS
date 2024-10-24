@@ -2,11 +2,12 @@
   li {
     list-style-type: none;
   }
+
   .navbar-collapse {
     flex-basis: 100%;
     flex-grow: 0 !important;
     align-items: center;
-}
+  }
 </style>
 
 <!-- Navbar -->
@@ -24,12 +25,14 @@
           <a class="nav-link" href="#"><i class="fas fa-calendar-minus"></i>Home</a>
         </li>
         <!-- Navigation Items -->
-        
+
         <li class="nav-item">
           <a class="nav-link" href="{{route('student_assigned')}}"><i class="fas fa-calendar-minus"></i>Show
             Students</a>
         </li>
-
+        <li class="nav-item">
+          <a class="nav-link" href="{{url('/chat')}}"><i class="fas fa-comments"></i> Chat</a>
+        </li>
 
 
         <li class="nav-item">
@@ -45,15 +48,15 @@
 
       </ul>
       @if (Auth::check())
-    <li>
+      <li>
       <form method="post" action="{{ route('logout') }}">
-      @csrf
-      <button class="btn btn-primary">LOGOUT ({{ Auth::user()->name }})</button>
+        @csrf
+        <button class="btn btn-primary">LOGOUT ({{ Auth::user()->name }})</button>
       </form>
-    </li>
-  @endif
+      </li>
+    @endif
     </div>
-   
+
   </div>
 
 </nav>
