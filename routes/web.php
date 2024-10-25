@@ -7,6 +7,7 @@ use App\Http\Controllers\StudentController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AttendenceController;
 use App\Http\Controllers\ChatController;
+use App\Http\Controllers\LeaveController;
 
 
 
@@ -73,7 +74,7 @@ Route::get('/check-batch-status', [StudentController::class, 'checkStatus'])->na
 Route::get('/getbatches',[AdminController::class,'getBatches'])->name('getbatches');
 Route::get('/getTeams',[AdminController::class,'getTeams'])->name('getTeams');
 Route::get('/getMembers',[AdminController::class,'getMembers'])->name('getMembers');
-Route::get('/getStudents',[AdminController::class,'getStudents'])->name('getStudents');
+Route::get('/getStudets',[AdminController::class,'getStudents'])->name('getStudents');
  
 Route::get('/getprojectcount',[AdminController::class,'getProjectcount']);
 Route::get('/getmembercount',[AdminController::class,'getMemberscount']);
@@ -116,19 +117,27 @@ Route::get('/fetch_project/{student_name}', [MemberController::class, 'fetchProj
 //student part
 Route::get('/student_register',[StudentController::class,'student_registration'])->name('student_register');
 Route::post('/createstudent', [StudentController::class, 'store_student'])->name('student_store');
-Route::get('/student_list',[StudentController::class,'stu_list'])->name('student_list');
-Route::get('/edit_student/{id}',[StudentController::class,'check']);
-Route::post('/update-student/{id}', [StudentController::class, 'updateStudent'])->name('student_update');
-Route::post('/student/accept/{id}', [StudentController::class, 'acceptStudent'])->name('student.accept');
-Route::post('/student/reject/{id}', [StudentController::class, 'rejectStudent'])->name('student.reject');
-Route::get('/getmember', [StudentController::class, 'getMembers']);
-Route::get('/getproject', [StudentController::class, 'getProjects']);
+// Route::get('/student_list',[StudentController::class,'stu_list'])->name('student_list');
+// Route::get('/edit_student/{id}',[StudentController::class,'check']);
+// Route::post('/update-student/{id}', [StudentController::class, 'updateStudent'])->name('student_update');
+// Route::post('/student/accept/{id}', [StudentController::class, 'acceptStudent'])->name('student.accept');
+// Route::post('/student/reject/{id}', [StudentController::class, 'rejectStudent'])->name('student.reject');
+// Route::get('/getmember', [StudentController::class, 'getMembers']);
+// Route::get('/getproject', [StudentController::class, 'getProjects']);
 
 Route::get('/gettask_student',[StudentController::class,'gettask_student'])->name('gettask_student');
 
 
-
+Route::get('/student_list', [StudentController::class, 'studentList']);
+Route::post('/student/accept/{id}', [StudentController::class, 'acceptStudent']);
+Route::post('/student/reject/{id}', [StudentController::class, 'rejectStudent']);
+Route::get('/edit_student/{id}', [StudentController::class, 'editStudent']);
+Route::post('/student/update/{id}', [StudentController::class, 'updateStudent'])->name('student_update');
+Route::get('/getmember', [StudentController::class, 'getMembers']);
+Route::get('/getproject', [StudentController::class, 'getProjects']);
 Route::get('/fetch_student1', [StudentController::class, 'fetchStudent1'])->name('stu_attend');
+Route::get('/getstudets',[StudentController::class,'getstudents'])->name('getstudents');
+
 
 Route::post('/mark_attendance', [StudentController::class, 'markAttendance']);
 
@@ -140,3 +149,20 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/contacts/{usertype}', [ChatController::class, 'fetchContacts'])->name('fetch.contacts');
 });
 
+
+
+Route::post('/attendance', [AttendanceController::class, 'store'])->name('attendance.store');
+
+
+// leave controller part
+
+Route::get('/leave', [LeaveController::class, 'showForm'])->name('leave.request.form');
+Route::post('/leave', [LeaveController::class, 'submitRequest'])->name('leave.request.submit');
+
+Route::get('/fetch_leave',[AdminController::class,'fetch_leave']);
+
+// Route to accept a leave request
+Route::post('/accept_leave/{id}', [AdminController::class, 'accept_leave'])->name('accept.leave');
+
+// Route to reject a leave request
+Route::post('/reject_leave/{id}', [AdminController::class, 'reject_leave'])->name('reject.leave');

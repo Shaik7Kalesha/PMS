@@ -10,6 +10,8 @@ use App\Models\Project;
 use App\Models\Faculty;
 use App\Models\Member;
 use App\Models\Student;
+use App\Models\Leave;
+
 
 
 
@@ -361,6 +363,68 @@ class AdminController extends Controller
         return response()->json(['count' => $getteamcount]);
     }
 
+    // w
+
+    public function fetch_leave() {
+        $leave = Leave::all(); // Fetch all leave records
+    
+        // Check if the request expects a JSON response
+        if (request()->expectsJson()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Leave Request fetched successfully',
+                'data' => $leave, // Key changed to 'data'
+            ]);
+        } else {
+            // Return the view with the leave data
+            return view('admin.leaverequest', compact('leave')); // Correct usage of compact
+        }
+    }
+
+
+    public function accept_leave($id)
+    {
+        $leave = Leave::find($id);
+    
+        if ($leave) {
+            // Update the status of the leave record to approved
+            $leave->status = 'approved'; // Change 'accepted' to 'approved'
+            $leave->save();
+    
+            return response()->json([
+                'success' => true,
+                'message' => 'Leave approved successfully',
+            ]);
+        }
+    
+        return response()->json([
+            'success' => false,
+            'message' => 'Leave not found',
+        ]);
+    }
+    
+
+    public function reject_leave($id)
+    {
+        $leave = Leave::find($id);
+
+        if ($leave) {
+            // Update the status of the leave record to rejected
+            $leave->status = 'rejected';
+            $leave->save();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Leave rejected successfully',
+            ]);
+        }
+
+        return response()->json([
+            'success' => false,
+            'message' => 'Leave not found',
+        ]);
+    }
+    
 }
 
 

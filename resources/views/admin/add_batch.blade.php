@@ -135,6 +135,7 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
   <!-- jQuery -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
   <script>
     $(document).ready(function () {
       // Handle form submission
@@ -142,14 +143,14 @@
         event.preventDefault();
 
         var data = {
-          '_token': $('meta[name="csrf-token"]').attr('content'),
+          '_token': '{{ csrf_token() }}', // Add CSRF token here
           'batch_id': $('#batchid').val(),
           'batch_name': $('#batch_name').val()
         };
 
         $.ajax({
           type: "POST",
-          url: "{{ route('add_batches') }}",
+          url: "{{ route('add_batches') }}", // Make sure this route is correct
           data: data,
           dataType: "json",
           success: function (response) {
@@ -187,6 +188,7 @@
                 </tr>`;
                 tableBody.append(row);
               });
+              fetchBatches();
               attachEventListeners();
             }
           },

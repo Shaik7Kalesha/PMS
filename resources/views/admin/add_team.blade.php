@@ -107,6 +107,7 @@ $(document).ready(function () {
                         tableBody.append(row);
                     });
                     // Attach event listeners to buttons after table update
+                    fetchTeams();
                     attachEventListeners();
                 }
             },

@@ -8,14 +8,14 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
 <body>
-    @include('member.header')
+    @include('member.header') <!-- Include your header file here -->
     <div class="container mt-5">
         <h1 class="mb-4">Student Attendance</h1>
 
         <!-- Success Alert -->
         <div id="success-alert" class="alert alert-success d-none"></div>
 
-        <!-- Attendance Form -->
+        <!-- Attendance Form
         <div class="card mb-4">
             <div class="card-header">
                 Mark Attendance
@@ -40,7 +40,7 @@
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </form>
             </div>
-        </div>
+        </div> -->
 
         <!-- Attendance Table -->
         <div class="card">

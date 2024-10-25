@@ -31,7 +31,7 @@
 
 <nav class="navbar navbar-expand-lg sticky-top">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">Dashboard</a>
+    <a class="navbar-brand" href="#">Project Management System</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -59,7 +59,7 @@
           <a class="nav-link" href="{{route('student_list')}}"><i class="fas fa-user-graduate"></i> Student List</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#"><i class="fas fa-envelope-open-text"></i> Leave Request</a>
+          <a class="nav-link" href="{{url('fetch_leave')}}"><i class="fas fa-envelope-open-text"></i> Leave Request</a>
         </li>
       </ul>
     </div>

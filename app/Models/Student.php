@@ -20,7 +20,10 @@ class Student extends Model
         'batch_year',
         'mentor_name',
         'mentor_number',
-        'student_number'
+        'student_number',
+        'member_id',
+        'project_title',
+        'project_description',
     ];
 
 

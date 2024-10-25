@@ -447,7 +447,7 @@
   <div class="form-floating mb-3">
     <input id="name" class="form-control" type="text" name="name" required autofocus autocomplete="name" />
     <label for="name">Name</label>
-  </div>
+  </div> 
   <div class="form-floating mb-3">
     <input id="email" class="form-control" type="email" name="email" required autocomplete="username" />
     <label for="email">Email</label>

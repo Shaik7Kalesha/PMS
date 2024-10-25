@@ -91,33 +91,35 @@ class MemberController extends Controller
     }
 
     public function update(Request $request, $bioid)
-    {
-        // Find the member by bioid
-        $member = Member::where('bioid', $bioid)->first();
+{
+    // Find the member by bioid
+    $member = Member::where('bioid', $bioid)->first();
 
-        // Check if member exists
-        if (!$member) {
-            return response()->json(['status' => 'error', 'message' => 'Member not found.'], 404);
-        }
-
-        // Update member data
-        $member->update([
-            'name' => $request->input('name'),
-            'personalemail' => $request->input('personal_email'),
-            'officialemail' => $request->input('official_email'),
-            'employeeid' => $request->input('employee_id'),
-            'experience' => $request->input('experience'),
-            'linkedin' => $request->input('linkedin'),
-            'portfolio' => $request->input('portfolio'),
-            'mobilenumber' => $request->input('mobile_number'),
-            'techstack' => $request->input('tech_stack'),
-            'designation' => $request->input('designation'),
-            'dateofjoining' => $request->input('date_of_joining'),
-        ]);
-
-        return response()->json(['status' => 'success', 'message' => 'Member data updated successfully!']);
+    // Check if the member exists
+    if (!$member) {
+        return response()->json(['status' => 'error', 'message' => 'Member not found.'], 404);
     }
 
+    // Validate the required fields
+    $validatedData = $request->validate([
+        'name' => 'required|string|max:255',
+        'personal_email' => 'required|email',
+        'employee_id' => 'required|string|max:255',
+        'mobile_number' => 'required|string|max:20',
+        'date_of_joining' => 'required|date',
+    ]);
+
+    // Update the member data
+    $member->update([
+        'name' => $validatedData['name'],
+        'personalemail' => $validatedData['personal_email'],
+        'employeeid' => $validatedData['employee_id'],
+        'mobilenumber' => $validatedData['mobile_number'],
+        'dateofjoining' => $validatedData['date_of_joining'],
+    ]);
+
+    return response()->json(['status' => 'success', 'message' => 'Member data updated successfully!']);
+}
 
     public function acceptMember(Request $request, $id)
     {

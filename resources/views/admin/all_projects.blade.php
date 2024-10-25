@@ -161,44 +161,46 @@
         });
 
         // Fetch and display projects
-        function fetchProjects() {
-            $.ajax({
-                type: "GET",
-                url: "/getprojects",
-                dataType: "json",
-                success: function (response) {
-                    var tableBody = $('#project-table-body');
-                    tableBody.empty();
-                    if (response.projects) {
-                        response.projects.forEach(function (project) {
-                            var editButton = project.status && project.status.toLowerCase() === 'accepted' ? 
-                                `<a class="editbtn btn btn-primary" data-toggle="modal" href="#editProjectModal" role="button" data-id="${project.id}">Edit</a>` : '';
-                            var row = `<tr data-id="${project.id}">
-                                <td>${project.title}</td>
-                                <td>${project.batch_year}</td>
-                                <td>${project.team}</td>
-                                <td>${project.developers}</td>
-                                <td>${project.platform}</td>
-                                <td>${project.student_name}</td>
-                                <td>${project.description}</td>
-                                <td class="buttons">
-                                    <button class="accept-btn btn btn-primary" data-id="${project.id}">Accept</button>
-                                    <button class="reject-btn btn btn-danger" data-id="${project.id}">Reject</button>
-                                    ${editButton}
-                                </td>
-                            </tr>`;
-                            tableBody.append(row);
-                        });
-                        attachEventListeners();
-                    } else {
-                        console.log("No projects found.");
-                    }
-                },
-                error: function (xhr, status, error) {
-                    console.error("Ajax error:", xhr.responseText);
-                }
-            });
+function fetchProjects() {
+    $.ajax({
+        type: "GET",
+        url: "/getprojects",
+        dataType: "json",
+        success: function (response) {
+            var tableBody = $('#project-table-body');
+            tableBody.empty();
+            if (response.projects) {
+                response.projects.forEach(function (project) {
+                    var editButton = project.status && project.status.toLowerCase() === 'accepted' ? 
+                        `<a class="editbtn btn btn-primary" data-toggle="modal" data-target="#editProjectModal" data-id="${project.id}">Edit</a>` : '';
+                    var row = `<tr data-id="${project.id}">
+                        <td>${project.title}</td>
+                        <td>${project.batch_year}</td>
+                        <td>${project.team}</td>
+                        <td>${project.developers}</td>
+                        <td>${project.platform}</td>
+                        <td>${project.student_name}</td>
+                        <td>${project.description}</td>
+                        <td class="buttons">
+                            <button class="accept-btn btn btn-primary" data-id="${project.id}">Accept</button>
+                            <button class="reject-btn btn btn-danger" data-id="${project.id}">Reject</button>
+                            ${editButton}
+                        </td>
+                    </tr>`;
+                    tableBody.append(row);
+                });
+                attachEventListeners();
+            } else {
+                console.log("No projects found.");
+            }
+        },
+        error: function (xhr, status, error) {
+            console.error("Ajax error:", xhr.status, xhr.statusText);
+            console.error("Response:", xhr.responseText); // Log the response text to understand the issue
         }
+    });
+}
+
 
         // Fetch and populate batch options
         function fetchBatchOptions() {

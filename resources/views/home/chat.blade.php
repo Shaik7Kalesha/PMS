@@ -19,12 +19,12 @@
         }
 
         .navbar {
-            background-color: #ffcc00;
+            background-color: #007bff; /* Blue background */
         }
 
         .navbar-brand,
         .navbar-nav .nav-link {
-            color: white !important;
+            color: white !important; /* White text color for contrast */
         }
 
         #chat-container {
@@ -57,7 +57,7 @@
         }
 
         .contact-container:hover {
-            background-color: #007bff;
+            background-color: #0056b3; /* Darker blue on hover */
             color: white;
         }
 
@@ -98,20 +98,22 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ route('chat') }}">Chat</a></li>
+                    <!-- <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('chat') }}">Chat</a></li> -->
                 </ul>
                 @if (Auth::check())
                     <li class="nav-item">
                         <form method="post" action="{{ route('logout') }}" class="nav-link">
                             @csrf
-                            <button class="btn btn-outline-danger my-2 my-sm-0">LOGOUT ({{ Auth::user()->name }})</button>
-                        </form>
+                            <button class="btn btn-outline-light my-2 my-sm-0">LOGOUT ({{ Auth::user()->name }})</button>
+                            </form>
                     </li>
                 @endif
             </div>
         </div>
     </nav>
+    <!-- Add your chat container and other content here -->
+
 
     <div class="container">
         <div id="chat-container">

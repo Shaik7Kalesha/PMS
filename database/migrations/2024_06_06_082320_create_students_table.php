@@ -24,6 +24,7 @@ class CreateStudentsTable extends Migration
             $table->string('mentor_name');
             $table->string('mentor_number');
             $table->string('student_number')->unique();
+            $table->string('attendance_status');
             $table->timestamps();
         });
     }

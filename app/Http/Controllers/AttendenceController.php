@@ -12,25 +12,56 @@ class AttendenceController extends Controller
     {
         $students = Student::all(); // Fetch all registered students
         $attendances = Attendence::with('student')->get(); // Fetch attendance records with student names
-        return view('member.attendence', compact('students', 'attendances'));
+        return view('member.attendence');
     }
 
     // Handle form submission
-    public function submitForm(Request $request)
+    public function store(Request $request)
     {
-        $request->validate([
+        // Validate the request data
+        $validator = Validator::make($request->all(), [
             'student_name' => 'required|string|max:255',
             'attendance_status' => 'required|in:present,absent',
-        ]);a
+        ]);
 
-        // Save the attendance record
-        $attendance = new Attendence();
-        $attendance->student_name = $request->input('student_name');
-        $attendance->status = $request->input('attendance_status');
-        $attendance->date = now(); // or use a specific date
-        $attendance->save();
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
 
-        // Redirect or return a response
-        return redirect()->route('attendance.form')->with('success', 'Attendance marked successfully!');
+        // Create a new attendance record
+        $attendance = Attendance::create([
+            'student_name' => $request->student_name,
+            'status' => $request->attendance_status,
+            'date' => now(),
+        ]);
+
+        return response()->json([
+            'success' => 'Attendance marked successfully!',
+            'data' => [
+                'id' => $attendance->id,
+                'student_name' => $attendance->student_name,
+                'status' => $attendance->attendance_status,
+                'date' => $attendance->date->format('Y-m-d'),
+            ],
+        ]);
     }
+    public function markAttendance(Request $request)
+{
+    $request->validate([
+        'student_name' => 'required|string|max:255',
+        'attendance_status' => 'required|in:present,absent',
+    ]);
+
+    // Assuming you have logic to find the student by name or ID
+    $student = Student::where('name', $request->student_name)->first();
+
+    if ($student) {
+        $student->attendance_status = $request->attendance_status; // Use the correct column name
+        $student->save();
+
+        return response()->json(['success' => 'Attendance marked successfully!', 'data' => $student]);
+    }
+
+    return response()->json(['message' => 'Student not found'], 404);
+}
 }

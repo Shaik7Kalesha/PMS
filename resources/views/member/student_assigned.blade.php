@@ -21,6 +21,9 @@
             border-bottom: 2px solid #000000;
             padding-bottom: 0.5rem;
         }
+        th{
+            text-wrap: nowrap;
+        }
 
         .modal-header {
             background-color: #007bff;
@@ -162,8 +165,7 @@
                                     <td>${student.project_title}</td>
                                     <td>${student.mentor_name}</td>
                                     <td>
-                                        <a class="accept-btn btn btn-primary" data-id="${student.id}" data-toggle="modal" data-target="#taskModal">Add Task</a>
-                                        <a class="btn btn-danger" href="/view_report/${student.id}">View Report</a>
+                                        <a class="accept-btn btn btn-primary text-nowrap" data-id="${student.id}" data-toggle="modal" data-target="#taskModal">Add Task</a>
                                     </td>
                                 </tr>`;
                                 tableBody.append(data);
@@ -226,6 +228,13 @@
                 });
             });
         });
+
+
+        $(document).ready(function () {
+            fetchProjects();
+            fetchdescription();
+        });
+
     </script>
 
 </body>

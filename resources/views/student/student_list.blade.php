@@ -118,6 +118,26 @@
                                         <input class="form-control" id="student_number" name="student_number" type="text" placeholder="Student Number" required>
                                     </div>
                                 </div>
+                                <div class="row mb-4">
+                                <div class="col-12 col-md-6 col-lg-4">
+                                <label for="member_id">Developer</label>
+                                <select class="form-control" id="member_id" name="member_id" required>
+                                    <option value="">Select Developer</option> <!-- Added default option -->
+                                </select>
+                                </div>
+                                <div class="col-12 col-md-6 col-lg-4">
+                                <label for="project_title">Project Title</label>
+                                <select class="form-control" id="project_title" name="project_title" required>
+                                    <option value="">Select Project Title</option> <!-- Added default option -->
+                                </select>
+                                </div>
+                                <div class="col-12 col-md-6 col-lg-4">
+                                <label for="project_description">Project Description</label>
+                                <select class="form-control" id="project_description" name="project_description" required>
+                                    <option value="">Select Project Description</option> <!-- Added default option -->
+                                </select>
+                                </div>
+                            </div>
                                 <div class="text-center">
                                     <button type="submit" class="update_student btn btn-primary mt-2">
                                         <i class="fas fa-paper-plane"></i> Update
@@ -132,21 +152,35 @@
         </div>
     </div>
 
-    <script>
-        $(document).ready(function () {
-            // Load students
-            function loadStudents() {
-                $.ajax({
-                    type: "GET",
-                    url: "/student_list",
-                    dataType: "json",
-                    success: function (response) {
-                        var tableBody = $('#students-table-body');
-                        tableBody.empty();
+<script>
+    $(document).ready(function () {
+        // Setup CSRF token globally for AJAX requests
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
 
-                        if (response.students && Array.isArray(response.students)) {
-                            response.students.forEach(function (student) {
-                                var data = `<tr data-id="${student.id}">
+        // Function to handle AJAX errors
+        function handleAjaxError(xhr, status, error) {
+            console.error("Ajax error:", xhr.responseText);
+        }
+
+        // Load students function
+        function loadStudents() {
+            $('#students-table-body').html('<tr><td colspan="7" class="text-center">Loading...</td></tr>'); // Show loading state
+            $.ajax({
+                type: "GET",
+                url: "/student_list",
+                dataType: "json",
+                success: function (response) {
+                    var tableBody = $('#students-table-body');
+                    tableBody.empty();
+
+                    if (response.students && Array.isArray(response.students)) {
+                        response.students.forEach(function (student) {
+                            var data = `
+                                <tr data-id="${student.id}">
                                     <td>${student.regno}</td>
                                     <td>${student.name}</td>
                                     <td>${student.email}</td>
@@ -159,122 +193,164 @@
                                         <a class="reject-btn btn btn-danger" data-id="${student.id}">Reject</a>
                                     </td>
                                 </tr>`;
-                                tableBody.append(data);
-                            });
-                        } else {
-                            console.error("Invalid response structure:", response);
-                        }
-                    },
-                    error: function (xhr, status, error) {
-                        console.error("Ajax error:", xhr.responseText);
+                            tableBody.append(data);
+                        });
+                    } else {
+                        console.error("Invalid response structure:", response);
                     }
-                });
-            }
+                },
+                error: handleAjaxError
+            });
+        }
 
-            // Handle accept button
-            $(document).on('click', '.accept-btn', function (e) {
-                e.preventDefault();
-                var id = $(this).data('id');
-                $.ajax({
-                    type: "POST",
-                    url: "/student/accept/" + id,
-                    data: {
-                        _token: $('meta[name="csrf-token"]').attr('content')
-                    },
-                    success: function (response) {
-                        alert(response.message);
-                        loadStudents(); // Reload students after accepting
-                    },
-                    error: function (xhr, status, error) {
-                        console.error("Ajax error:", xhr.responseText);
+        // Function to handle student acceptance/rejection
+        function handleStudentStatus(id, action) {
+            $.ajax({
+                type: "POST",
+                url: `/student/${action}/${id}`,
+                data: {},
+                success: function (response) {
+                    alert(response.message);
+                    loadStudents(); // Reload students after status update
+                },
+                error: handleAjaxError
+            });
+        }
+
+        // Load student data for editing
+        function loadStudentForEdit(id) {
+            $.ajax({
+                type: "GET",
+                url: `/edit_student/${id}`,
+                dataType: "json",
+                success: function (response) {
+                    if (response.student) {
+                        var student = response.student;
+                        $('#regno').val(student.regno);
+                        $('#name').val(student.name);
+                        $('#email').val(student.email);
+                        $('#department').val(student.department);
+                        $('#batch_year').val(student.batch_year);
+                        $('#mentor_name').val(student.mentor_name);
+                        $('#mentor_number').val(student.mentor_number);
+                        $('#student_number').val(student.student_number);
+                        $('#member_id').val(student.member_id);
+                        $('#project_title').val(student.project_title);
+                        $('#project_description').val(student.project_description);
+                        $('#student_id').val(student.id);
+
+                        // Set the action URL for updating the student
+                        $('#student-form').attr('action', "{{ route('student_update', '') }}/" + student.id);
+
+                        // Trigger project title change to set description
+                        $('#project_title').change();
+                    } else {
+                        console.error("Invalid response structure:", response);
                     }
-                });
+                },
+                error: handleAjaxError
+            });
+        }
+
+        // Handle form submission for updating student
+        function updateStudent(form) {
+            var formData = $(form).serialize();
+            $.ajax({
+                type: "POST",
+                url: $(form).attr('action'),
+                data: formData,
+                success: function (response) {
+                    $('#response-message').html(`
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            Student updated successfully!
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    `);
+                    $(form).trigger('reset');
+                    setTimeout(function () {
+                        loadStudents();
+                        $('#exampleModalToggle').modal('hide');
+                    }, 1000);
+                },
+                error: handleAjaxError
+            });
+        }
+
+        // Initialize members and projects selection
+        function getMembersAndProjects() {
+            // Fetch members (developers)
+            $.ajax({
+                type: "GET",
+                url: "/getmember",
+                dataType: "json",
+                success: function (response) {
+                    var memberSelect = $('#member_id');
+                    memberSelect.empty().append('<option value="">Select Developer</option>');
+                    if (response.getmember) {
+                        response.getmember.forEach(function (member) {
+                            memberSelect.append($('<option></option>').attr('value', member.bioid).text(member.name));
+                        });
+                    }
+                },
+                error: handleAjaxError
             });
 
-            // Handle reject button
-            $(document).on('click', '.reject-btn', function (e) {
-                e.preventDefault();
-                var id = $(this).data('id');
-                $.ajax({
-                    type: "POST",
-                    url: "/student/reject/" + id,
-                    data: {
-                        _token: $('meta[name="csrf-token"]').attr('content')
-                    },
-                    success: function (response) {
-                        alert(response.message);
-                        loadStudents(); // Reload students after rejecting
-                    },
-                    error: function (xhr, status, error) {
-                        console.error("Ajax error:", xhr.responseText);
+            // Fetch projects
+            $.ajax({
+                type: "GET",
+                url: "/getproject",
+                dataType: "json",
+                success: function (response) {
+                    var projectSelect = $('#project_title');
+                    projectSelect.empty().append('<option value="">Select Project Title</option>');
+                    if (response.projects) {
+                        response.projects.forEach(function (project) {
+                            if (project.status === 'accepted' && !project.assigned_to) {
+                                projectSelect.append($('<option></option>').attr('value', project.title).attr('data-description', project.description).text(project.title));
+                            }
+                        });
                     }
-                });
+                },
+                error: handleAjaxError
             });
 
-            // Edit student
-            $(document).on('click', '.editbtn', function (e) {
-                e.preventDefault();
-                var id = $(this).data('id');
-
-                $.ajax({
-                    type: "GET",
-                    url: "/edit_student/" + id,
-                    dataType: "json",
-                    success: function (response) {
-                        if (response.student) {
-                            var student = response.student;
-                            $('#regno').val(student.regno);
-                            $('#name').val(student.name);
-                            $('#email').val(student.email);
-                            $('#department').val(student.department);
-                            $('#batch_year').val(student.batch_year);
-                            $('#mentor_name').val(student.mentor_name);
-                            $('#mentor_number').val(student.mentor_number);
-                            $('#student_number').val(student.student_number);
-                            $('#student_id').val(student.id); // Set the hidden ID field
-
-                            // Set the action URL with the student ID for update
-                            $('#student-form').attr('action', "{{ route('student_update', '') }}/" + student.id);
-                        } else {
-                            console.error("Invalid response structure:", response);
-                        }
-                    },
-                    error: function (xhr, status, error) {
-                        console.error("Ajax error:", xhr.responseText);
-                    }
-                });
+            // Set project description based on selected title
+            $('#project_title').change(function () {
+                var selectedDescription = $(this).find('option:selected').data('description') || '';
+                $('#project_description').val(selectedDescription);
             });
+        }
 
-            // Handle form submission for updating student
-            $('#student-form').on('submit', function (e) {
-                e.preventDefault(); // Prevent default form submission
-
-                var formData = $(this).serialize(); // Serialize form data
-
-                $.ajax({
-                    type: "POST",
-                    url: $(this).attr('action'),
-                    data: formData,
-                    success: function (response) {
-                        // Show success alert
-                        $('#response-message').html('<div class="alert alert-success alert-dismissible fade show" role="alert">Student updated successfully! <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
-
-                        // Reload the page after a brief delay (1 second)
-                        setTimeout(function () {
-                            loadStudents(); // Reload students after update
-                            $('#exampleModalToggle').modal('hide'); // Hide the modal
-                        }, 1000);
-                    },
-                    error: function (xhr, status, error) {
-                        console.error("Ajax error:", xhr.responseText);
-                    }
-                });
-            });
-
-            // Initial load of students
-            loadStudents();
+        // Event Listeners
+        $(document).on('click', '.accept-btn', function (e) {
+            e.preventDefault();
+            var id = $(this).data('id');
+            handleStudentStatus(id, "accept");
         });
-    </script>
+
+        $(document).on('click', '.reject-btn', function (e) {
+            e.preventDefault();
+            var id = $(this).data('id');
+            handleStudentStatus(id, "reject");
+        });
+
+        $(document).on('click', '.editbtn', function (e) {
+            e.preventDefault();
+            var id = $(this).data('id');
+            loadStudentForEdit(id);
+        });
+
+        $('#student-form').on('submit', function (e) {
+            e.preventDefault();
+            updateStudent(this);
+        });
+
+        // Initial loading of students and members/projects
+        loadStudents();
+        getMembersAndProjects();
+    });
+</script>
+
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>

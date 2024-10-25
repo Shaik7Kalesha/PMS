@@ -6,6 +6,8 @@ use App\Http\Controllers\MemberController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\LeaveController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -118,7 +120,12 @@ Route::post('/mark_attendance', [StudentController::class, 'markAttendance']);
 
 
 
+// leave controller part
 
+Route::get('/leave', [LeaveController::class, 'showForm'])->name('leave.request.form');
+Route::post('/leave', [LeaveController::class, 'submitRequest'])->name('leave.request.submit');
 
+// admin controller
+Route::get('/fetch_leave',[AdminController::class,'fetch_leave']);
 
 

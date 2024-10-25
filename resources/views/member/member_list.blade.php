@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Member List</title>
-    
+
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
@@ -48,34 +48,35 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="member-form">
-                        <input type="hidden" id="member_id">
-                        <div class="mb-3">
-                            <label for="bioid" class="form-label">Bio ID</label>
-                            <input type="text" class="form-control" id="bioid" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="user_name" class="form-label">Name</label>
-                            <input type="text" class="form-control" id="user_name" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="personal_email" class="form-label">Personal Email</label>
-                            <input type="email" class="form-control" id="personal_email" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="employee_id" class="form-label">Employee ID</label>
-                            <input type="text" class="form-control" id="employee_id" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="mobile_number" class="form-label">Mobile Number</label>
-                            <input type="text" class="form-control" id="mobile_number" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="date_of_joining" class="form-label">Date of Joining</label>
-                            <input type="date" class="form-control" id="date_of_joining" required>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Save Changes</button>
-                    </form>
+                <form id="member-form">
+    <input type="hidden" id="member_id" name="member_id">
+    <div class="mb-3">
+        <label for="bioid" class="form-label">Bio ID</label>
+        <input type="text" class="form-control" id="bioid" name="bioid" required>
+    </div>
+    <div class="mb-3">
+        <label for="user_name" class="form-label">Name</label>
+        <input type="text" class="form-control" id="user_name" name="name" required>
+    </div>
+    <div class="mb-3">
+        <label for="personal_email" class="form-label">Personal Email</label>
+        <input type="email" class="form-control" id="personal_email" name="personal_email" required>
+    </div>
+    <div class="mb-3">
+        <label for="employee_id" class="form-label">Employee ID</label>
+        <input type="text" class="form-control" id="employee_id" name="employee_id" required>
+    </div>
+    <div class="mb-3">
+        <label for="mobile_number" class="form-label">Mobile Number</label>
+        <input type="text" class="form-control" id="mobile_number" name="mobile_number" required>
+    </div>
+    <div class="mb-3">
+        <label for="date_of_joining" class="form-label">Date of Joining</label>
+        <input type="date" class="form-control" id="date_of_joining" name="date_of_joining" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Save Changes</button>
+</form>
+
                 </div>
             </div>
         </div>
@@ -102,7 +103,7 @@
                     success: function (response) {
                         console.log("AJAX response:", response);
                         var tableBody = $('#members-table-body');
-                        tableBody.empty();
+                        tableBody.empty(); // Clear existing rows
                         if (response.members) {
                             response.members.forEach(function (member) {
                                 var actions = '';
@@ -111,7 +112,7 @@
                                 } else {
                                     actions = `<td></td>`; // No action if not accepted
                                 }
-                                
+
                                 var row = `<tr>
                                     <td>${member.bioid}</td>
                                     <td>${member.name}</td>
@@ -178,31 +179,31 @@
 
             // AJAX Request to Update Member Data based on bioid
             $('#member-form').on('submit', function (e) {
-                e.preventDefault(); // Prevent the default form submission
-                var bioid = $('#bioid').val(); // Use bioid instead of id
-                var formData = $(this).serialize();
+    e.preventDefault(); // Prevent the default form submission
 
-                $.ajax({
-                    type: "POST",
-                    url: "/update-member/" + bioid, // Use bioid in the URL
-                    data: formData,
-                    dataType: "json", // Ensure the response is JSON
-                    success: function (response) {
-                        console.log("Response:", response); // Log the response for debugging
-                        if (response.status === 'success') {
-                            alert("Member data updated successfully!"); // Alert on success
-                            $('#exampleModalToggle').modal('hide'); // Close the modal
-                            fetchMembers(); // Reload the members list
-                        } else {
-                            alert("Error: " + response.message); // Alert error message
-                        }
-                    },
-                    error: function (xhr, status, error) {
-                        console.error("AJAX Request Error:", xhr.responseText); // Log error for debugging
-                        alert("AJAX Request Error: " + xhr.responseText); // Alert the error message
-                    }
-                });
-            });
+    var bioid = $('#bioid').val(); // Get the bioid from the form
+    var formData = $(this).serialize(); // Serialize the form data
+
+    $.ajax({
+        type: "POST",
+        url: "/update-member/" + bioid, // Use bioid in the URL
+        data: formData, // Send the serialized form data
+        dataType: "json", // Expect JSON response from the server
+        success: function (response) {
+            if (response.status === 'success') {
+                alert("Member data updated successfully!");
+                $('#exampleModalToggle').modal('hide'); // Close the modal
+                fetchMembers(); // Reload the members list
+            } else {
+                alert("Error: " + response.message);
+            }
+        },
+        error: function (xhr, status, error) {
+            console.error("AJAX Request Error:", xhr.responseText);
+            alert("AJAX Request Error: " + xhr.responseText); // Alert the error message
+        }
+    });
+});
 
             // Accept/Reject Member (combined function)
             function updateMemberStatus(memberId, action) {
