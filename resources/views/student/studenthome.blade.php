@@ -22,6 +22,12 @@
   <link rel="stylesheet" href="admin/assets/css/style.css">
   <!-- End layout styles -->
   <link rel="shortcut icon" href="admin/assets/images/favicon.png" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+<style>
+  body{
+    background-color: #fff !important;
+  }
+</style>
 </head>
 
 <body>

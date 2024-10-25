@@ -98,6 +98,7 @@ Route::get('/fetch_student',[MemberController::class,'fetchstudent'])->name('stu
 Route::post('/add_task',[MemberController::Class,'add_task'])->name('add_task');
 Route::get('/fetch_project/{student_name}', [MemberController::class, 'fetchProject'])->name('fetch_project');
 
+Route::get('/fetch_project/{id}', [StudentController::class, 'fetchProject']);
 
 
 

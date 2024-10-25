@@ -55,11 +55,14 @@
         <li class="nav-item">
           <a class="nav-link" href="{{route('member_list')}}"><i class="fas fa-users"></i> Member List</a>
         </li>
-        <li class="nav-item">
+        <!-- <li class="nav-item">
           <a class="nav-link" href="{{route('student_list')}}"><i class="fas fa-user-graduate"></i> Student List</a>
-        </li>
+        </li> -->
         <li class="nav-item">
           <a class="nav-link" href="{{url('fetch_leave')}}"><i class="fas fa-envelope-open-text"></i> Leave Request</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{url('/student_list')}}"><i class="fas fa-users"></i> Student List</a>
         </li>
       </ul>
     </div>

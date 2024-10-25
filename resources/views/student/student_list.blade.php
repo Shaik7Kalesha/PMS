@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <title>Student List</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -63,7 +64,8 @@
     </div>
 
     <!-- Student Registration Modal -->
-    <div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+    <div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel"
+        tabindex="-1">
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
@@ -79,65 +81,76 @@
                                 <div class="row mb-4">
                                     <div class="col-12 col-md-6 col-lg-4">
                                         <label for="regno">Reg NO</label>
-                                        <input class="form-control" id="regno" name="regno" type="text" placeholder="Reg No" required>
+                                        <input class="form-control" id="regno" name="regno" type="text"
+                                            placeholder="Reg No" required>
                                     </div>
                                     <div class="col-12 col-md-6 col-lg-4">
                                         <label for="name">Name</label>
-                                        <input class="form-control" id="name" name="name" type="text" placeholder="Name" required>
+                                        <input class="form-control" id="name" name="name" type="text" placeholder="Name"
+                                            required>
                                     </div>
                                     <div class="col-12 col-md-6 col-lg-4">
                                         <label for="email">Email</label>
-                                        <input class="form-control" id="email" name="email" type="email" placeholder="Email" required>
+                                        <input class="form-control" id="email" name="email" type="email"
+                                            placeholder="Email" required>
                                     </div>
                                 </div>
                                 <div class="row mb-4">
                                     <div class="col-12 col-md-6 col-lg-4">
                                         <label for="password">Password</label>
-                                        <input class="form-control" id="password" name="password" type="password" placeholder="Password" required>
+                                        <input class="form-control" id="password" name="password" type="password"
+                                            placeholder="Password" required>
                                     </div>
                                     <div class="col-12 col-md-6 col-lg-4">
                                         <label for="department">Department</label>
-                                        <input class="form-control" id="department" name="department" type="text" placeholder="Department" required>
+                                        <input class="form-control" id="department" name="department" type="text"
+                                            placeholder="Department" required>
                                     </div>
                                     <div class="col-12 col-md-6 col-lg-4">
                                         <label for="batch_year">Batch/Year</label>
-                                        <input class="form-control" id="batch_year" name="batch_year" type="text" placeholder="Batch/Year" required>
+                                        <input class="form-control" id="batch_year" name="batch_year" type="text"
+                                            placeholder="Batch/Year" required>
                                     </div>
                                 </div>
                                 <div class="row mb-4">
                                     <div class="col-12 col-md-6 col-lg-4">
                                         <label for="mentor_name">Mentor Name</label>
-                                        <input class="form-control" id="mentor_name" name="mentor_name" type="text" placeholder="Mentor Name" required>
+                                        <input class="form-control" id="mentor_name" name="mentor_name" type="text"
+                                            placeholder="Mentor Name" required>
                                     </div>
                                     <div class="col-12 col-md-6 col-lg-4">
                                         <label for="mentor_number">Mentor Number</label>
-                                        <input class="form-control" id="mentor_number" name="mentor_number" type="text" placeholder="Mentor Number" required>
+                                        <input class="form-control" id="mentor_number" name="mentor_number" type="text"
+                                            placeholder="Mentor Number" required>
                                     </div>
                                     <div class="col-12 col-md-6 col-lg-4">
                                         <label for="student_number">Student Number</label>
-                                        <input class="form-control" id="student_number" name="student_number" type="text" placeholder="Student Number" required>
+                                        <input class="form-control" id="student_number" name="student_number"
+                                            type="text" placeholder="Student Number" required>
                                     </div>
                                 </div>
                                 <div class="row mb-4">
-                                <div class="col-12 col-md-6 col-lg-4">
-                                <label for="member_id">Developer</label>
-                                <select class="form-control" id="member_id" name="member_id" required>
-                                    <option value="">Select Developer</option> <!-- Added default option -->
-                                </select>
+                                    <div class="col-12 col-md-6 col-lg-4">
+                                        <label for="member_id">Developer</label>
+                                        <select class="form-control" id="member_id" name="member_id" required>
+                                            <option value="">Select Developer</option> <!-- Added default option -->
+                                        </select>
+                                    </div>
+                                    <div class="col-12 col-md-6 col-lg-4">
+                                        <label for="project_title">Project Title</label>
+                                        <select class="form-control" id="project_title" name="project_title" required>
+                                            <option value="">Select Project Title</option> <!-- Added default option -->
+                                        </select>
+                                    </div>
+                                    <div class="col-12 col-md-6 col-lg-4">
+                                        <label for="project_description">Project Description</label>
+                                        <select class="form-control" id="project_description" name="project_description"
+                                            required>
+                                            <option value="">Select Project Description</option>
+                                            <!-- Added default option -->
+                                        </select>
+                                    </div>
                                 </div>
-                                <div class="col-12 col-md-6 col-lg-4">
-                                <label for="project_title">Project Title</label>
-                                <select class="form-control" id="project_title" name="project_title" required>
-                                    <option value="">Select Project Title</option> <!-- Added default option -->
-                                </select>
-                                </div>
-                                <div class="col-12 col-md-6 col-lg-4">
-                                <label for="project_description">Project Description</label>
-                                <select class="form-control" id="project_description" name="project_description" required>
-                                    <option value="">Select Project Description</option> <!-- Added default option -->
-                                </select>
-                                </div>
-                            </div>
                                 <div class="text-center">
                                     <button type="submit" class="update_student btn btn-primary mt-2">
                                         <i class="fas fa-paper-plane"></i> Update
@@ -152,34 +165,33 @@
         </div>
     </div>
 
-<script>
-    $(document).ready(function () {
-        // Setup CSRF token globally for AJAX requests
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    <script>
+        $(document).ready(function () {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            // Function to handle AJAX errors
+            function handleAjaxError(xhr, status, error) {
+                console.error("Ajax error:", xhr.responseText);
             }
-        });
 
-        // Function to handle AJAX errors
-        function handleAjaxError(xhr, status, error) {
-            console.error("Ajax error:", xhr.responseText);
-        }
+            // Load students function
+            function loadStudents() {
+                $('#students-table-body').html('<tr><td colspan="7" class="text-center">Loading...</td></tr>'); // Show loading state
+                $.ajax({
+                    type: "GET",
+                    url: "/student_list",
+                    dataType: "json",
+                    success: function (response) {
+                        var tableBody = $('#students-table-body');
+                        tableBody.empty();
 
-        // Load students function
-        function loadStudents() {
-            $('#students-table-body').html('<tr><td colspan="7" class="text-center">Loading...</td></tr>'); // Show loading state
-            $.ajax({
-                type: "GET",
-                url: "/student_list",
-                dataType: "json",
-                success: function (response) {
-                    var tableBody = $('#students-table-body');
-                    tableBody.empty();
-
-                    if (response.students && Array.isArray(response.students)) {
-                        response.students.forEach(function (student) {
-                            var data = `
+                        if (response.students && Array.isArray(response.students)) {
+                            response.students.forEach(function (student) {
+                                var data = `
                                 <tr data-id="${student.id}">
                                     <td>${student.regno}</td>
                                     <td>${student.name}</td>
@@ -193,163 +205,166 @@
                                         <a class="reject-btn btn btn-danger" data-id="${student.id}">Reject</a>
                                     </td>
                                 </tr>`;
-                            tableBody.append(data);
-                        });
-                    } else {
-                        console.error("Invalid response structure:", response);
-                    }
-                },
-                error: handleAjaxError
-            });
-        }
+                                tableBody.append(data);
+                            });
+                        } else {
+                            console.error("Invalid response structure:", response);
+                        }
+                    },
+                    error: handleAjaxError
+                });
+            }
 
-        // Function to handle student acceptance/rejection
-        function handleStudentStatus(id, action) {
-            $.ajax({
-                type: "POST",
-                url: `/student/${action}/${id}`,
-                data: {},
-                success: function (response) {
-                    alert(response.message);
-                    loadStudents(); // Reload students after status update
-                },
-                error: handleAjaxError
-            });
-        }
+            // Function to handle student acceptance/rejection
+            function handleStudentStatus(id, action) {
+                $.ajax({
+                    type: "POST",
+                    url: `/student/${action}/${id}`,
+                    data: {
+                        _token: $('meta[name="csrf-token"]').attr('content') // Ensure CSRF token is included
 
-        // Load student data for editing
-        function loadStudentForEdit(id) {
-            $.ajax({
-                type: "GET",
-                url: `/edit_student/${id}`,
-                dataType: "json",
-                success: function (response) {
-                    if (response.student) {
-                        var student = response.student;
-                        $('#regno').val(student.regno);
-                        $('#name').val(student.name);
-                        $('#email').val(student.email);
-                        $('#department').val(student.department);
-                        $('#batch_year').val(student.batch_year);
-                        $('#mentor_name').val(student.mentor_name);
-                        $('#mentor_number').val(student.mentor_number);
-                        $('#student_number').val(student.student_number);
-                        $('#member_id').val(student.member_id);
-                        $('#project_title').val(student.project_title);
-                        $('#project_description').val(student.project_description);
-                        $('#student_id').val(student.id);
+                    },
+                    success: function (response) {
+                        alert(response.message);
+                        loadStudents(); // Reload students after status update
+                    },
+                    error: handleAjaxError
+                });
+            }
 
-                        // Set the action URL for updating the student
-                        $('#student-form').attr('action', "{{ route('student_update', '') }}/" + student.id);
+            // Load student data for editing
+            function loadStudentForEdit(id) {
+                $.ajax({
+                    type: "GET",
+                    url: `/edit_student/${id}`,
+                    dataType: "json",
+                    success: function (response) {
+                        if (response.student) {
+                            var student = response.student;
+                            $('#regno').val(student.regno);
+                            $('#name').val(student.name);
+                            $('#email').val(student.email);
+                            $('#department').val(student.department);
+                            $('#batch_year').val(student.batch_year);
+                            $('#mentor_name').val(student.mentor_name);
+                            $('#mentor_number').val(student.mentor_number);
+                            $('#student_number').val(student.student_number);
+                            $('#member_id').val(student.member_id);
+                            $('#project_title').val(student.project_title);
+                            $('#project_description').val(student.project_description);
+                            $('#student_id').val(student.id);
 
-                        // Trigger project title change to set description
-                        $('#project_title').change();
-                    } else {
-                        console.error("Invalid response structure:", response);
-                    }
-                },
-                error: handleAjaxError
-            });
-        }
+                            // Set the action URL for updating the student
+                            $('#student-form').attr('action', "{{ route('student_update', '') }}/" + student.id);
 
-        // Handle form submission for updating student
-        function updateStudent(form) {
-            var formData = $(form).serialize();
-            $.ajax({
-                type: "POST",
-                url: $(form).attr('action'),
-                data: formData,
-                success: function (response) {
-                    $('#response-message').html(`
+                            // Trigger project title change to set description
+                            $('#project_title').change();
+                        } else {
+                            console.error("Invalid response structure:", response);
+                        }
+                    },
+                    error: handleAjaxError
+                });
+            }
+
+            // Handle form submission for updating student
+            function updateStudent(form) {
+                var formData = $(form).serialize();
+                $.ajax({
+                    type: "POST",
+                    url: $(form).attr('action'),
+                    data: formData,
+                    success: function (response) {
+                        $('#response-message').html(`
                         <div class="alert alert-success alert-dismissible fade show" role="alert">
                             Student updated successfully!
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
                     `);
-                    $(form).trigger('reset');
-                    setTimeout(function () {
-                        loadStudents();
-                        $('#exampleModalToggle').modal('hide');
-                    }, 1000);
-                },
-                error: handleAjaxError
+                        $(form).trigger('reset');
+                        setTimeout(function () {
+                            loadStudents();
+                            $('#exampleModalToggle').modal('hide');
+                        }, 1000);
+                    },
+                    error: handleAjaxError
+                });
+            }
+
+            // Initialize members and projects selection
+            function getMembersAndProjects() {
+                // Fetch members (developers)
+                $.ajax({
+                    type: "GET",
+                    url: "/getmember",
+                    dataType: "json",
+                    success: function (response) {
+                        var memberSelect = $('#member_id');
+                        memberSelect.empty().append('<option value="">Select Developer</option>');
+                        if (response.getmember) {
+                            response.getmember.forEach(function (member) {
+                                memberSelect.append($('<option></option>').attr('value', member.bioid).text(member.name));
+                            });
+                        }
+                    },
+                    error: handleAjaxError
+                });
+
+                // Fetch projects
+                $.ajax({
+                    type: "GET",
+                    url: "/getproject",
+                    dataType: "json",
+                    success: function (response) {
+                        var projectSelect = $('#project_title');
+                        projectSelect.empty().append('<option value="">Select Project Title</option>');
+                        if (response.projects) {
+                            response.projects.forEach(function (project) {
+                                if (project.status === 'accepted' && !project.assigned_to) {
+                                    projectSelect.append($('<option></option>').attr('value', project.title).attr('data-description', project.description).text(project.title));
+                                }
+                            });
+                        }
+                    },
+                    error: handleAjaxError
+                });
+
+                // Set project description based on selected title
+                $('#project_title').change(function () {
+                    var selectedDescription = $(this).find('option:selected').data('description') || '';
+                    $('#project_description').val(selectedDescription);
+                });
+            }
+
+            // Event Listeners
+            $(document).on('click', '.accept-btn', function (e) {
+                e.preventDefault();
+                var id = $(this).data('id');
+                handleStudentStatus(id, "accept");
             });
-        }
 
-        // Initialize members and projects selection
-        function getMembersAndProjects() {
-            // Fetch members (developers)
-            $.ajax({
-                type: "GET",
-                url: "/getmember",
-                dataType: "json",
-                success: function (response) {
-                    var memberSelect = $('#member_id');
-                    memberSelect.empty().append('<option value="">Select Developer</option>');
-                    if (response.getmember) {
-                        response.getmember.forEach(function (member) {
-                            memberSelect.append($('<option></option>').attr('value', member.bioid).text(member.name));
-                        });
-                    }
-                },
-                error: handleAjaxError
+            $(document).on('click', '.reject-btn', function (e) {
+                e.preventDefault();
+                var id = $(this).data('id');
+                handleStudentStatus(id, "reject");
             });
 
-            // Fetch projects
-            $.ajax({
-                type: "GET",
-                url: "/getproject",
-                dataType: "json",
-                success: function (response) {
-                    var projectSelect = $('#project_title');
-                    projectSelect.empty().append('<option value="">Select Project Title</option>');
-                    if (response.projects) {
-                        response.projects.forEach(function (project) {
-                            if (project.status === 'accepted' && !project.assigned_to) {
-                                projectSelect.append($('<option></option>').attr('value', project.title).attr('data-description', project.description).text(project.title));
-                            }
-                        });
-                    }
-                },
-                error: handleAjaxError
+            $(document).on('click', '.editbtn', function (e) {
+                e.preventDefault();
+                var id = $(this).data('id');
+                loadStudentForEdit(id);
             });
 
-            // Set project description based on selected title
-            $('#project_title').change(function () {
-                var selectedDescription = $(this).find('option:selected').data('description') || '';
-                $('#project_description').val(selectedDescription);
+            $('#student-form').on('submit', function (e) {
+                e.preventDefault();
+                updateStudent(this);
             });
-        }
 
-        // Event Listeners
-        $(document).on('click', '.accept-btn', function (e) {
-            e.preventDefault();
-            var id = $(this).data('id');
-            handleStudentStatus(id, "accept");
+            // Initial loading of students and members/projects
+            loadStudents();
+            getMembersAndProjects();
         });
-
-        $(document).on('click', '.reject-btn', function (e) {
-            e.preventDefault();
-            var id = $(this).data('id');
-            handleStudentStatus(id, "reject");
-        });
-
-        $(document).on('click', '.editbtn', function (e) {
-            e.preventDefault();
-            var id = $(this).data('id');
-            loadStudentForEdit(id);
-        });
-
-        $('#student-form').on('submit', function (e) {
-            e.preventDefault();
-            updateStudent(this);
-        });
-
-        // Initial loading of students and members/projects
-        loadStudents();
-        getMembersAndProjects();
-    });
-</script>
+    </script>
 
 
     <!-- Bootstrap JS -->

@@ -1,11 +1,12 @@
 <?php
 
+use App\Http\Controllers\TasksController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\AdminController;
-use App\Http\Controllers\AttendenceController;
+use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\LeaveController;
 
@@ -111,13 +112,14 @@ Route::get('/fetch_project/{student_name}', [MemberController::class, 'fetchProj
 
 // Route to handle the attendance form submission
 // Route::post('/attendance', [AttendenceController::class, 'submitForm']);
+Route::get('/fetch_project/{id}', [StudentController::class, 'fetchProject']);
 
+Route::post('/update_task/{id}', [MemberController::class, 'update_task'])->name('update_task');
 
 
 //student part
 Route::get('/student_register',[StudentController::class,'student_registration'])->name('student_register');
 Route::post('/createstudent', [StudentController::class, 'store_student'])->name('student_store');
-// Route::get('/student_list',[StudentController::class,'stu_list'])->name('student_list');
 // Route::get('/edit_student/{id}',[StudentController::class,'check']);
 // Route::post('/update-student/{id}', [StudentController::class, 'updateStudent'])->name('student_update');
 // Route::post('/student/accept/{id}', [StudentController::class, 'acceptStudent'])->name('student.accept');
@@ -128,7 +130,7 @@ Route::post('/createstudent', [StudentController::class, 'store_student'])->name
 Route::get('/gettask_student',[StudentController::class,'gettask_student'])->name('gettask_student');
 
 
-Route::get('/student_list', [StudentController::class, 'studentList']);
+Route::get('/student_list', [StudentController::class, 'studentList'])->name('student_list');
 Route::post('/student/accept/{id}', [StudentController::class, 'acceptStudent']);
 Route::post('/student/reject/{id}', [StudentController::class, 'rejectStudent']);
 Route::get('/edit_student/{id}', [StudentController::class, 'editStudent']);
@@ -166,3 +168,7 @@ Route::post('/accept_leave/{id}', [AdminController::class, 'accept_leave'])->nam
 
 // Route to reject a leave request
 Route::post('/reject_leave/{id}', [AdminController::class, 'reject_leave'])->name('reject.leave');
+
+
+Route::get('/fetchtaskuser',[StudentController::class,'fetchtaskuser'])->name('fetchtaskuser');
+Route::get('/fetchattendenceuser',[StudentController::class,'fetchattendenceuser'])->name('fetchattendenceuser');

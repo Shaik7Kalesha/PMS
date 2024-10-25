@@ -327,8 +327,7 @@ class AdminController extends Controller
         }
         return response()->json(['message' => 'Project not found'], 404);
     }
-
-
+    
     public function getProjectcount()
     {
         $getprojectscount = Project::count();

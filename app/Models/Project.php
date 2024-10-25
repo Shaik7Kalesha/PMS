@@ -13,4 +13,9 @@ class Project extends Model
         'source',
         'description',
     ];
+
+    public function student()
+    {
+        return $this->belongsTo(Student::class);
+    }
 }

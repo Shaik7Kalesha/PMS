@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Attendence;
 use App\Models\Batch;
 use App\Models\Student;
 use Illuminate\Http\Request;
@@ -255,19 +256,30 @@ class StudentController extends Controller
     }
 
     public function fetchStudent1()
-{
-    $students = Student::all(); // Fetch all students from the database
+    {
+        // Get the authenticated user's member_id
+        $loggedin = auth()->user()->member_id;
     
-    if (request()->expectsJson()) {
-        return response()->json([
-            'success' => true,
-            'message' => 'Students fetched successfully',
-            'studentlist' => $students,
-        ]);
-    } else {
-        return view('member.stu_attend', compact('students'));
+        // Check if the member_id exists
+        if (!$loggedin) {
+            return response()->json(['success' => false, 'message' => 'Member ID not found in session'], 403);
+        }
+    
+        // Fetch only the students assigned to the logged-in member
+        $students = Student::where('member_id', $loggedin)->get();
+    
+        // Return the students as a JSON response
+        if (request()->expectsJson()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Students fetched successfully',
+                'studentlist' => $students,
+            ]);
+        } else {
+            return view('member.stu_attend', compact('students'));
+        }
     }
-}
+
 
 
     // In StudentController.php
@@ -417,6 +429,34 @@ public function rejectStudent($id)
         return response()->json(['students' => $students]);
 
     }
+
+
+    public function fetchtaskuser()
+{
+    // Fetch all tasks
+    $fetchtaskuser = Tasks::all();
+
+    // Check if the request expects JSON
+    if (request()->expectsJson()) {
+        return response()->json($fetchtaskuser);
+    }
+
+    // If not a JSON request, return a view with the tasks
+    return view('student.fetchtask', compact('fetchtaskuser'));
+}
+
+public function fetchattendenceuser(){
+    $fetchattendenceuser = Student::all();
+
+    // Check if the request expects JSON
+    if (request()->expectsJson()) {
+        return response()->json($fetchattendenceuser);
+    }
+
+    // If not a JSON request, return a view with the tasks
+    return view('student.fetchattendence', compact('fetchattendenceuser'));
+}
+
 }
 
 

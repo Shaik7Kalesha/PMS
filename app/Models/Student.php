@@ -26,7 +26,17 @@ class Student extends Model
         'project_description',
     ];
 
+    public function projects()
+    {
+        return $this->hasMany(Project::class);
+    }
 
+    public function tasks()
+    {
+        return $this->hasMany(Tasks::class);
+    }
+
+   
     
 
 }

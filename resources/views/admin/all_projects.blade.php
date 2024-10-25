@@ -272,7 +272,7 @@ function fetchProjects() {
         function fetchStudents() {
             $.ajax({
                 type: "GET",
-                url: "/getStudents",
+                url: "/getStudets",
                 dataType: "json",
                 success: function (response) {
                     var studentSelect = $('#student_name');

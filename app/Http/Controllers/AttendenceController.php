@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Attendence;
 use App\Models\Student;
+use Validator;
 
 class AttendenceController extends Controller
 {

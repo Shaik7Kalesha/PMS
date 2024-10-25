@@ -7,61 +7,29 @@
     <title>Member Home</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 
     <style>
         .table-hover tbody tr:hover {
             background-color: #f1f1f1;
         }
-
         .header {
             margin: 2rem 0;
             font-size: 1.5rem;
             font-weight: 600;
             color: black;
-            border-bottom: 2px solid #000000;
+            border-bottom: 2px solid #000;
             padding-bottom: 0.5rem;
         }
-        th{
-            text-wrap: nowrap;
-        }
-
         .modal-header {
             background-color: #007bff;
             color: #fff;
         }
-
-        .modal-title {
-            font-size: 1.25rem;
-            font-weight: 500;
-        }
-
-        .btn-primary {
-            background-color: #007bff;
-            border: none;
-        }
-
-        .btn-primary:hover {
-            background-color: #0056b3;
-        }
-
-        .btn-secondary:hover {
-            background-color: #5a6268;
-        }
-
         .table td {
             word-wrap: break-word;
-            overflow-wrap: break-word;
         }
-
-        body,
-        html {
-            overflow-x: hidden;
-            background-color: #ffffff;
-        }
-
-        .form-control {
-            background-color: #fff !important;
-            color: #000000;
+        body {
+            background-color: #fff;
         }
     </style>
 </head>
@@ -74,11 +42,15 @@
         <table class="table table-hover table-bordered">
             <thead>
                 <tr>
-                    <th>Reg No</th>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Project Title</th>
-                    <th>Mentor Name</th>
+                    <th>ID</th>
+                    <th>Student ID</th>
+                    <th>Member ID</th>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Task Name</th>
+                    <th>Task Date</th>
+                    <th>ETA</th>
+                    <th>Status</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -88,9 +60,8 @@
         </table>
 
         <!-- Task Modal -->
-        <div class="modal fade" id="taskModal" tabindex="-1" role="dialog" aria-labelledby="taskModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog" role="document">
+        <div class="modal fade" id="taskModal" tabindex="-1" aria-labelledby="taskModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="taskModalLabel">Add Task</h5>
@@ -159,19 +130,23 @@
                         if (response.studentlist && response.studentlist.length) {
                             response.studentlist.forEach(function (student) {
                                 var data = `<tr>
-                                    <td>${student.regno}</td>
-                                    <td>${student.name}</td>
-                                    <td>${student.email}</td>
-                                    <td>${student.project_title}</td>
-                                    <td>${student.mentor_name}</td>
+                                    <td>${student.id}</td>
+                                    <td>${student.student_id || 'N/A'}</td>
+                                    <td>${student.member_id || 'N/A'}</td>
+                                    <td>${student.project_title || 'N/A'}</td>
+                                    <td>${student.project_description || 'N/A'}</td>
+                                    <td>${student.task_name || 'N/A'}</td>
+                                    <td>${student.task_date || 'N/A'}</td>
+                                    <td>${student.eta || 'N/A'}</td>
+                                    <td>${student.status || 'N/A'}</td>
                                     <td>
-                                        <a class="accept-btn btn btn-primary text-nowrap" data-id="${student.id}" data-toggle="modal" data-target="#taskModal">Add Task</a>
+                                        <a class="accept-btn btn btn-primary" data-id="${student.id}" data-project-title="${student.project_title}" data-project-description="${student.project_description}" data-toggle="modal" data-target="#taskModal">Add Task</a>
                                     </td>
                                 </tr>`;
                                 tableBody.append(data);
                             });
                         } else {
-                            tableBody.append('<tr><td colspan="6" class="text-center">No students assigned yet.</td></tr>');
+                            tableBody.append('<tr><td colspan="11" class="text-center">No students assigned yet.</td></tr>');
                         }
                     },
                     error: function (xhr) {
@@ -182,44 +157,33 @@
 
             loadStudents();
 
-            // Fetch project title and description when "Add Task" button is clicked
             $(document).on('click', '.accept-btn', function () {
-                var studentId = $(this).data('id');
-                $('#student_id').val(studentId); // Set student_id in the modal form
-
-                // Fetch project details for the selected student
-                $.ajax({
-                    type: "GET",
-                    url: `/fetch_project/${studentId}`,
-                    success: function (response) {
-                        if (response.success) {
-                            // Populate the form with the project title and description
-                            $('#title').val(response.project.title);
-                            $('#description').val(response.project.description);
-                        } else {
-                            alert("Project details not found for this student.");
-                        }
-                    },
-                    error: function (xhr) {
-                        console.error("Error fetching project details:", xhr.responseText);
-                    }
-                });
+                $('#student_id').val($(this).data('id'));
+                $('#title').val($(this).data('project-title'));
+                $('#description').val($(this).data('project-description'));
+                $('#task_name').val("");
+                $('#task_date').val("");
+                $('#eta').val("");
+                $('#status').val("pending");
+                $('#taskForm').data('action', "{{ route('add_task') }}");
             });
 
-            // Handle task form submission
             $('#taskForm').on('submit', function (e) {
                 e.preventDefault();
                 var formData = $(this).serialize();
+                var actionUrl = $(this).data('action');
+
                 $.ajax({
                     type: "POST",
-                    url: "{{ route('add_task') }}",
+                    url: actionUrl,
                     data: formData,
                     success: function (response) {
                         if (response.success) {
-                            alert("Task added successfully");
+                            alert("Task saved successfully");
                             $('#taskModal').modal('hide');
+                            loadStudents();
                         } else {
-                            alert("Failed to add task");
+                            alert("Failed to save task: " + response.message);
                         }
                     },
                     error: function (xhr) {
@@ -228,15 +192,7 @@
                 });
             });
         });
-
-
-        $(document).ready(function () {
-            fetchProjects();
-            fetchdescription();
-        });
-
     </script>
-
 </body>
 
 </html>

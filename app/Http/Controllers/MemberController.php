@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Member;
-use App\Models\Project;
+use App\Models\project;
 use App\Models\Tasks;
 use App\Models\User;
 use App\Models\Student;
@@ -237,28 +237,49 @@ class MemberController extends Controller
     }
 
     public function fetchstudent()
-    {
-        // Retrieve the member_id from the session
-        $loggedin = session()->get('member_id');
+{
+    // Retrieve the member_id from the session
+    $loggedin = session()->get('member_id');
 
-        if (!$loggedin) {
-            return response()->json(['status' => 'error', 'message' => 'Member ID not found in session']);
-        }
-
-        // Fetch students assigned to the logged-in member
-        $studentlist = Student::where('member_id', $loggedin)->get();
-
-        // Return the response based on request type
-        if (request()->expectsJson()) {
-            return response()->json([
-                'success' => true,
-                'message' => 'Student list fetched successfully',
-                'studentlist' => $studentlist,
-            ]);
-        } else {
-            return view('member.student_assigned', compact('studentlist'));
-        }
+    if (!$loggedin) {
+        return response()->json(['status' => 'error', 'message' => 'Member ID not found in session']);
     }
+
+    // Fetch students assigned to the logged-in member with their associated tasks
+    $studentlist = Student::with('tasks') // Assuming the relationship is defined in the Student model
+        ->where('member_id', $loggedin)
+        ->get();
+
+    // Transform the data to include the necessary task details
+    $transformedStudents = $studentlist->map(function ($student) {
+        $task = $student->tasks->first(); // Get the first task, if exists
+
+        return [
+            'id' => $student->id,
+            'student_id' => $student->student_id,
+            'member_id' => $student->member_id,
+            'project_title' => $student->project_title,
+            'project_description' => $student->project_description,
+            'task_name' => $task ? $task->task_name : null,
+            'task_date' => $task ? $task->task_date : null,
+            'eta' => $task ? $task->eta : null,
+            'completed_date' => $task ? $task->completed_date : null,
+            'status' => $task ? $task->status : null,
+        ];
+    });
+
+    // Return the response based on request type
+    if (request()->expectsJson()) {
+        return response()->json([
+            'success' => true,
+            'message' => 'Student list fetched successfully',
+            'studentlist' => $transformedStudents,
+        ]);
+    } else {
+        return view('member.student_assigned', compact('studentlist'));
+    }
+}
+
 
     public function add_task(Request $request)
     {
@@ -266,7 +287,7 @@ class MemberController extends Controller
             'student_id' => 'exists:students,id',
             'member_id' => 'exists:members,bioid',
             'title' => 'required|string',
-            'description' => 'required|string',
+            'description' => 'required|string|max:1000',
             'task_name' => 'required|string',
             'task_date' => 'required|date',
             'eta' => 'required|date',
@@ -293,20 +314,45 @@ class MemberController extends Controller
     // app/Http/Controllers/YourController.php
 
     public function fetchProject($studentId)
-{
-    // Fetch the student's project details based on their ID
-    $student = Student::with('project')->find($studentId);
-
-    if ($student && $student->project) {
-        return response()->json([
-            'success' => true,
-            'project' => [
-                'title' => $student->project->title,
-                'description' => $student->project->description,
-            ]
-        ]);
-    } else {
-        return response()->json(['success' => false]);
+    {
+        // Fetch the project associated with the student
+        $project = Project::with('student')->where('id', $studentId)->first();
+    
+        if ($project) {
+            return response()->json([
+                'success' => true,
+                'project' => [
+                    'title' => $project->project_title,
+                    'description' => $project->project_description,
+                    'student_name' => $project->student->name, // Access the student's name
+                    'student_email' => $project->student->email // Access the student's email if needed
+                ],
+            ]);
+        }
+    
+        return response()->json(['success' => false, 'message' => 'Project not found for this student.'], 404);
     }
-}  
+    
+
+    public function update_task(Request $request, $id)
+{
+    try {
+        $task = Tasks::findOrFail($id);
+    } catch (ModelNotFoundException $e) {
+        return response()->json(['success' => false, 'message' => 'Task not found.'], 404);
+    }
+
+    $validatedData = $request->validate([
+        'title' => 'required|string',
+        'description' => 'required|string',
+        'task_name' => 'required|string',
+        'task_date' => 'required|date',
+        'eta' => 'required|date',
+        'status' => 'required|string',
+    ]);
+
+    $task->update($validatedData);
+    return response()->json(['success' => true, 'message' => 'Task updated successfully.']);
+}
+
 }
