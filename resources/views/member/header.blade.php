@@ -51,9 +51,9 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNavDropdown">
       <ul class="navbar-nav mr-auto">
-        <li class="nav-item">
-          <a class="nav-link" href="#"><i class="fas fa-home"></i> Home</a>
-        </li>
+        <!-- <li class="nav-item">
+          <a class="nav-link" href="#"><i class="fas fa-home"></i> Te</a>
+        </li> -->
         <li class="nav-item">
           <a class="nav-link" href="{{ route('student_assigned') }}"><i class="fas fa-user-graduate"></i> Show Students</a>
         </li>

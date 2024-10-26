@@ -60,18 +60,14 @@
 
                         // Populate the table with the fetched data
                         $.each(data, function(index, record) {
-                            let statusBadge = record.status == 'present' ? 'bg-success' : 'bg-danger';
+                            let statusBadge = record.attendence_status == 'present' ? 'bg-success' : 'bg-danger';
                             $('#attendanceTable tbody').append(`
                                 <tr>
                                     <td>${record.id}</td>
                                     <td>${record.name}</td>
-                                    <td>${record.attendence_status}</td>
-                                    <td>${record.date}</td>
-                                    <td>
-                                        <span class="badge ${statusBadge}">
-                                            ${record.status.charAt(0).toUpperCase() + record.status.slice(1)}
-                                        </span>
-                                    </td>
+                                    <td>${record.updated_at}</td>
+                                    <td>${record.attendance_status}</td>
+                                    
                                 </tr>
                             `);
                         });

@@ -133,22 +133,22 @@
                                     <div class="col-12 col-md-6 col-lg-4">
                                         <label for="member_id">Developer</label>
                                         <select class="form-control" id="member_id" name="member_id" required>
-                                            <option value="">Select Developer</option> <!-- Added default option -->
+                                            <option value="">Select Developer</option> 
                                         </select>
                                     </div>
                                     <div class="col-12 col-md-6 col-lg-4">
                                         <label for="project_title">Project Title</label>
-                                        <select class="form-control" id="project_title" name="project_title" required>
-                                            <option value="">Select Project Title</option> <!-- Added default option -->
-                                        </select>
+                                        <input class="form-control" id="project_title" name="project_title" required>
+                                            <!-- <option value="">Select Project Title</option> 
+                                        </select> -->
                                     </div>
                                     <div class="col-12 col-md-6 col-lg-4">
                                         <label for="project_description">Project Description</label>
-                                        <select class="form-control" id="project_description" name="project_description"
+                                        <input class="form-control" id="project_description" name="project_description"
                                             required>
-                                            <option value="">Select Project Description</option>
-                                            <!-- Added default option -->
-                                        </select>
+                                            <!-- <option value="">Select Project Description</option>
+                                            Added default option
+                                        </select> -->
                                     </div>
                                 </div>
                                 <div class="text-center">

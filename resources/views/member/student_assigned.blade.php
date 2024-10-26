@@ -14,12 +14,12 @@
             background-color: #f1f1f1;
         }
         .header {
-            margin: 2rem 0;
             font-size: 1.5rem;
             font-weight: 600;
             color: black;
             border-bottom: 2px solid #000;
             padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
         }
         .modal-header {
             background-color: #007bff;
@@ -30,6 +30,8 @@
         }
         body {
             background-color: #fff;
+            padding: 0;
+            margin: 0;
         }
     </style>
 </head>
@@ -37,31 +39,32 @@
 <body>
     @include('member.header')
 
-    <div class="container mt-5">
-        <div class="header">Assigned Students</div>
-        <table class="table table-hover table-bordered">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Student ID</th>
-                    <th>Member ID</th>
-                    <th>Title</th>
-                    <th>Description</th>
-                    <th>Task Name</th>
-                    <th>Task Date</th>
-                    <th>ETA</th>
-                    <th>Status</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody id="students-table-body">
-                <!-- Data will be injected here via AJAX -->
-            </tbody>
-        </table>
+    <div class="container-fluid mt-4">
+        <div class="header text-center">Assigned Students</div>
+        <div class="table-responsive">
+            <table class="table table-hover table-bordered w-100 mx-auto">
+                <thead class="thead-light">
+                    <tr>
+                        <th>Student ID</th>
+                        <th>Member ID</th>
+                        <th>Title</th>
+                        <th>Description</th>
+                        <th>Task Name</th>
+                        <th>Task Date</th>
+                        <th>ETA</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="students-table-body">
+                    <!-- Data will be injected here via AJAX -->
+                </tbody>
+            </table>
+        </div>
 
         <!-- Task Modal -->
         <div class="modal fade" id="taskModal" tabindex="-1" aria-labelledby="taskModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="taskModalLabel">Add Task</h5>
@@ -100,7 +103,7 @@
                                     <option value="completed">Completed</option>
                                 </select>
                             </div>
-                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <button type="submit" class="btn btn-primary btn-block">Submit</button>
                         </form>
                     </div>
                 </div>
@@ -131,7 +134,6 @@
                             response.studentlist.forEach(function (student) {
                                 var data = `<tr>
                                     <td>${student.id}</td>
-                                    <td>${student.student_id || 'N/A'}</td>
                                     <td>${student.member_id || 'N/A'}</td>
                                     <td>${student.project_title || 'N/A'}</td>
                                     <td>${student.project_description || 'N/A'}</td>
@@ -140,13 +142,13 @@
                                     <td>${student.eta || 'N/A'}</td>
                                     <td>${student.status || 'N/A'}</td>
                                     <td>
-                                        <a class="accept-btn btn btn-primary" data-id="${student.id}" data-project-title="${student.project_title}" data-project-description="${student.project_description}" data-toggle="modal" data-target="#taskModal">Add Task</a>
+                                        <a class="accept-btn btn btn-primary" data-id="${student.id}" data-project-title="${student.project_title}" data-project-description="${student.project_description}" data-toggle="modal" data-target="#taskModal" style="text-wrap:nowrap;">Add Task</a>
                                     </td>
                                 </tr>`;
                                 tableBody.append(data);
                             });
                         } else {
-                            tableBody.append('<tr><td colspan="11" class="text-center">No students assigned yet.</td></tr>');
+                            tableBody.append('<tr><td colspan="10" class="text-center">No students assigned yet.</td></tr>');
                         }
                     },
                     error: function (xhr) {

@@ -31,6 +31,7 @@
             <thead>
                 <tr>
                     <th>ID</th>
+                    <th>Project</th>
                     <th>Task Name</th>
                     <th>Description</th>
                     <th>Date</th>
@@ -66,6 +67,7 @@
                             $('#taskTable tbody').append(`
                                 <tr>
                                     <td>${task.id}</td>
+                                    <td>${task.title}</td>
                                     <td>${task.task_name}</td>
                                     <td>${task.description}</td>
                                     <td>${task.task_date}</td>

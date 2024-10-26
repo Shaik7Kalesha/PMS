@@ -378,7 +378,7 @@ public function rejectStudent($id)
              'name' => 'required',
              'email' => 'required|email',
              'department' => 'required',
-             'batch_year' => 'required|integer',
+             'batch_year' => 'required',
              'mentor_name' => 'required',
              'mentor_number' => 'required',
              'student_number' => 'required',
