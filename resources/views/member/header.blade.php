@@ -5,6 +5,7 @@
   .navbar {
     background-color: #007bff; /* Blue background */
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 0.5rem 1rem; /* Reduce padding to make the navbar more compact */
   }
   .navbar-brand {
     font-weight: bold;
@@ -16,17 +17,17 @@
     color: #ffffff; /* Keep title color white on hover */
   }
   .navbar-nav .nav-link {
-    margin-right: 15px;
-    font-size: 1.1em;
+    margin-right: 10px; /* Reduce margin to allow more space */
+    font-size: 1em;
     color: #ffffff; /* White text color for links */
+    padding: 0.25rem 0.5rem; /* Adjust padding to keep links in a single line */
   }
   .navbar-nav .nav-link:hover {
     color: #000000; /* Black color on hover */
   }
   .navbar-collapse {
-    flex-basis: 100%;
-    flex-grow: 0 !important;
-    align-items: center;
+    flex-grow: 1;
+    justify-content: flex-end; /* Align links and button to the right */
   }
   .logout-button {
     margin-left: auto;
@@ -50,10 +51,7 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNavDropdown">
-      <ul class="navbar-nav mr-auto">
-        <!-- <li class="nav-item">
-          <a class="nav-link" href="#"><i class="fas fa-home"></i> Te</a>
-        </li> -->
+      <ul class="navbar-nav">
         <li class="nav-item">
           <a class="nav-link" href="{{ route('student_assigned') }}"><i class="fas fa-user-graduate"></i> Show Students</a>
         </li>
@@ -65,6 +63,12 @@
         </li>
         <li class="nav-item">
           <a class="nav-link" href="{{ url('/leave') }}"><i class="fas fa-calendar-alt"></i> Leave Request</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#"><i class="fas fa-users"></i> Team</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{url('/profile')}}"><i class="fas fa-user"></i> Profile</a>
         </li>
       </ul>
       @if (Auth::check())

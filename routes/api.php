@@ -7,6 +7,7 @@ use App\Http\Controllers\StudentController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\LeaveController;
+use App\Http\Controllers\ProfileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -128,5 +129,9 @@ Route::post('/leave', [LeaveController::class, 'submitRequest'])->name('leave.re
 
 // admin controller
 Route::get('/fetch_leave',[AdminController::class,'fetch_leave']);
+
+// profile part
+Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show'); // Display the profile
+Route::post('/profile', [ProfileController::class, 'update'])->name('profile.update'); // Update profile info
 
 

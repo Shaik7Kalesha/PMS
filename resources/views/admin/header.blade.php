@@ -64,6 +64,9 @@
         <li class="nav-item">
           <a class="nav-link" href="{{url('/student_list')}}"><i class="fas fa-users"></i> Student List</a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{url('/profile')}}"><i class="fas fa-user"></i> Profile</a>
+        </li>
       </ul>
     </div>
     @if (Auth::check())

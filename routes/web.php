@@ -9,6 +9,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\LeaveController;
+use App\Http\Controllers\ProfileController;
 
 
 
@@ -172,3 +173,8 @@ Route::post('/reject_leave/{id}', [AdminController::class, 'reject_leave'])->nam
 
 Route::get('/fetchtaskuser',[StudentController::class,'fetchtaskuser'])->name('fetchtaskuser');
 Route::get('/fetchattendenceuser',[StudentController::class,'fetchattendenceuser'])->name('fetchattendenceuser');
+
+
+// profile part
+Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show'); // Display the profile
+Route::post('/profile/update/{id}', [ProfileController::class, 'update'])->name('profile.update'); // Update profile info

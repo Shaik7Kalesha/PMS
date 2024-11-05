@@ -415,7 +415,7 @@
 <form method="POST" action="{{ route('login') }}" autocomplete="off" class="sign-in-form">
   @csrf
   <div class="logo">
-    <h4>Project Management System</h4>
+    <h4>Project Management</h4>
   </div>
  
   <div class="form-floating mb-3">
