@@ -13,14 +13,29 @@
 
     <!-- jQuery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <style>
+        td{
+            border-left:1px solid #ccc;
+        }
+        table{
+            border:1px solid black;
+        }
+        thead th{
+            border-left:1px solid #ccc;
+
+        }
+    </style>
 </head>
 <body>
     @include('admin.header')
 
-    <div class="container mt-4">
-        <h1 class="mb-4">Member List</h1>
-        <div class="table-responsive">
-            <table class="table table-striped">
+    <div class="container-fluid page-body-wrapper">
+        <div class="main-panel">
+            <div class="text-center mb-4">
+                <h3>MEMBER LIST</h3>
+            </div>
+            <div class="content-wrapper">
+                <table class="table table-striped table-responsive">
                 <thead>
                     <tr>
                         <th scope="col">ID</th>

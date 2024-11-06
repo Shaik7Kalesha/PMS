@@ -354,5 +354,26 @@ class MemberController extends Controller
     $task->update($validatedData);
     return response()->json(['success' => true, 'message' => 'Task updated successfully.']);
 }
+    // public function showteam()
+    // {
+    //     return view('member.showteam');
+    // }
+
+
+    public function showteam() {
+        $project = Project::all(); // Fetch all team records
+    
+        // Check if the request expects a JSON response
+        if (request()->expectsJson()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'team Request fetched successfully',
+                'data' => $project, // Key changed to 'data'
+            ]);
+        } else {
+            // Return the view with the team data
+            return view('member.showteam'); // Correct usage of compact
+        }
+    }
 
 }

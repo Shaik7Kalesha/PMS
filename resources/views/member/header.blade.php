@@ -45,7 +45,7 @@
 <!-- Navbar -->
 <nav class="navbar navbar-expand-lg sticky-top">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">PROJECT MANAGEMENT SYSTEM</a>
+    <a class="navbar-brand" href="#">PROJECT MANAGEMENT</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
       aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -59,13 +59,13 @@
           <a class="nav-link" href="{{ route('stu_attend') }}"><i class="fas fa-check-circle"></i> Attendance</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="{{ url('/chat') }}"><i class="fas fa-comments"></i> Chat</a>
-        </li>
-        <li class="nav-item">
           <a class="nav-link" href="{{ url('/leave') }}"><i class="fas fa-calendar-alt"></i> Leave Request</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#"><i class="fas fa-users"></i> Team</a>
+          <a class="nav-link" href="{{ url('/showteam') }}"><i class="fas fa-users"></i> Team</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url('/chat') }}"><i class="fas fa-comments"></i> Chat</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="{{url('/profile')}}"><i class="fas fa-user"></i> Profile</a>

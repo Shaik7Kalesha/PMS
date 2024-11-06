@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Add Team</title>
+  <title>Add Team | Project Management System</title>
   
   <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -13,23 +13,27 @@
   <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
 <body>
+  <!-- Header -->
   @include('admin.header')
 
-  <div class="container mt-4">
-    <h1>Add New Team</h1>
-    <form method="post" id="teams-form">
+  <!-- Main Container -->
+  <div class="container mt-5">
+    <h1 class="text-center mb-4">Add New Team</h1>
+
+    <!-- Team Form -->
+    <form id="teams-form">
       @csrf
       <div class="mb-3">
         <label for="team_name" class="form-label">Team Name</label>
-        <input type="text" class="form-control" id="team_name" name="team_name" required>
+        <input type="text" class="form-control" id="team_name" name="team_name" required placeholder="Enter team name">
       </div>
-
-      <button type="submit" class="btn btn-primary">Add Team</button>
+      <button type="submit" class="btn btn-primary w-100">Add Team</button>
     </form>
 
-    <h2 class="mt-4">Teams List</h2>
-    <table class="table">
-      <thead>
+    <!-- Teams List Table -->
+    <h2 class="mt-5">Teams List</h2>
+    <table class="table table-striped table-hover border mt-3">
+      <thead class="table-primary">
         <tr>
           <th>ID</th>
           <th>Team Name</th>
@@ -37,99 +41,91 @@
         </tr>
       </thead>
       <tbody id="team-table-body">
-        <!-- Team rows will be inserted here -->
+        <!-- Team rows will be dynamically populated here -->
       </tbody>
     </table>
   </div>
 
   <!-- Footer -->
-  <footer class="bg-light text-center py-4 mt-4">
+  <footer class="bg-light text-center py-3 mt-5">
     <div class="container">
-      <p class="mb-0">&copy; 2024 . All rights reserved.</p>
+      <p class="mb-0">&copy; 2024 Project Management System. All rights reserved.</p>
     </div>
   </footer>
 
-  <!-- Bootstrap JS (Optional) -->
+  <!-- Bootstrap JS (Optional) and jQuery -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"
-    integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
   <script>
-$(document).ready(function () {
-    // Intercept the form submission
-    $('#teams-form').submit(function (event) {
-        // Prevent the default form submission
-        event.preventDefault();
-
-        // Submit the form via AJAX
-        var data = {
-            '_token': $('meta[name="csrf-token"]').attr('content'), // Retrieve CSRF token from meta tag
-            'team_name': $('#team_name').val(),
-            'description': $('#description').val()
-        };
+    $(document).ready(function () {
+      // Add Team form submission handler
+      $('#teams-form').submit(function (event) {
+        event.preventDefault(); // Prevent default form submission
 
         $.ajax({
-            type: "POST",
-            url: "{{ route('add_teams') }}", // Ensure this route exists in your web.php
-            data: data,
-            dataType: "json",
-            success: function (response) {
-                // Display success message in alert popup
-                alert('Team added successfully');
-                // Optionally, reset the form
-                $('#teams-form')[0].reset();
-                $('#team-table-body').append('<tr data-id="' + response.id + '"><td>' + response.id + '</td><td>' + response.team_name + '</td><td><button class="btn btn-primary open-btn">Open</button><button class="btn btn-secondary close-btn">Close</button></td></tr>');
-                attachEventListeners();
-            },
-            error: function(xhr, status, error) {
-                // Display error message in alert popup
-                alert('An error occurred. Please try again.');
-                console.error('error:', error);
-            }
+          type: "POST",
+          url: "{{ route('add_teams') }}", // Ensure this route exists in your routes file
+          data: {
+            '_token': $('meta[name="csrf-token"]').attr('content'), // CSRF token
+            'team_name': $('#team_name').val()
+          },
+          dataType: "json",
+          success: function () {
+            alert('Team added successfully');
+            location.reload(); // Reload page to refresh team list
+          },
+          error: function() {
+            alert('An error occurred. Please try again.');
+          }
         });
+      });
+
+      // Fetch all teams on page load
+      function fetchTeams() {
+        $.ajax({
+          type: "GET",
+          url: "/getteams", // Ensure this route exists in your routes file
+          dataType: "json",
+          success: function(response) {
+            var tableBody = $('#team-table-body');
+            tableBody.empty();
+            response.teams.forEach(function(team) {
+              addTeamRow(team.id, team.team_name);
+            });
+          },
+          error: function(xhr, status, error) {
+            console.error("Ajax error:", xhr.responseText);
+          }
+        });
+      }
+      fetchTeams();
+
+      // Function to add a new team row to the table
+      function addTeamRow(id, name) {
+        var row = `<tr data-id="${id}">
+                     <td>${id}</td>
+                     <td>${name}</td>
+                     <td>
+                       <button class="btn btn-primary btn-sm open-btn">Open</button>
+                       <button class="btn btn-secondary btn-sm close-btn">Close</button>
+                     </td>
+                   </tr>`;
+        $('#team-table-body').append(row);
+        attachEventListeners();
+      }
+
+      // Attach event listeners to dynamic Open/Close buttons
+      function attachEventListeners() {
+        $('.open-btn').off('click').on('click', function() {
+          alert('Open button clicked');
+        });
+
+        $('.close-btn').off('click').on('click', function() {
+          alert('Close button clicked');
+        });
+      }
     });
-
-    // Function to fetch teams and populate the table
-    function fetchTeams() {
-        $.ajax({
-            type: "GET",
-            url: "/getteams", // Ensure this route exists in your web.php
-            dataType: "json",
-            success: function(response) {
-                var tableBody = $('#team-table-body');
-                tableBody.empty();
-                if (response.teams) {
-                    response.teams.forEach(function(team) {
-                        var row = `<tr data-team-id="${team.id}">
-                          <td>${team.id}</td>
-                          <td>${team.team_name}</td>
-                          <td><button class="btn btn-primary open-btn">Open</button><button class="btn btn-secondary close-btn">Close</button></td>
-                        </tr>`;
-                        tableBody.append(row);
-                    });
-                    // Attach event listeners to buttons after table update
-                    fetchTeams();
-                    attachEventListeners();
-                }
-            },
-            error: function(xhr, status, error) {
-                console.error("Ajax error:", xhr.responseText);
-            }
-        });
-    }
-    fetchTeams();
-
-    // Function to attach event listeners to dynamically added buttons
-    function attachEventListeners() {
-        $('.open-btn').click(function() {
-            alert('Open button clicked');
-        });
-
-        $('.close-btn').click(function() {
-            alert('Close button clicked');
-        });
-    }
-});
-</script>
-
+  </script>
 </body>
 </html>

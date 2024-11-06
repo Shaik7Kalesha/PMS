@@ -14,15 +14,14 @@
   <style>
     .card-title {
       color: #343a40;
+      font-weight: bold;
     }
 
     .card-body {
       background-color: #f8f9fa;
     }
 
-    .form-control,
-    .form-group label,
-    .btn {
+    .form-control, .form-group label, .btn {
       color: #343a40;
     }
 
@@ -31,9 +30,9 @@
       border-color: #007bff;
     }
 
-    .btn-light {
-      background-color: #e9ecef;
-      border-color: #e9ecef;
+    .btn-danger {
+      background-color: #dc3545;
+      border-color: #dc3545;
     }
 
     .table thead th {
@@ -94,8 +93,7 @@
               </div>
               <div class="form-group mb-3">
                 <label for="batchname">Batch Name</label>
-                <input type="text" class="form-control" id="batch_name" name="batchname" placeholder="Batch Name"
-                  required>
+                <input type="text" class="form-control" id="batch_name" name="batchname" placeholder="Batch Name" required>
               </div>
               <button type="submit" class="btn btn-primary me-2">Submit</button>
               <button type="reset" class="btn btn-light">Cancel</button>
@@ -142,76 +140,74 @@
       $('#batches-form').submit(function (event) {
         event.preventDefault();
 
-        var data = {
-          '_token': '{{ csrf_token() }}', // Add CSRF token here
+        const data = {
+          '_token': '{{ csrf_token() }}',
           'batch_id': $('#batchid').val(),
           'batch_name': $('#batch_name').val()
         };
 
         $.ajax({
           type: "POST",
-          url: "{{ route('add_batches') }}", // Make sure this route is correct
+          url: "{{ route('add_batches') }}",
           data: data,
           dataType: "json",
           success: function (response) {
             alert('Batch added successfully');
             $('#batches-form')[0].reset();
-            $('#batch-table-body').append(
-              '<tr data-batch-id="' + response.batch_id + '"><td>' + response.batch_id + '</td><td>' + response.batch_name + '</td><td><button class="btn btn-primary open-btn">Open</button><button class="btn btn-danger close-btn">Close</button></td></tr>'
-            );
-            attachEventListeners();
+            addBatchRow(response.batch_id, response.batch_name);
+            window.location.reload();
           },
-          error: function (xhr, status, error) {
-            alert('An error occurred: ' + error);
+          error: function (xhr) {
+            alert(`An error occurred: ${xhr.responseText}`);
           }
         });
       });
 
-      // Function to fetch batches and populate the table
+      // Function to fetch and display batches on page load
       function fetchBatches() {
         $.ajax({
           type: "GET",
           url: "/getbatches",
           dataType: "json",
           success: function (response) {
-            var tableBody = $('#batch-table-body');
+            const tableBody = $('#batch-table-body');
             tableBody.empty();
-            if (response.batches) {
-              response.batches.forEach(function (batch) {
-                var row = `<tr data-batch-id="${batch.batch_id}">
-                  <td>${batch.batch_id}</td>
-                  <td>${batch.batch_name}</td>
-                  <td>
-                    <button class="btn btn-primary open-btn">Open</button>
-                    <button class="btn btn-danger close-btn">Close</button>
-                  </td>
-                </tr>`;
-                tableBody.append(row);
-              });
-              fetchBatches();
-              attachEventListeners();
-            }
+            response.batches.forEach(batch => {
+              addBatchRow(batch.batch_id, batch.batch_name);
+            });
           },
-          error: function (xhr, status, error) {
+          error: function (xhr) {
             console.error("Ajax error:", xhr.responseText);
           }
         });
       }
 
-      // Function to attach event listeners to buttons
-      function attachEventListeners() {
-        $('.open-btn').click(function () {
-          var batchId = $(this).closest('tr').data('batch-id');
-          console.log('Open Batch ID:', batchId);
-        });
-
-        $('.close-btn').click(function () {
-          var batchId = $(this).closest('tr').data('batch-id');
-          console.log('Close Batch ID:', batchId);
-        });
+      // Function to add a batch row to the table
+      function addBatchRow(batchId, batchName) {
+        const row = `
+          <tr data-batch-id="${batchId}">
+            <td>${batchId}</td>
+            <td>${batchName}</td>
+            <td>
+              <button class="btn btn-primary btn-sm open-btn">Open</button>
+              <button class="btn btn-danger btn-sm close-btn">Close</button>
+            </td>
+          </tr>`;
+        $('#batch-table-body').append(row);
       }
 
-      // Initial fetch of batches on page load
+      // Event delegation for dynamic buttons
+      $('#batch-table-body').on('click', '.open-btn', function () {
+        const batchId = $(this).closest('tr').data('batch-id');
+        alert(`Open Batch ID: ${batchId}`);
+      });
+
+      $('#batch-table-body').on('click', '.close-btn', function () {
+        const batchId = $(this).closest('tr').data('batch-id');
+        alert(`Close Batch ID: ${batchId}`);
+      });
+
+      // Fetch batches on page load
       fetchBatches();
     });
   </script>

@@ -6,121 +6,117 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Attendance Marking</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
+
+    <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 
-
     <style>
-        .table-hover tbody tr:hover {
-            background-color: #f1f1f1;
-        }
-
-        .header {
-            margin: 2rem 0;
-            font-size: 1.5rem;
-            font-weight: 600;
-            color: black;
-            border-bottom: 2px solid #000000;
-            padding-bottom: 0.5rem;
-        }
-
-        .btn-present {
-            background-color: #28a745;
-            color: white;
-        }
-
-        .btn-absent {
-            background-color: #dc3545;
-            color: white;
-        }
-
-        .btn-present:hover,
-        .btn-absent:hover {
-            opacity: 0.9;
-        }
-
-        .table td {
-            word-wrap: break-word;
-            overflow-wrap: break-word;
-        }
-
-        body,
-        html {
+        body, html {
             overflow-x: hidden;
             background-color: #ffffff;
         }
-
+        .header {
+            font-size: 1.75rem;
+            font-weight: 600;
+            color: #333;
+            margin-top: 2rem;
+            padding-bottom: 0.5rem;
+            text-align: center;
+            /* border-bottom: 3px solid #007bff; */
+        }
+        .table-responsive {
+            margin-top: 0; /* Remove the space between header and table */
+        }
+        .table-hover tbody tr:hover {
+            background-color: #f1f1f1;
+        }
+        .table-bordered th, .table-bordered td {
+            text-align: center;
+            vertical-align: middle;
+        }
+        .btn-present, .btn-absent {
+            color: #fff;
+            width: 100%;
+            font-weight: 600;
+            transition: background-color 0.3s;
+        }
+        .btn-present {
+            background-color: #28a745;
+        }
+        .btn-present:hover {
+            background-color: #218838;
+        }
+        .btn-absent {
+            background-color: #dc3545;
+        }
+        .btn-absent:hover {
+            background-color: #c82333;
+        }
         .form-control {
-            background-color: #fff !important;
-            color: #000000;
+            background-color: #ffffff !important;
+            color: #000;
         }
     </style>
 </head>
 
 <body>
-    <!-- Header section (you can customize or add more functionality here) -->
+    <!-- Header Section -->
     @include('member.header')
 
     <div class="container mt-5">
-        <div class="header">Assigned Students</div>
-        <!-- Table to display the list of students -->
-        <table class="table table-hover table-bordered">
-            <thead>
-                <tr>
-                    <th>Reg No</th>
-                    <th>Name</th>
-                    <th>Present</th>
-                    <th>Absent</th>
-                </tr>
-            </thead>
-            <tbody id="students-table-body">
-                <!-- Data will be dynamically injected here via AJAX -->
-            </tbody>
-        </table>
+        <h2 class="header">Attendance Marking</h2>
+        <div class="table-responsive">
+            <table class="table table-hover table-bordered">
+                <thead class="thead-light">
+                    <tr>
+                        <th>Reg No</th>
+                        <th>Name</th>
+                        <th>Present</th>
+                        <th>Absent</th>
+                    </tr>
+                </thead>
+                <tbody id="students-table-body">
+                    <!-- Data will be dynamically injected here via AJAX -->
+                </tbody>
+            </table>
+        </div>
     </div>
 
-    <!-- Include jQuery and Bootstrap JavaScript -->
+    <!-- jQuery and Bootstrap JavaScript -->
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
 
     <script>
         $(document).ready(function () {
-            // Setup CSRF token for AJAX requests
+            // Set up CSRF token for AJAX
             $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
+                headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') }
             });
 
-            // Function to load the list of students
+            // Load students data into the table
             function loadStudents() {
                 $.ajax({
                     type: "GET",
-                    url: "/fetch_student1", // URL to fetch the student data
+                    url: "/fetch_student1",
                     dataType: "json",
                     success: function (response) {
                         var tableBody = $('#students-table-body');
-                        tableBody.empty(); // Clear the existing data
+                        tableBody.empty();
 
-                        // Check if the student list is available
                         if (response.studentlist && response.studentlist.length) {
-                            // Loop through each student and append a row to the table
                             response.studentlist.forEach(function (student) {
                                 var row = `<tr>
                                     <td>${student.regno}</td>
                                     <td>${student.name}</td>
-                                    <td>
-                                        <button class="btn btn-present" data-id="${student.id}">Present</button>
-                                    </td>
-                                    <td>
-                                        <button class="btn btn-absent" data-id="${student.id}">Absent</button>
-                                    </td>
+                                    <td><button class="btn btn-present" data-id="${student.id}">Present</button></td>
+                                    <td><button class="btn btn-absent" data-id="${student.id}">Absent</button></td>
                                 </tr>`;
                                 tableBody.append(row);
                             });
                         } else {
-                            // Display a message if no students are found
-                            tableBody.append('<tr><td colspan="4" class="text-center">No students found.</td></tr>');
+                            tableBody.append('<tr><td colspan="4" class="text-center text-muted">No students found.</td></tr>');
                         }
                     },
                     error: function (xhr) {
@@ -129,15 +125,15 @@
                 });
             }
 
-            // Function to mark attendance (Present/Absent)
+            // Mark attendance status for students
             function markAttendance(studentId, status) {
                 $.ajax({
                     type: "POST",
-                    url: "/mark_attendance", // URL to mark attendance
+                    url: "/mark_attendance",
                     data: { id: studentId, status: status },
                     success: function (response) {
                         alert(`Marked student as ${status}`);
-                        loadStudents(); // Reload the student list after marking attendance
+                        loadStudents(); // Reload the table after updating attendance
                     },
                     error: function (xhr) {
                         console.error("Error marking attendance:", xhr.responseText);
@@ -145,19 +141,18 @@
                 });
             }
 
-            // Load students when the page is ready
+            // Load students when page loads
             loadStudents();
 
-            // Handle Present button click
+            // Event listeners for Present and Absent buttons
             $(document).on('click', '.btn-present', function () {
                 var studentId = $(this).data('id');
-                markAttendance(studentId, 'present'); // Mark as present
+                markAttendance(studentId, 'present');
             });
 
-            // Handle Absent button click
             $(document).on('click', '.btn-absent', function () {
                 var studentId = $(this).data('id');
-                markAttendance(studentId, 'absent'); // Mark as absent
+                markAttendance(studentId, 'absent');
             });
         });
     </script>

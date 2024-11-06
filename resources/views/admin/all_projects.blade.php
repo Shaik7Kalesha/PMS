@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Project Management</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <style>
@@ -78,9 +78,10 @@
 
 <body>
     @include('admin.header')
-
     <div class="container-fluid">
-        <h4 class="mb-4">Project List</h4>
+    <div class="text-center mb-4">
+                <h3>PROJECTS LIST</h3>
+            </div>
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -151,6 +152,8 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+
 
     <script>
         // CSRF token setup for all AJAX requests
@@ -174,14 +177,14 @@ function fetchProjects() {
                     var editButton = project.status && project.status.toLowerCase() === 'accepted' ? 
                         `<a class="editbtn btn btn-primary" data-toggle="modal" data-target="#editProjectModal" data-id="${project.id}">Edit</a>` : '';
                     var row = `<tr data-id="${project.id}">
-                        <td>${project.title}</td>
+                        <td style="width:290px">${project.title}</td>
                         <td>${project.batch_year}</td>
                         <td>${project.team}</td>
                         <td>${project.developers}</td>
                         <td>${project.platform}</td>
                         <td>${project.student_name}</td>
-                        <td>${project.description}</td>
-                        <td class="buttons">
+                        <td style="width:190px">${project.description}</td>
+                        <td >
                             <button class="accept-btn btn btn-primary" data-id="${project.id}">Accept</button>
                             <button class="reject-btn btn btn-danger" data-id="${project.id}">Reject</button>
                             ${editButton}
@@ -257,7 +260,7 @@ function fetchProjects() {
                     memberSelect.empty();
                     if (response.members) {
                         response.members.forEach(function (member) {
-                            var option = $('<option></option>').attr('value', member.id).text(member.name);
+                            var option = $('<option></option>').attr('value', member.name).text(member.name);
                             memberSelect.append(option);
                         });
                     }
@@ -279,7 +282,7 @@ function fetchProjects() {
                     studentSelect.empty();
                     if (response.students) {
                         response.students.forEach(function (student) {
-                            var option = $('<option></option>').attr('value', student.id).text(student.name);
+                            var option = $('<option></option>').attr('value', student.name).text(student.name);
                             studentSelect.append(option);
                         });
                     }
@@ -356,6 +359,7 @@ function fetchProjects() {
                 success: function (response) {
                     $('#editProjectModal').modal('hide');
                     fetchProjects();
+                    window.location.reload();
                 },
                 error: function (xhr, status, error) {
                     console.error("Ajax error:", xhr.responseText);

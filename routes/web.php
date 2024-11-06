@@ -107,6 +107,11 @@ Route::get('/fetch_student',[MemberController::class,'fetchstudent'])->name('stu
 Route::post('/add_task',[MemberController::Class,'add_task'])->name('add_task');
 Route::get('/fetch_project/{student_name}', [MemberController::class, 'fetchProject'])->name('fetch_project');
 
+
+Route::get('/showteam',[MemberController::class,'showteam'])->name('showteam');
+
+
+
 //attendece
 // Route to show the attendance form
 // Route::get('/attendance', [AttendenceController::class, 'showForm'])->name('attendance.form');

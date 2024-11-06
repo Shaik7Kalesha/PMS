@@ -19,6 +19,16 @@
             background-color: #0d6efd;
             color: white;
         }
+        td{
+            border-left:1px solid #ccc;
+        }
+        table{
+            border:1px solid black;
+        }
+        thead th{
+            border-left:1px solid #ccc;
+
+        }
     </style>
 </head>
 <body>
