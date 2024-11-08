@@ -16,16 +16,21 @@
             background-color: #f8f9fa; /* Light background color */
         }
         .table th {
-            background-color: #0d6efd;
-            color: white;
+            background-color: #ffffff;
+            color: dark;
+            
         }
+        td{
+            text-transform:capitalize;
+        }
+        td:nth-child(5),td:nth-child(6){text-wrap:nowrap;}
     </style>
 </head>
 <body>
     @include('student.header')
 
     <div class="container mt-4">
-        <h1 class="text-center mb-4">Task List</h1>
+        <h3 class="text-center mb-4">Task List</h3>
         
         <table class="table table-striped" id="taskTable">
             <thead>
@@ -34,9 +39,9 @@
                     <th>Project</th>
                     <th>Task Name</th>
                     <th>Description</th>
-                    <th>Date</th>
+                    <th class="text-nowrap">Date</th>
                     <th>ETA</th>
-                    <th>Status</th>
+                    <!-- <th>Status</th> -->
                 </tr>
             </thead>
             <tbody>
@@ -72,11 +77,7 @@
                                     <td>${task.description}</td>
                                     <td>${task.task_date}</td>
                                     <td>${task.eta}</td>
-                                    <td>
-                                        <span class="badge ${statusBadge}">
-                                            ${task.status.charAt(0).toUpperCase() + task.status.slice(1)}
-                                        </span>
-                                    </td>
+
                                 </tr>
                             `);
                         });
@@ -88,5 +89,7 @@
             }
         });
     </script>
+           @include('home.footer')
+
 </body>
 </html>

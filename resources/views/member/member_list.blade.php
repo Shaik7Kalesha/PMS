@@ -16,13 +16,20 @@
     <style>
         td{
             border-left:1px solid #ccc;
+            text-transform:capitalize;
         }
+        td:nth-child(3){text-transform:none;}
         table{
             border:1px solid black;
         }
         thead th{
             border-left:1px solid #ccc;
 
+        }
+        td:nth-child(8), td:last-child{
+            border-left: none;
+            padding-left: 0;
+            padding-right: 0;
         }
     </style>
 </head>
@@ -44,7 +51,7 @@
                         <th scope="col">Phone</th>
                         <th scope="col">Date Of Joining</th>
                         <th scope="col">Status</th>
-                        <th scope="col">Actions</th>
+                        <th scope="col" colspan="3">Actions</th>
                     </tr>
                 </thead>
                 <tbody id="members-table-body">
@@ -138,7 +145,7 @@
                                     ${actions}
                                     <td>
                                         <div class="dropdown">
-                                            <button class="btn btn-primary dropdown-toggle" type="button" id="acceptDropdown${member.id}" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <button class="btn btn-success dropdown-toggle" type="button" id="acceptDropdown${member.id}" data-bs-toggle="dropdown" aria-expanded="false">
                                                 Accept
                                             </button>
                                             <ul class="dropdown-menu" aria-labelledby="acceptDropdown${member.id}">
@@ -251,5 +258,7 @@
             });
         });
     </script>
+           @include('home.footer')
+
 </body>
 </html>

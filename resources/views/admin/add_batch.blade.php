@@ -17,13 +17,16 @@
       font-weight: bold;
     }
 
-    .card-body {
-      background-color: #f8f9fa;
-    }
 
     .form-control, .form-group label, .btn {
       color: #343a40;
     }
+    #batches-form{
+    width: 500px;
+    margin: 0 auto;
+    box-shadow: 1px 1px 5px #ccc;
+    padding: 20px;
+}
 
     .btn-primary {
       background-color: #007bff;
@@ -36,8 +39,8 @@
     }
 
     .table thead th {
-      background-color: #007bff;
-      color: #fff;
+      background-color: #ffffff;
+      color: #000;
     }
 
     .table-striped tbody tr:nth-of-type(odd) {
@@ -55,22 +58,23 @@
       z-index: 1000;
     }
 
-    .footer {
-      position: fixed;
-      bottom: 0;
-      width: 100%;
-      padding: 10px;
-      text-align: center;
-      background-color: #f8f9fa;
-      border-top: 1px solid #dee2e6;
-      z-index: 1000;
-    }
-
     @media (max-width: 768px) {
       .table-responsive {
         overflow-x: auto;
       }
     }
+        td{
+            border-left:1px solid #ccc;
+            text-transform:capitalize;
+        }
+        td:nth-child(3){text-transform:none;}
+        table{
+            border:1px solid black;
+        }
+        thead th{
+            border-left:1px solid #ccc;
+
+        }
   </style>
 </head>
 
@@ -82,9 +86,9 @@
     <div class="row mb-4">
       <div class="col-lg-12 col-md-12">
         <!-- Form for Adding Batches -->
-        <div class="card">
-          <div class="card-body">
-            <h4 class="card-title">Add Batch</h4>
+        <div>
+          <div>
+            <h4 class="text-center">Add Batch</h4>
             <form method="post" id="batches-form">
               @csrf
               <div class="form-group mb-3">
@@ -96,7 +100,7 @@
                 <input type="text" class="form-control" id="batch_name" name="batchname" placeholder="Batch Name" required>
               </div>
               <button type="submit" class="btn btn-primary me-2">Submit</button>
-              <button type="reset" class="btn btn-light">Cancel</button>
+              <button type="reset" class="btn btn-dark">Cancel</button>
             </form>
           </div>
         </div>
@@ -106,8 +110,8 @@
     <div class="row">
       <div class="col-lg-12 col-md-12">
         <!-- Table for Displaying Batches -->
-        <div class="card">
-          <div class="card-body">
+        <div>
+          <div>
             <h4 class="card-title">Batch List</h4>
             <div class="table-responsive">
               <table class="table table-striped">
@@ -211,6 +215,7 @@
       fetchBatches();
     });
   </script>
+     @include('home.footer')
 </body>
 
 </html>

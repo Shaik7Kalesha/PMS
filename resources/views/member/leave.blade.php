@@ -38,9 +38,9 @@
 <body>
     @include('member.header')
     
-    <div class="container mt-5">
+    <div class="container mt-4">
         <div class="form-container">
-            <h2 class="form-title">Leave Request Form</h2>
+            <h3 class="form-title">Leave Request Form</h3>
             
             @if (session('success'))
                 <div class="alert alert-success text-center">
@@ -76,5 +76,6 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-</body>
+    @include('home.footer')
+    </body>
 </html>

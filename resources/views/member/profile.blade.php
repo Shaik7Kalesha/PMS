@@ -162,8 +162,7 @@
 
 <body>
     <nav class="navbar navbar-expand-lg navbar-custom">
-        <a class="navbar-brand" href="#">Project Management</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+    <a class="navbar-brand" href="#">PROJECT MANAGEMENT</a>        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -200,9 +199,7 @@
         </div>
     </div>
 
-    <footer>
-        <p>&copy; {{ date('Y') }}. All Rights Reserved.</p>
-    </footer>
+    @include('student.header')
 
     <script>
         document.getElementById('editButton').addEventListener('click', function () {
@@ -242,6 +239,8 @@
             });
         });
     </script>
+           @include('home.footer')
+
 </body>
 
 </html>

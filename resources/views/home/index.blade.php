@@ -112,6 +112,7 @@
             color: #007BFF;
             position: relative;
             transition: background-color 0.3s ease;
+            border-radius: 5px;
         }
 
         .sign-up:hover {

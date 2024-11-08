@@ -287,12 +287,12 @@ class MemberController extends Controller
             'student_id' => 'exists:students,id',
             'member_id' => 'exists:members,bioid',
             'title' => 'required|string',
-            'description' => 'required|string|max:1000',
+            'description' => 'required|string',
             'task_name' => 'required|string',
             'task_date' => 'required|date',
             'eta' => 'required|date',
             // 'completed_date' => 'date',
-            'status' => 'required|string',
+            // 'status' => 'required|string',
         ]);
 
         $task = new Tasks();
@@ -304,7 +304,7 @@ class MemberController extends Controller
         $task->task_date = $validatedData['task_date'];
         $task->eta = $validatedData['eta'];
         // $task->completed_date = $validatedData['completed_date'];
-        $task->status = $validatedData['status'];
+        // $task->status = $validatedData['status'];
         $task->save();
 
         return response()->json(['success' => true, 'message' => 'Task added successfully']);

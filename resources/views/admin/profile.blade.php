@@ -60,6 +60,7 @@
             margin-bottom: 15px;
             transition: transform 0.3s;
             display: block;
+            margin: 0 auto;
         }
 
         .profile-pic:hover {
@@ -71,6 +72,7 @@
             margin: 10px 0;
             color: #333;
             text-align: center;
+            text-transform:capitalize;
         }
 
         p {
@@ -94,6 +96,7 @@
             font-weight: bold;
             transition: background-color 0.3s, transform 0.2s;
             display: block;
+            margin: 0 auto;
         }
 
         button:hover {
@@ -162,7 +165,7 @@
 
 <body>
     <nav class="navbar navbar-expand-lg navbar-custom">
-        <a class="navbar-brand" href="#">Project Management</a>
+    <a class="navbar-brand" href="#">PROJECT MANAGEMENT</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -200,9 +203,6 @@
         </div>
     </div>
 
-    <footer>
-        <p>&copy; {{ date('Y') }}. All Rights Reserved.</p>
-    </footer>
 
     <script>
         document.getElementById('editButton').addEventListener('click', function () {

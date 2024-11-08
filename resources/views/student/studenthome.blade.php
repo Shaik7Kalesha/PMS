@@ -39,11 +39,8 @@
   </div>
   <!-- page-body-wrapper ends -->
   
-  <footer class="footer bg-light">
-            <div class="text-center text-black ">
-              <p>Copyright © kalesha.com 2024</p>
-            </div>
-          </footer>
+  @include('home.footer')
+
   <!-- container-scroller -->
   <!-- plugins:js -->
   <script src="admin/assets/vendors/js/vendor.bundle.base.js"></script>

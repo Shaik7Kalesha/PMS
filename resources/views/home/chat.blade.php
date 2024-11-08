@@ -8,7 +8,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
     <script src="https://cdn.talkjs.com/talk.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha512-SfTiTlX6kk+qitfevl/7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+/Sw==" crossorigin="anonymous" referrerpolicy="no-referrer" />    <style>
         body {
             background-color: #f8f9fa;
             font-family: 'Inter', sans-serif;
@@ -40,9 +40,16 @@
             border-radius: 0.75rem;
             border: 1px solid #ced4da;
             margin-right: 20px;
-            padding: 10px;
+            padding: 0;
         }
-
+        #contacts-list h2{
+            background: #eff6fd;
+            text-align: center;
+            font-size: 24px;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            color: #0472e9;
+        }
         .contact-container {
             padding: 10px;
             cursor: pointer;
@@ -69,14 +76,6 @@
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
 
-        footer {
-            background-color: rgba(0, 0, 0, 0.05);
-            text-align: center;
-            padding: 10px 0;
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-        }
 
         li {
             list-style-type: none;
@@ -84,6 +83,14 @@
 
         .navbar-nav .nav-link {
             color: black !important;
+        }
+        #hello .Inbox.chat-only .center-stage {
+            max-width: 100% !important;
+            width: 100% !important;
+            margin: 0 !important;
+        }
+        .fa-user {
+            color: #007bff;
         }
     </style>
 </head>
@@ -122,14 +129,13 @@
                 <!-- Contacts will be loaded here dynamically -->
             </div>
             <div id="talkjs-container">
-                <span class="loading-text">Loading chat...</span>
+                <span class="loading-text mt-2 text-center">Loading chat...</span>
             </div>
         </div>
     </div>
 
-    <footer>
-        <p>&copy; {{ date('Y') }} Chat Application. All rights reserved.</p>
-    </footer>
+    @include('home.footer')
+
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script type="text/javascript">
@@ -187,7 +193,7 @@
                             response.data.forEach(function (user) {
                                 const contactHtml = `
                                     <div class="contact-container" onclick="selectUser(${user.id})">
-                                        <span>${user.email ?? 'No email'}</span>
+                                        <span><i class="fa fa-user"></i> ${user.email ?? 'No email'}</span>
                                     </div>
                                 `;
                                 $('#contacts-list').append(contactHtml);

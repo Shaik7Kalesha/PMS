@@ -34,7 +34,9 @@
         }
         td{
             border-left:1px solid #ccc;
+            text-transform: capitalize;
         }
+        td:nth-child(3){text-transform:none;}
         table{
             border:1px solid black;
         }
@@ -375,6 +377,8 @@
             getMembersAndProjects();
         });
     </script>
+           @include('home.footer')
+
 
 
     <!-- Bootstrap JS -->

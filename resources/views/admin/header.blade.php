@@ -30,11 +30,17 @@
   .navbar-nav {
     flex-wrap: nowrap;
   }
+  button{
+    text-transform:capitalize;
+  }
+  element.style {
+    text-transform: capitalize;
+}
 </style>
 
 <nav class="navbar navbar-expand-lg sticky-top">
   <div class="container-fluid">
-    <a class="navbar-brand text-nowrap" href="#">Project Management</a>
+  <a class="navbar-brand" href="#">PROJECT MANAGEMENT</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -71,7 +77,7 @@
       @if (Auth::check())
         <form method="post" action="{{ route('logout') }}" class="d-flex">
           @csrf
-          <button class="btn btn-primary ms-3">LOGOUT ({{ Auth::user()->name }})</button>
+          <button   class="btn btn-primary ms-3">LOGOUT ({{ Auth::user()->name }})</button>
         </form>
       @endif
     </div>

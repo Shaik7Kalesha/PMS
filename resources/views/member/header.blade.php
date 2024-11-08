@@ -40,6 +40,9 @@
     background-color: #003f7f; /* Even darker blue on hover */
     border-color: #003f7f;
   }
+  .btn.btn-primary {
+    text-transform: capitalize;
+}
 </style>
 
 <!-- Navbar -->

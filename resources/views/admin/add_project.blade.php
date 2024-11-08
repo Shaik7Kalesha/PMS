@@ -29,16 +29,6 @@
             border-radius: 0.5rem;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
-
-        .footer {
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-            padding: 10px;
-            text-align: center;
-            background-color: #f8f9fa;
-            border-top: 1px solid #dee2e6;
-        }
     </style>
 </head>
 
@@ -47,7 +37,7 @@
     @include('admin.header')
 
     <div class="container mt-4">
-        <h1>Create Projects</h1>
+        <h3 class="text-center">Create Projects</h3>
 
         <!-- Form to Add Project -->
         <div class="card">
@@ -122,9 +112,7 @@
         });
     </script>
 
-    <footer class="footer">
-        <p>&copy; 2024 Project Management System. All rights reserved.</p>
-    </footer>
+@include('home.footer')
 </body>
 
 </html>

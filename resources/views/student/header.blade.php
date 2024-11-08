@@ -54,10 +54,10 @@ li {
       <div class="collapse navbar-collapse" id="navbarNavDropdown">
         <ul class="navbar-nav">
           <li class="nav-item">
-            <a class="nav-link" href="{{route('fetchtaskuser')}}"><i class="fas fa-users"></i>Assigned Tasks</a>
+            <a class="nav-link" href="{{route('fetchtaskuser')}}"><i class="fas fa-users"></i> Assigned Tasks</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{{route('fetchattendenceuser')}}"><i class="fas fa-user-tag"></i>Attendence</a>
+            <a class="nav-link" href="{{route('fetchattendenceuser')}}"><i class="fas fa-user-tag"></i> Attendence</a>
           </li>
           <li class="nav-item">
           <a class="nav-link" href="{{url('/chat')}}"><i class="fas fa-comments"></i> Chat</a>

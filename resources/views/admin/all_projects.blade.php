@@ -22,16 +22,14 @@
         }
 
         .table thead th {
-            background-color: #007bff;
-            color: #fff;
-            font-weight: bold;
-            font-size: 1.2rem;
-            text-align: center;
+            background-color: #ffffff;
+            color: #000;
         }
 
         .table tbody td {
             font-size: 1rem;
             padding: 1rem;
+            text-transform:capitalize;
         }
 
         .table tbody tr:hover {
@@ -72,6 +70,18 @@
 
         .buttons button {
             color: #fff;
+        }
+        td{
+            border-left:1px solid #ccc;
+            text-transform:capitalize;
+        }
+        td:nth-child(3){text-transform:none;}
+        table{
+            border:1px solid black;
+        }
+        thead th{
+            border-left:1px solid #ccc;
+
         }
     </style>
 </head>
@@ -375,6 +385,7 @@ function fetchProjects() {
             fetchStudents();
         });
     </script>
+       @include('home.footer')
 </body>
 
 </html>

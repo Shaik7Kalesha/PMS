@@ -11,6 +11,31 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
   <!-- CSRF Token for AJAX Requests -->
   <meta name="csrf-token" content="{{ csrf_token() }}">
+  <style>
+  td:{text-transform:capitalize;}
+  #teams-form{
+    width: 500px;
+    margin: 0 auto;
+    box-shadow: 1px 1px 5px #ccc;
+    padding: 20px;
+}
+td{
+            border-left:1px solid #ccc;
+            text-transform:capitalize;
+        }
+        td:nth-child(3){text-transform:none;}
+        table{
+            border:1px solid black;
+        }
+        thead th{
+            border-left:1px solid #ccc;
+
+        }
+        .table thead th {
+            background-color: #ffffff;
+            color: #000;
+        }
+  </style>
 </head>
 <body>
   <!-- Header -->
@@ -18,7 +43,7 @@
 
   <!-- Main Container -->
   <div class="container mt-5">
-    <h1 class="text-center mb-4">Add New Team</h1>
+    <h3 class="text-center mb-4">Add Team</h3>
 
     <!-- Team Form -->
     <form id="teams-form">
@@ -31,7 +56,7 @@
     </form>
 
     <!-- Teams List Table -->
-    <h2 class="mt-5">Teams List</h2>
+    <h3 class="mt-5">Teams List</h3>
     <table class="table table-striped table-hover border mt-3">
       <thead class="table-primary">
         <tr>
@@ -46,12 +71,6 @@
     </table>
   </div>
 
-  <!-- Footer -->
-  <footer class="bg-light text-center py-3 mt-5">
-    <div class="container">
-      <p class="mb-0">&copy; 2024 Project Management System. All rights reserved.</p>
-    </div>
-  </footer>
 
   <!-- Bootstrap JS (Optional) and jQuery -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
@@ -127,5 +146,6 @@
       }
     });
   </script>
+     @include('home.footer')
 </body>
 </html>

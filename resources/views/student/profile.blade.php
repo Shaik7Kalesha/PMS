@@ -60,6 +60,7 @@
             margin-bottom: 15px;
             transition: transform 0.3s;
             display: block;
+            margin: 0 auto;
         }
 
         .profile-pic:hover {
@@ -71,6 +72,7 @@
             margin: 10px 0;
             color: #333;
             text-align: center;
+            text-transform: capitalize;
         }
 
         p {
@@ -94,6 +96,7 @@
             font-weight: bold;
             transition: background-color 0.3s, transform 0.2s;
             display: block;
+            margin: 0 auto;
         }
 
         button:hover {
@@ -111,12 +114,6 @@
             text-align: center;
         }
 
-        footer {
-            padding: 20px 0;
-            background-color: #f7f7f7;
-            color: #666;
-            text-align: center;
-        }
 
         .fade-in {
             animation: fadeIn 1s ease-in-out;
@@ -162,7 +159,7 @@
 
 <body>
     <nav class="navbar navbar-expand-lg navbar-custom">
-        <a class="navbar-brand" href="#">Project Management</a>
+    <a class="navbar-brand" href="#">PROJECT MANAGEMENT</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -200,48 +197,49 @@
         </div>
     </div>
 
-    <footer>
-        <p>&copy; {{ date('Y') }}. All Rights Reserved.</p>
-    </footer>
+    @include('home.footer')
+
 
     <script>
-        document.getElementById('editButton').addEventListener('click', function () {
-            const profileForm = document.getElementById('profileForm');
-            profileForm.style.display = 'block'; // Show the form
-        });
+    document.getElementById('editButton').addEventListener('click', function () {
+        const profileForm = document.getElementById('profileForm');
+        profileForm.style.display = 'block'; // Show the form
+    });
 
-        document.getElementById('profileForm').addEventListener('submit', function (event) {
-            event.preventDefault(); // Prevent default form submission
+    document.getElementById('profileForm').addEventListener('submit', function (event) {
+        event.preventDefault(); // Prevent default form submission
 
-            const formData = new FormData(this); // Serialize the form data
+        const formData = new FormData(this); // Serialize the form data
 
-            fetch('{{ route("profile.update", Auth::user()->id) }}', {
-                method: 'POST',
-                body: formData,
-                headers: {
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                }
-            })
-            .then(response => {
-                if (!response.ok) {
-                    return response.json().then(errorData => {
-                        throw new Error(errorData.message || 'Error updating profile picture.');
-                    });
-                }
-                return response.json();
-            })
-            .then(data => {
-                if (data.success) {
-                    alert('Profile picture updated successfully!');
-                    window.location.reload(); // Reload to reflect changes
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('An error occurred: ' + error.message);
+        fetch('{{ route("profile.update", Auth::user()->id) }}', {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            }
+        })
+        .then(response => {
+            // Attempt to parse JSON, handling potential HTML responses
+            return response.json().catch(() => {
+                throw new Error('Invalid JSON response received from server');
             });
+        })
+        .then(data => {
+            if (data.success) {
+                alert('Profile picture updated successfully!');
+                window.location.reload(); // Reload to reflect changes
+            } else {
+                throw new Error(data.message || 'Error updating profile picture.');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred: ' + error.message);
         });
-    </script>
+    });
+</script>
+
+    
 </body>
 
 </html>

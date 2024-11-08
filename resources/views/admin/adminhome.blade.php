@@ -9,11 +9,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 
     <style>
-        body {
-            margin: 0;
-            padding: 0;
-            padding-bottom: 60px; /* Space for the footer */
-        }
+
 
         .navbar {
             position: sticky;
@@ -22,16 +18,6 @@
             z-index: 1000;
         }
 
-        .footer {
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-            padding: 10px;
-            text-align: center;
-            background-color: #f8f9fa;
-            border-top: 1px solid #dee2e6;
-            z-index: 1000;
-        }
 
         .card {
             transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -112,10 +98,7 @@
         </div>
     </div>
 
-    <!-- Footer -->
-    <div class="footer">
-        <p>&copy; 2024 Your Company. All Rights Reserved.</p>
-    </div>
+    @include('home.footer')
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

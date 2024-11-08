@@ -16,26 +16,29 @@
             background-color: #f8f9fa; /* Light background color */
         }
         .table th {
-            background-color: #0d6efd;
-            color: white;
+            background-color: #ffffff;
+            color: dark;
         }
         td{
             border-left:1px solid #ccc;
+            text-transform:capitalize;
         }
         table{
             border:1px solid black;
         }
         thead th{
             border-left:1px solid #ccc;
-
         }
+        .btn.btn-primary {
+    text-transform: capitalize;
+}
     </style>
 </head>
 <body>
     @include('student.header')
 
     <div class="container mt-4">
-        <h1 class="text-center mb-4">Attendance List</h1>
+        <h3 class="text-center mb-4">Attendance List</h3>
         
         <table class="table table-striped" id="attendanceTable">
             <thead>
@@ -89,5 +92,7 @@
             }
         });
     </script>
+           @include('home.footer')
+
 </body>
 </html>

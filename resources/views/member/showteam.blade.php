@@ -45,11 +45,12 @@
             padding: 12px;
             text-align: left;
             border-bottom: 1px solid #ddd;
+            text-transform:capitalize;
         }
 
         th {
-            background-color: #007bff;
-            color: white;
+            background-color: #e9ecef;
+            color: dark;
         }
 
         tr:hover {
@@ -96,7 +97,7 @@
 </head>
 <body>
     @include('member.header')
-    <h1>Team Details</h1>
+    <h3 class="text-center mt-5 d-block">Team Details</h3>
     <table id="projectTable" class="table table-bordered">
         <thead>
             <tr>
@@ -140,5 +141,6 @@
             });
         });
     </script>
-</body>
+       @include('home.footer')
+       </body>
 </html>

@@ -75,8 +75,10 @@
       flex-direction: column;
       justify-content: space-evenly;
       grid-column: 1 / 2;
-      grid-row: 1 / 2;
+      /* grid-row: 1 / 2; */
       transition: opacity 0.02s 0.4s;
+      margin-top: 90px;
+
     }
 
     form.sign-up-form {

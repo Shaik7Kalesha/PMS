@@ -119,5 +119,6 @@
             });
         });
     </script>
-</body>
+       @include('home.footer')
+       </body>
 </html>

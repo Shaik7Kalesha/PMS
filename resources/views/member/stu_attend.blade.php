@@ -38,7 +38,7 @@
         }
         .btn-present, .btn-absent {
             color: #fff;
-            width: 100%;
+            width: 80px;
             font-weight: 600;
             transition: background-color 0.3s;
         }
@@ -57,6 +57,9 @@
         .form-control {
             background-color: #ffffff !important;
             color: #000;
+        }
+        td{
+            text-transform:capitalize;
         }
     </style>
 </head>
@@ -156,6 +159,8 @@
             });
         });
     </script>
+           @include('home.footer')
+
 </body>
 
 </html>
