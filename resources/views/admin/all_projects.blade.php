@@ -45,6 +45,9 @@
             background-color: #0056b3;
             border-color: #004a99;
         }
+        th{
+            
+        }
 
         .btn-danger {
             background-color: #dc3545;
