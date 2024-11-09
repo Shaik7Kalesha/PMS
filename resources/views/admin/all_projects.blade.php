@@ -79,6 +79,7 @@
             text-transform:capitalize;
         }
         td:nth-child(3){text-transform:none;}
+        td:nth-child(8){text-wrap: nowrap;;}
         table{
             border:1px solid black;
         }

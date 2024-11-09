@@ -42,7 +42,7 @@
         }
         thead th{
             border-left:1px solid #ccc;
-
+            
         }
     </style>
 </head>

@@ -44,18 +44,24 @@
             height: 824px; /* Set height to match the image */
             /* overflow-y: auto; Allow scrolling if content overflows */
         }
+        .form-image {
+        max-width: 100%;
+        height: auto;
+        border-radius: 10px;
+        }
     </style>
 </head>
 <body>
     <div class="container registration-container">
         <div class="row w-100">
-            <div class="col-md-6 image-container">
-                <img src="../images/pms-imag.jpg" alt="Registration Image" style="height:824px">
+        <div class="col-lg-6 col-md-6 d-flex align-items-center justify-content-center">
+        <img src="../images/member.logo.jpg" alt="Registration Image" style="height:824px" class="form-image">
             </div>
             <div class="col-md-6 form-container">
-                <div class="text-center mb-4">
+            <div class="text-center">
                     <h3>STUDENT REGISTRATION</h3>
                 </div>
+                <div class="mt-4">
                 <form method="POST" id="student-form" action="{{ route('student_store') }}">
                     @csrf
                     <div class="row mb-3">

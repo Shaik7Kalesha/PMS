@@ -69,7 +69,7 @@
         <div class="row">
             <!-- Left side image -->
             <div class="col-lg-6 col-md-6 d-flex align-items-center justify-content-center">
-                <img src="../images/pms-imag.jpg" alt="Registration Image" class="form-image">
+                <img src="../images/member.logo.jpg" alt="Registration Image" class="form-image">
             </div>
 
             <!-- Right side form -->

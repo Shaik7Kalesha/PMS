@@ -224,7 +224,7 @@
       width: 55%;
       left: 45%;
       top: 0;
-      background-color: #ffe0d2;
+      background-color: #fff;
       border-radius: 2rem;
       display: grid;
       grid-template-rows: auto 1fr;
@@ -442,9 +442,7 @@
 <!-- Sign Up Form -->
 <form method="POST" action="{{ route('register') }}" autocomplete="off" class="sign-up-form">
   @csrf
-  <div class="logo">
-    <h4>GOLD SMITH</h4>
-  </div>
+
   <div class="heading">
     <h2>Get Started</h2>
     <h6>Already have an account?</h6>
@@ -476,20 +474,12 @@
         </div>
         <div class="carousel">
           <div class="images-wrapper">
-            <img src="../images/pms-imag.jpg" class="image img-1 show" alt="Task Management" style="height:590px;object-fit:cover;  object-position: 100% 100%;
+            <img src="../images/logo1.jpg" class="image img-1 show" alt="Task Management" style="height:590px;object-fit:cover;  object-position: 100% 100%;
 " />
 
           </div>
 
-          <div class="text-slider">
-            <div class="text-wrap">
-              <div class="text-group">
-                <h2>GOLD SMITH </h2>
-              </div>
-            </div>
 
-
-          </div>
         </div>
 
       </div>

@@ -6,7 +6,7 @@
     <title>Leave Records</title>
 
 <!-- Bootstrap CSS -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
 <!-- Font Awesome for Icons -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -51,6 +51,9 @@
         th {
             background-color: #007bff;
             color: white;
+            font-style: normal;
+            text-: auto;
+            color: black;
         }
 
         tr:hover {
@@ -74,9 +77,7 @@
             background-color: #dc3545; /* Red */
         }
 
-        button:hover {
-            opacity: 0.9;
-        }
+
 
         /* Optional responsive design */
         @media (max-width: 600px) {
@@ -127,8 +128,8 @@
                         $.each(response.data, function(index, leave) {
                             $('#leaveTable tbody').append(
                                 `<tr>
-                                    <td>${leave.bio_id}</td>
                                     <td>${leave.id}</td>
+                                    <td>${leave.bio_id}</td>
                                     <td>${leave.designation}</td>
                                     <td>${leave.reason}</td>
                                     <td>${leave.status}</td>

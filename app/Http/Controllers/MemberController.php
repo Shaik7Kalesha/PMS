@@ -70,7 +70,7 @@ class MemberController extends Controller
 
         $member->save();
 
-        return response()->json(['message' => 'member added successfully']);
+        return response()->json(['message' => 'Request sent successfully']);
     }
 
     public function edit($id)
