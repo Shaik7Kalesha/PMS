@@ -40,6 +40,9 @@ li {
     background-color: #003f7f; /* Even darker blue on hover */
     border-color: #003f7f;
   }
+  button {
+    text-transform: capitalize;
+}
 
   </style>
 

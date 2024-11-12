@@ -77,7 +77,9 @@
             background-color: #dc3545; /* Red */
         }
 
-
+        th{
+            border-bottom:1px solid black !important;
+        }
 
         /* Optional responsive design */
         @media (max-width: 600px) {

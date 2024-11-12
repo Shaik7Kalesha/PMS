@@ -18,12 +18,20 @@
         .table th {
             background-color: #ffffff;
             color: dark;
-            
         }
         td{
+            border-left:1px solid #ccc;
             text-transform:capitalize;
         }
-        td:nth-child(5),td:nth-child(6){text-wrap:nowrap;}
+        table{
+            border:1px solid black;
+        }
+        thead th{
+            border-left:1px solid #ccc;
+        }
+        .btn.btn-primary {
+    text-transform: capitalize;
+}
     </style>
 </head>
 <body>
@@ -71,12 +79,12 @@
                             let statusBadge = task.status == 'completed' ? 'bg-success' : 'bg-warning';
                             $('#taskTable tbody').append(`
                                 <tr>
-                                    <td>${task.id}</td>
+                                    <td>${task.student_id}</td>
                                     <td>${task.title}</td>
                                     <td>${task.task_name}</td>
                                     <td>${task.description}</td>
-                                    <td>${task.task_date}</td>
-                                    <td>${task.eta}</td>
+                                    <td style="text-wrap: nowrap;">${task.task_date}</td>
+                                    <td style="text-wrap: nowrap;">${task.eta}</td>
 
                                 </tr>
                             `);

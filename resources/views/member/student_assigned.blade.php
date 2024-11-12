@@ -87,7 +87,7 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <form id="taskForm">
+                        <form id="taskForm" action="{{ route('add_task') }}">
                             <input type="hidden" name="student_id" id="student_id">
                             <input type="hidden" name="member_id" value="{{ auth()->user()->member_id }}">
                             <div class="form-group">
@@ -181,6 +181,7 @@
                 var actionUrl = $(this).data('action');
 
                 $.ajax({
+
                     type: "POST",
                     url: actionUrl,
                     data: formData,

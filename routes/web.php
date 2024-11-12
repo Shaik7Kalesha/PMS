@@ -176,7 +176,7 @@ Route::post('/accept_leave/{id}', [AdminController::class, 'accept_leave'])->nam
 Route::post('/reject_leave/{id}', [AdminController::class, 'reject_leave'])->name('reject.leave');
 
 
-Route::get('/fetchtaskuser',[StudentController::class,'fetchtaskuser'])->name('fetchtaskuser');
+Route::get('/fetchtaskuser', [StudentController::class, 'fetchtaskuser'])->name('fetchtaskuser')->middleware('auth');
 Route::get('/fetchattendenceuser',[StudentController::class,'fetchattendenceuser'])->name('fetchattendenceuser');
 
 
