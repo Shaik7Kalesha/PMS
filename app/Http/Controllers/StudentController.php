@@ -234,7 +234,7 @@ class StudentController extends Controller
             'taskDescription' => 'required|string',
             'taskDate' => 'required|date',
             'taskEta' => 'required|date_format:H:i',
-            'studentId' => 'required|integer|exists:users,id',
+            'studentId' => 'required|integer|exists:students,id',
         ]);
 
         $task = new Tasks();
@@ -346,7 +346,6 @@ public function rejectStudent($id)
             $user->delete(); // Delete the user from the database
         }
 
-        $student->delete(); // Delete the student from the students table
 
         return response()->json(['message' => 'Student rejected and deleted successfully.']);
     } else {
@@ -432,27 +431,19 @@ public function rejectStudent($id)
 
 
     public function fetchtaskuser()
-    {
-        $fetchtaskuser = Tasks::where('student_id', Auth::id())->get();
-        
-        // Log the fetched tasks for debugging
-        logger()->info($fetchtaskuser);
-    
-        if (request()->expectsJson()) {
-            return response()->json([
-                'success' => true,
-                'message' => 'Tasks fetched successfully',
-                'data' => $fetchtaskuser
-            ]);
-        }
-    
-        return view('student.fetchtask', compact('fetchtaskuser'));
+{
+    // Fetch all tasks
+    $fetchtaskuser = Tasks::all();
+
+    // Check if the request expects JSON
+    if (request()->expectsJson()) {
+        return response()->json($fetchtaskuser);
     }
-    
-    
-    
 
-
+    // If not a JSON request, return a view with the tasks
+    return view('student.fetchtask', compact('fetchtaskuser'));
+}
+    
 
 public function fetchattendenceuser(){
     $fetchattendenceuser = Student::all();

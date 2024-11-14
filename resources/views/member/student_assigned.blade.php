@@ -13,36 +13,19 @@
         .table-hover tbody tr:hover {
             background-color: #f1f1f1;
         }
-
         .header {
             font-size: 1.5rem;
             font-weight: 600;
             color: black;
-            padding-bottom: 0.5rem;
-            margin-bottom: 1.5rem;
+            padding-bottom: 1.0rem;
         }
-
         .modal-header {
             background-color: #007bff;
             color: #fff;
         }
-
-        .table th,
         .table td {
-            text-align: center;
-            vertical-align: middle;
             word-wrap: break-word;
-            padding: 0.75rem;
-            text-transform:capitalize;
         }
-        th{
-            text-wrap:nowrap;
-        }
-        /* Ensure dates remain on a single line */
-        .table td.date-cell {
-            white-space: nowrap;
-        }
-
         body {
             background-color: #fff;
             padding: 0;
@@ -60,13 +43,13 @@
             <table class="table table-hover table-bordered w-100 mx-auto">
                 <thead class="thead-light">
                     <tr>
-                        <th>Student ID</th>
-                        <th>Member ID</th>
+                        <th class='text-nowrap'>Student ID</th>
+                        <th class='text-nowrap'>Member ID</th>
                         <th>Title</th>
                         <th>Description</th>
                         <th>Task Name</th>
-                        <th>Task Date</th>
-                        <th>ETA</th>
+                        <th class='text-nowrap'>Task Date</th>
+                        <th class='text-nowrap'>ETA</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -87,7 +70,7 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <form id="taskForm" action="{{ route('add_task') }}">
+                        <form id="taskForm">
                             <input type="hidden" name="student_id" id="student_id">
                             <input type="hidden" name="member_id" value="{{ auth()->user()->member_id }}">
                             <div class="form-group">
@@ -110,6 +93,13 @@
                                 <label for="eta">ETA</label>
                                 <input type="date" class="form-control" name="eta" id="eta" required>
                             </div>
+                            <!-- <div class="form-group">
+                                <label for="status">Status</label>
+                                <select class="form-control" name="status" id="status" required>
+                                    <option value="pending">Pending</option>
+                                    <option value="completed">Completed</option>
+                                </select>
+                            </div> -->
                             <button type="submit" class="btn btn-primary btn-block">Submit</button>
                         </form>
                     </div>
@@ -145,16 +135,16 @@
                                     <td>${student.project_title || 'N/A'}</td>
                                     <td>${student.project_description || 'N/A'}</td>
                                     <td>${student.task_name || 'N/A'}</td>
-                                    <td class="date-cell">${student.task_date || 'N/A'}</td>
-                                    <td class="date-cell">${student.eta || 'N/A'}</td>
+                                    <td class='text-nowrap'>${student.task_date || 'N/A'}</td>
+                                    <td class='text-nowrap'>${student.eta || 'N/A'}</td>
                                     <td>
-                                        <a class="accept-btn btn btn-primary text-nowrap"  data-id="${student.id}" data-project-title="${student.project_title}" data-project-description="${student.project_description}" data-toggle="modal" data-target="#taskModal">Add Task</a>
+                                        <a class="accept-btn btn btn-primary" data-id="${student.id}" data-project-title="${student.project_title}" data-project-description="${student.project_description}" data-toggle="modal" data-target="#taskModal" style="text-wrap:nowrap;">Add Task</a>
                                     </td>
                                 </tr>`;
                                 tableBody.append(data);
                             });
                         } else {
-                            tableBody.append('<tr><td colspan="8" class="text-center">No students assigned yet.</td></tr>');
+                            tableBody.append('<tr><td colspan="10" class="text-center">No students assigned yet.</td></tr>');
                         }
                     },
                     error: function (xhr) {
@@ -172,6 +162,7 @@
                 $('#task_name').val("");
                 $('#task_date').val("");
                 $('#eta').val("");
+                $('#status').val("pending");
                 $('#taskForm').data('action', "{{ route('add_task') }}");
             });
 
@@ -181,7 +172,6 @@
                 var actionUrl = $(this).data('action');
 
                 $.ajax({
-
                     type: "POST",
                     url: actionUrl,
                     data: formData,
@@ -201,8 +191,6 @@
             });
         });
     </script>
-           @include('home.footer')
-
 </body>
 
 </html>

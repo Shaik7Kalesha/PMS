@@ -26,6 +26,7 @@ td{
         td:nth-child(3){text-transform:none;}
         table{
             border:1px solid black;
+            width:50%;
         }
         thead th{
             border-left:1px solid #ccc;
@@ -34,6 +35,10 @@ td{
         .table thead th {
             background-color: #ffffff;
             color: #000;
+        }
+        .team-list{
+          width:500px;
+          margin:0 auto;
         }
   </style>
 </head>
@@ -56,13 +61,14 @@ td{
     </form>
 
     <!-- Teams List Table -->
-    <h3 class="mt-5">Teams List</h3>
+     <div class='team-list mt-4' >
+    <h3 class="text-center mb-4">Teams List</h3>
     <table class="table table-striped table-hover border mt-3">
       <thead class="table-primary">
         <tr>
           <th>ID</th>
           <th>Team Name</th>
-          <th>Actions</th>
+          <!-- <th>Actions</th> -->
         </tr>
       </thead>
       <tbody id="team-table-body">
@@ -70,6 +76,7 @@ td{
       </tbody>
     </table>
   </div>
+      </div>
 
 
   <!-- Bootstrap JS (Optional) and jQuery -->
@@ -125,10 +132,7 @@ td{
         var row = `<tr data-id="${id}">
                      <td>${id}</td>
                      <td>${name}</td>
-                     <td>
-                       <button class="btn btn-primary btn-sm open-btn">Open</button>
-                       <button class="btn btn-secondary btn-sm close-btn">Close</button>
-                     </td>
+
                    </tr>`;
         $('#team-table-body').append(row);
         attachEventListeners();

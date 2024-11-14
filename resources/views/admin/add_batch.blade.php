@@ -75,6 +75,10 @@
             border-left:1px solid #ccc;
 
         }
+        .batch-list{
+          width:500px;
+          margin:0 auto;
+        }
   </style>
 </head>
 
@@ -108,18 +112,18 @@
     </div>
 
     <div class="row">
-      <div class="col-lg-12 col-md-12">
         <!-- Table for Displaying Batches -->
         <div>
           <div>
-            <h4 class="card-title">Batch List</h4>
+          <div class='batch-list'>
+            <h4 class="text-center">Batch List</h4>
             <div class="table-responsive">
               <table class="table table-striped">
                 <thead>
                   <tr>
                     <th scope="col">Batch Id</th>
                     <th scope="col">Batch Name</th>
-                    <th scope="col">Action</th>
+                    <!-- <th scope="col">Action</th> -->
                   </tr>
                 </thead>
                 <tbody id="batch-table-body">
@@ -132,6 +136,7 @@
       </div>
     </div>
   </div>
+
 
   <!-- Bootstrap JS and dependencies -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
@@ -192,10 +197,6 @@
           <tr data-batch-id="${batchId}">
             <td>${batchId}</td>
             <td>${batchName}</td>
-            <td>
-              <button class="btn btn-primary btn-sm open-btn">Open</button>
-              <button class="btn btn-danger btn-sm close-btn">Close</button>
-            </td>
           </tr>`;
         $('#batch-table-body').append(row);
       }

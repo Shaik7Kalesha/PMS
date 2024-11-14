@@ -5,11 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Leave Records</title>
 
-<!-- Bootstrap CSS -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
-
-<!-- Font Awesome for Icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 
 <!-- jQuery -->
 <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
@@ -101,14 +100,16 @@
 <body>
     @include('admin.header')
     <h3 class="text-center">Leave Records</h3>
-    <table id="leaveTable" class="table table-bordered">
+    <table id="leaveTable" class="table table-bordered table-striped table-responsive">
         <thead>
+
             <tr>
                 <th>ID</th>
-                <th>Bio ID</th>
+                <th class='text-nowrap'>Bio ID</th>
                 <th>Designation</th>
                 <th>Reason</th>
                 <th>Status</th>
+                <th>Date</th>
                 <th>Action</th> <!-- New Action column -->
             </tr>
         </thead>
@@ -130,12 +131,13 @@
                         $.each(response.data, function(index, leave) {
                             $('#leaveTable tbody').append(
                                 `<tr>
-                                    <td>${leave.id}</td>
-                                    <td>${leave.bio_id}</td>
-                                    <td>${leave.designation}</td>
-                                    <td>${leave.reason}</td>
-                                    <td>${leave.status}</td>
-                                    <td>
+                                    <td style="text-wrap: nowrap;">${leave.id}</td>
+                                    <td style="text-wrap: nowrap;">${leave.bio_id}</td>
+                                    <td style="text-wrap: nowrap;">${leave.designation}</td>
+                                    <td style="text-wrap: nowrap;">${leave.reason}</td>
+                                    <td style="text-wrap: nowrap;">${leave.status}</td>
+                                    <td style="text-wrap: nowrap;">${leave.date}</td>
+                                    <td style="text-wrap: nowrap;">
                                         <button class="accept-btn btn" data-id="${leave.id}">
                                             <i class="fas fa-check"></i> Accept
                                         </button>

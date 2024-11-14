@@ -43,7 +43,9 @@
         <table class="table table-striped" id="taskTable">
             <thead>
                 <tr>
-                    <th>ID</th>
+                    <th style="text-wrap: nowrap;">Student ID</th>
+                    <th style="text-wrap: nowrap;">Member ID</th>
+
                     <th>Project</th>
                     <th>Task Name</th>
                     <th>Description</th>
@@ -80,6 +82,8 @@
                             $('#taskTable tbody').append(`
                                 <tr>
                                     <td>${task.student_id}</td>
+                                    <td>${task.member_id}</td>
+
                                     <td>${task.title}</td>
                                     <td>${task.task_name}</td>
                                     <td>${task.description}</td>
