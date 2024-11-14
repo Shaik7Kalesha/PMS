@@ -182,7 +182,7 @@
             const tableBody = $('#batch-table-body');
             tableBody.empty();
             response.batches.forEach(batch => {
-              addBatchRow(batch.batch_id, batch.batch_name);
+              addBatchRow(batch.id, batch.batch_name);
             });
           },
           error: function (xhr) {

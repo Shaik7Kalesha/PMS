@@ -381,7 +381,7 @@ public function rejectStudent($id)
              'mentor_name' => 'required',
              'mentor_number' => 'required',
              'student_number' => 'required',
-             'member_id' => 'nullable',
+             'member_id' => 'nullable|required|members:id',
              'project_title' => 'nullable',
              'project_description' => 'nullable'
          ]);

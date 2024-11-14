@@ -173,7 +173,7 @@
                     success: function (response) {
                         if (response.status == 200) {
                             alert(response.message || 'Student added successfully');
-                            location.reload();
+                            window.location.reload();
                         } else {
                             alert(response.message || 'An error occurred. Please try again.');
                         }
