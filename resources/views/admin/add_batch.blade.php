@@ -79,6 +79,20 @@
           width:500px;
           margin:0 auto;
         }
+        @media (max-width:500px) {
+    .batch-list {
+        width: 100%;
+        margin: 0 auto;
+    }
+    #batches-form{
+        width: 100%;
+    }
+    .navbar.container-fluid{
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;   
+     }
+    }
   </style>
 </head>
 

@@ -44,6 +44,15 @@
             border-left:1px solid #ccc;
             
         }
+        @media (max-width:770px) {
+            .member-list {
+            width: 100%;
+            margin: 0 auto;
+        }
+        .navbar {
+            width: 1147px;
+        }
+        }
     </style>
 </head>
 
@@ -54,6 +63,7 @@
     <div class="container-fluid page-body-wrapper">
         <div class="main-panel">
             <div class="text-center mb-4">
+            <div class='student-list'>
                 <h3>STUDENT LIST</h3>
             </div>
             <div class="content-wrapper">
@@ -73,6 +83,7 @@
                 </table>
             </div>
         </div>
+    </div>
     </div>
 
     <!-- Student Registration Modal -->
@@ -315,7 +326,7 @@
                         memberSelect.empty().append('<option value="">Select Developer</option>');
                         if (response.getmember) {
                             response.getmember.forEach(function (member) {
-                                memberSelect.append($('<option></option>').attr('value', member.bioid).text(member.name));
+                                memberSelect.append($('<option></option>').attr('value', member.id).text(member.name));
                             });
                         }
                     },

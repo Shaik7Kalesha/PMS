@@ -31,6 +31,15 @@
             padding-left: 0;
             padding-right: 0;
         }
+        @media (max-width:770px) {
+            .member-list {
+            width: 100%;
+            margin: 0 auto;
+        }
+        .navbar {
+            width: 1147px;
+        }
+        }
     </style>
 </head>
 <body>
@@ -39,6 +48,7 @@
     <div class="container-fluid page-body-wrapper">
         <div class="main-panel">
             <div class="text-center mb-4">
+            <div class='member-list'>
                 <h3>MEMBER LIST</h3>
             </div>
             <div class="content-wrapper">
@@ -59,6 +69,7 @@
                 </tbody>
             </table>
         </div>
+    </div>
     </div>
 
     <!-- Modal for Editing Member -->

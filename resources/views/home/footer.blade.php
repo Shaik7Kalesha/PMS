@@ -6,7 +6,6 @@
       padding: 10px 0 10px;
       display: block;
       width: 100%;
-      position: fixed;
       bottom: 0;
       background: #fff;
    }

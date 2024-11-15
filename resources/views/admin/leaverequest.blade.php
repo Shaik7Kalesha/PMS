@@ -95,10 +95,20 @@
         body {
             padding: 0px !important;
         }
+        @media (max-width:770px) {
+            .leave-list {
+            width: 100%;
+            margin: 0 auto;
+        }
+        .navbar {
+            width: 1147px;
+        }
+        }
     </style>
 </head>
 <body>
     @include('admin.header')
+    <div class='leave-list'>
     <h3 class="text-center">Leave Records</h3>
     <table id="leaveTable" class="table table-bordered table-striped table-responsive">
         <thead>
@@ -117,6 +127,7 @@
             <!-- Data will be appended here -->
         </tbody>
     </table>
+    </div>
 
     <script>
         $(document).ready(function() {

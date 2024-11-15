@@ -172,7 +172,7 @@
                     <li class="nav-item">
                         <form method="post" action="{{ route('logout') }}" class="nav-link">
                             @csrf
-                            <button class="btn btn-outline-light my-2 my-sm-0">LOGOUT ({{ Auth::user()->name }})</button>
+                            <button class="btn btn-outline-light my-2 my-sm-0" style="text-transform: capitalize;!important">LOGOUT ({{ Auth::user()->name }})</button>
                         </form>
                     </li>
                 @endif

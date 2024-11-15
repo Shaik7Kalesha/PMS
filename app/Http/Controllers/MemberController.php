@@ -119,46 +119,49 @@ class MemberController extends Controller
     ]);
 
     return response()->json(['status' => 'success', 'message' => 'Member data updated successfully!']);
-}
+}public function acceptMember(Request $request, $id)
+{
+    // Find the member by ID
+    $member = Member::find($id);
 
-    public function acceptMember(Request $request, $id)
-    {
-        // Find the member by ID
-        $member = Member::find($id);
+    if ($member) {
+        // Check if a user already exists for this member's email
+        $user = User::where('email', $member->personalemail)->first();
 
-        if ($member) {
-            // Check if a user already exists for this member
-            $user = User::where('email', $member->personalemail)->first();
-
-            if ($user) {
-                // If user already exists, update the user details
-                $user->name = $member->name;
-                $user->usertype = $request->usertype;
-                $user->member_id = $member->bioid;
-                $user->save();
-            } else {
-                // If user does not exist, create a new user
-                $newUser = new User();
-                $newUser->name = $member->name;
-                $newUser->email = $member->personalemail;
-                $newUser->password = bcrypt($member->password); // Assuming the password is stored in a hashed form
-                $newUser->usertype = $request->usertype;
-                $newUser->member_id = $member->bioid;
-                $newUser->save();
-            }
+        // If user does not exist, create a new user
+        if (!$user) {
+            $newUser = new User();
+            $newUser->name = $member->name;
+            $newUser->email = $member->personalemail;
+            $newUser->password = bcrypt($member->password); // Assuming the password is already hashed
+            $newUser->usertype = 'member';
+            $newUser->member_id = $member->id;
+            $newUser->save();
 
             // Update member status to "accepted"
             $member->status = 'accepted';
             $member->save();
 
-            // Customize the success message based on user type
-            $message = ($request->input('usertype') == 'tl') ? 'TL added and stored successfully' : 'Member added and stored successfully';
-
-            return response()->json(['message' => $message], 200);
+            // Define the success message
+            $message = 'Member accepted and user created successfully.';
         } else {
-            return response()->json(['message' => 'Member not found'], 404);
+            // If the user already exists, update the member status only
+            $member->status = 'accepted';
+            $member->save();
+
+            // Define a different message if the user already exists
+            $message = 'Member accepted, but user already exists.';
         }
+
+        // Return a JSON response with the success message
+        return response()->json(['message' => $message], 200);
+    } else {
+        // If the member is not found, return a 404 error
+        return response()->json(['message' => 'Member not found'], 404);
     }
+}
+
+
 
 
 
@@ -285,7 +288,7 @@ class MemberController extends Controller
     {
         $validatedData = $request->validate([
             'student_id' => 'exists:students,id',
-            'member_id' => 'exists:members,bioid',
+            'member_id' => 'exists:members,id',
             'title' => 'required|string',
             'description' => 'required|string',
             'task_name' => 'required|string',

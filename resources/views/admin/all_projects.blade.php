@@ -87,6 +87,17 @@
             border-left:1px solid #ccc;
 
         }
+        
+
+        @media (max-width:770px) {
+            .project-list {
+            width: 100%;
+            margin: 0 auto;
+        }
+        .navbar {
+            width: 1147px;
+        }
+        }
     </style>
 </head>
 
@@ -94,6 +105,7 @@
     @include('admin.header')
     <div class="container-fluid">
     <div class="text-center mb-4">
+    <div class='project-list'>
                 <h3>PROJECTS LIST</h3>
             </div>
         <table class="table table-striped">

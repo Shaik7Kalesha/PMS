@@ -365,47 +365,73 @@ public function rejectStudent($id)
      }
  }
 
- // Update student (for form submission)
  public function updateStudent(Request $request, $id)
  {
+     // Log the incoming request data
+     \Log::info('Incoming request data: ', $request->all());
+ 
+     // Validate the incoming request data
+     $validatedData = $request->validate([
+         'member_id' => 'exists:members,id', // Ensure member_id exists in 'members' table
+         'regno' => 'required|int',
+         'name' => 'required|string|max:255',
+         'email' => 'required|email|min:8',
+         'password' => 'required|string|min:8',
+         'department' => 'required|max:255',
+         'batch_year' => 'required|string|max:255',
+         'mentor_name' => 'required|string|max:255',
+         'mentor_number' => 'required|max:255',
+         'student_number' => 'required|max:255',
+         'project_title' => 'required|string|max:255',
+         'project_description' => 'required|string:max:500',
+     ]);
+ 
+     // Log the student ID
+     \Log::info('Student ID: ' . $id);
+ 
+     // Log the member ID
+     \Log::info('Member ID: ' . $request->member_id);
+ 
+     // Find the student by ID
      $student = Student::find($id);
-
-     if ($student) {
-         // Validate input data
-         $request->validate([
-             'regno' => 'required',
-             'name' => 'required',
-             'email' => 'required|email',
-             'department' => 'required',
-             'batch_year' => 'required',
-             'mentor_name' => 'required',
-             'mentor_number' => 'required',
-             'student_number' => 'required',
-             'member_id' => 'nullable|required|members:id',
-             'project_title' => 'nullable',
-             'project_description' => 'nullable'
-         ]);
-
-         // Update student data
-         $student->regno = $request->regno;
-         $student->name = $request->name;
-         $student->email = $request->email;
-         $student->department = $request->department;
-         $student->batch_year = $request->batch_year;
-         $student->mentor_name = $request->mentor_name;
-         $student->mentor_number = $request->mentor_number;
-         $student->student_number = $request->student_number;
-         $student->member_id = $request->member_id;
-         $student->project_title = $request->project_title;
-         $student->project_description = $request->project_description;
-
-         $student->save();
-
-         return response()->json(['message' => 'Student updated successfully.']);
-     } else {
-         return response()->json(['message' => 'Student not found.'], 404);
+ 
+     if (!$student) {
+         \Log::error('Student not found with ID: ' . $id);
+         return response()->json(['status' => 'error', 'message' => 'Student not found'], 404);
      }
+ 
+     // Update student data
+     $student->member_id = $request->member_id;
+     $student->regno = $request->regno;
+     $student->name = $request->name;
+     $student->email = $request->email;
+     $student->password = Hash::make($request->password);
+     $student->department = $request->department;
+     $student->batch_year = $request->batch_year;
+     $student->mentor_name = $request->mentor_name;
+     $student->mentor_number = $request->mentor_number;
+     $student->student_number = $request->student_number;
+     $student->project_title = $request->project_title;
+     $student->project_description = $request->project_description;
+ 
+     // Save the updated student data
+     $student->save();
+ 
+     // Log success and return response
+     \Log::info('Student updated successfully: ' . $student->id);
+     return response()->json(['status' => 'success', 'message' => 'Student data updated successfully']);
  }
+ 
+ 
+
+
+
+
+
+
+
+
+
 
  // Fetch available members for assignment
  public function getMembers()
