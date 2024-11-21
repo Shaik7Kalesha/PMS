@@ -7,9 +7,8 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>Student List</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Font Awesome -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">  <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <!-- jQuery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -44,15 +43,6 @@
             border-left:1px solid #ccc;
             
         }
-        @media (max-width:770px) {
-            .member-list {
-            width: 100%;
-            margin: 0 auto;
-        }
-        .navbar {
-            width: 1147px;
-        }
-        }
     </style>
 </head>
 
@@ -66,6 +56,7 @@
             <div class='student-list'>
                 <h3>STUDENT LIST</h3>
             </div>
+            <div class="table-responsive">
             <div class="content-wrapper">
                 <table class="table table-striped table-responsive">
                     <thead>
@@ -83,6 +74,7 @@
                 </table>
             </div>
         </div>
+    </div>
     </div>
     </div>
 
@@ -392,9 +384,7 @@
 
 
 
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"></script>
+
 </body>
 
 </html>

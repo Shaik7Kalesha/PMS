@@ -5,12 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Member List</title>
-
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Font Awesome -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">  <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-
     <!-- jQuery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <style>
@@ -31,15 +29,7 @@
             padding-left: 0;
             padding-right: 0;
         }
-        @media (max-width:770px) {
-            .member-list {
-            width: 100%;
-            margin: 0 auto;
-        }
-        .navbar {
-            width: 1147px;
-        }
-        }
+     
     </style>
 </head>
 <body>
@@ -51,6 +41,7 @@
             <div class='member-list'>
                 <h3>MEMBER LIST</h3>
             </div>
+            <div class="table-responsive">
             <div class="content-wrapper">
                 <table class="table table-striped table-responsive">
                 <thead>
@@ -69,6 +60,7 @@
                 </tbody>
             </table>
         </div>
+    </div>
     </div>
     </div>
 
@@ -212,31 +204,31 @@
 
             // AJAX Request to Update Member Data based on bioid
             $('#member-form').on('submit', function (e) {
-    e.preventDefault(); // Prevent the default form submission
+            e.preventDefault(); // Prevent the default form submission
 
-    var bioid = $('#bioid').val(); // Get the bioid from the form
-    var formData = $(this).serialize(); // Serialize the form data
+            var bioid = $('#bioid').val(); // Get the bioid from the form
+            var formData = $(this).serialize(); // Serialize the form data
 
-    $.ajax({
-        type: "POST",
-        url: "/update-member/" + bioid, // Use bioid in the URL
-        data: formData, // Send the serialized form data
-        dataType: "json", // Expect JSON response from the server
-        success: function (response) {
-            if (response.status === 'success') {
-                alert("Member data updated successfully!");
-                $('#exampleModalToggle').modal('hide'); // Close the modal
-                fetchMembers(); // Reload the members list
-            } else {
-                alert("Error: " + response.message);
-            }
-        },
-        error: function (xhr, status, error) {
-            console.error("AJAX Request Error:", xhr.responseText);
-            alert("AJAX Request Error: " + xhr.responseText); // Alert the error message
-        }
-    });
-});
+            $.ajax({
+                type: "POST",
+                url: "/update-member/" + bioid, // Use bioid in the URL
+                data: formData, // Send the serialized form data
+                dataType: "json", // Expect JSON response from the server
+                success: function (response) {
+                    if (response.status === 'success') {
+                        alert("Member data updated successfully!");
+                        $('#exampleModalToggle').modal('hide'); // Close the modal
+                        window.location.reload();
+                    } else {
+                        alert("Error: " + response.message);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error("AJAX Request Error:", xhr.responseText);
+                    alert("AJAX Request Error: " + xhr.responseText); // Alert the error message
+                }
+            });
+        });
 
             // Accept/Reject Member (combined function)
             function updateMemberStatus(memberId, action) {

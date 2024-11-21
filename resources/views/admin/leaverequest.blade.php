@@ -4,12 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Leave Records</title>
-
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+     <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">  <!-- Font Awesome -->
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 <!-- jQuery -->
 <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
 
@@ -59,14 +58,7 @@
             background-color: #f1f1f1;
         }
 
-        button {
-            padding: 8px 12px;
-            margin-right: 5px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            color: white;
-        }
+       
 
         .accept-btn {
             background-color: #28a745; /* Green */
@@ -81,28 +73,9 @@
         }
 
         /* Optional responsive design */
-        @media (max-width: 600px) {
-            table, th, td {
-                font-size: 14px; /* Adjust font size for smaller screens */
-            }
-
-            button {
-                width: 100%; /* Make buttons full width on small screens */
-                margin: 5px 0;
-            }
-        }
-
+       
         body {
             padding: 0px !important;
-        }
-        @media (max-width:770px) {
-            .leave-list {
-            width: 100%;
-            margin: 0 auto;
-        }
-        .navbar {
-            width: 1147px;
-        }
         }
     </style>
 </head>
@@ -110,6 +83,7 @@
     @include('admin.header')
     <div class='leave-list'>
     <h3 class="text-center">Leave Records</h3>
+    <div class="table-responsive">
     <table id="leaveTable" class="table table-bordered table-striped table-responsive">
         <thead>
 
@@ -127,6 +101,7 @@
             <!-- Data will be appended here -->
         </tbody>
     </table>
+    </div>
     </div>
 
     <script>

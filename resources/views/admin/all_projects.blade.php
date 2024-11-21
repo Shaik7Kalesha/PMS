@@ -5,7 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Project Management</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">  <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <style>
@@ -87,17 +90,6 @@
             border-left:1px solid #ccc;
 
         }
-        
-
-        @media (max-width:770px) {
-            .project-list {
-            width: 100%;
-            margin: 0 auto;
-        }
-        .navbar {
-            width: 1147px;
-        }
-        }
     </style>
 </head>
 
@@ -108,6 +100,7 @@
     <div class='project-list'>
                 <h3>PROJECTS LIST</h3>
             </div>
+     <div class="table-responsive">
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -126,7 +119,7 @@
             </tbody>
         </table>
     </div>
-
+    </div>
     <!-- Edit Project Modal -->
 <div class="modal fade" id="editProjectModal" tabindex="-1" role="dialog" aria-labelledby="editProjectModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">

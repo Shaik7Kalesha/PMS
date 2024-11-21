@@ -8,6 +8,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
 
+
     <style>
         body {
             font-family: sans-serif;
@@ -60,6 +61,7 @@
             margin-bottom: 15px;
             transition: transform 0.3s;
             display: block;
+            margin: 0 auto;
         }
 
         .profile-pic:hover {
@@ -71,6 +73,7 @@
             margin: 10px 0;
             color: #333;
             text-align: center;
+            text-transform:capitalize;
         }
 
         p {
@@ -94,6 +97,7 @@
             font-weight: bold;
             transition: background-color 0.3s, transform 0.2s;
             display: block;
+            margin: 0 auto;
         }
 
         button:hover {
@@ -122,67 +126,14 @@
             animation: fadeIn 1s ease-in-out;
         }
 
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
-        }
-
-        .navbar-custom {
-            background-color: #007BFF;
-            padding: 5px 10px; /* Smaller padding for a slim navbar */
-        }
-
-        .navbar-custom .navbar-brand {
-            color: white;
-            font-size: 18px; /* Smaller font size for brand */
-            font-family: sans-serif;
-        }
-
-        .navbar-custom .nav-link {
-            color: white;
-            font-size: 14px; /* Smaller font size for links */
-            margin-right: 8px;
-            transition: color 0.3s ease;
-        }
-
-        .navbar-custom .nav-link:hover {
-            color: #e0e0e0;
-            text-decoration: underline;
-        }
-
-        .navbar-toggler-icon {
-            background-color: #ffffff;
-        }
     </style>
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-custom">
-    <a class="navbar-brand" href="#">PROJECT MANAGEMENT</a>        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto">
-                @if (Auth::check())
-                    <li class="nav-item">
-                        <form method="post" action="{{ route('logout') }}" class="nav-link">
-                            @csrf
-                            <button class="btn btn-outline-light my-2 my-sm-0" style="text-transform: capitalize;!important">LOGOUT ({{ Auth::user()->name }})</button>
-                        </form>
-                    </li>
-                @endif
-            </ul>
-        </div>
-    </nav>
-
+@include('member.header')
     <div class="container mt-4 fade-in">
         <div class="profile-container">
-            <img src="{{ asset(Auth::user()->profile_picture ?? '../images/profile-default-image.avif') }}"
+            <img src="{{ asset(Auth::user()->profile_picture ?? 'images/profile-default-image.jpg') }}"
                 alt="Profile Picture" class="profile-pic" id="profilePic">
 
             <h1 id="username">{{ Auth::user()->name }}</h1>
@@ -199,7 +150,6 @@
         </div>
     </div>
 
-    @include('student.header')
 
     <script>
         document.getElementById('editButton').addEventListener('click', function () {
@@ -212,7 +162,7 @@
 
             const formData = new FormData(this); // Serialize the form data
 
-            fetch('{{ route("profile.update", Auth::user()->id) }}', {
+            fetch('{{ route("profile.memupdate", Auth::user()->id) }}', {
                 method: 'POST',
                 body: formData,
                 headers: {
@@ -240,7 +190,6 @@
         });
     </script>
            @include('home.footer')
-
 </body>
 
 </html>

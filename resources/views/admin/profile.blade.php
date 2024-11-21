@@ -125,65 +125,11 @@
             animation: fadeIn 1s ease-in-out;
         }
 
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
-        }
-
-        .navbar-custom {
-            background-color: #007BFF;
-            padding: 5px 10px; /* Smaller padding for a slim navbar */
-        }
-
-        .navbar-custom .navbar-brand {
-            color: white;
-            font-size: 18px; /* Smaller font size for brand */
-            font-family: sans-serif;
-        }
-
-        .navbar-custom .nav-link {
-            color: white;
-            font-size: 14px; /* Smaller font size for links */
-            margin-right: 8px;
-            transition: color 0.3s ease;
-        }
-
-        .navbar-custom .nav-link:hover {
-            color: #e0e0e0;
-            text-decoration: underline;
-        }
-
-        .navbar-toggler-icon {
-            background-color: #ffffff;
-        }
     </style>
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-custom">
-    <a class="navbar-brand" href="#">PROJECT MANAGEMENT</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto">
-                @if (Auth::check())
-                    <li class="nav-item">
-                        <form method="post" action="{{ route('logout') }}" class="nav-link">
-                            @csrf
-                            <button class="btn btn-outline-light my-2 my-sm-0" style="text-transform: capitalize;!important">LOGOUT ({{ Auth::user()->name }})</button>
-                        </form>
-                    </li>
-                @endif
-            </ul>
-        </div>
-    </nav>
-
+@include('admin.header')
     <div class="container mt-4 fade-in">
         <div class="profile-container">
             <img src="{{ asset(Auth::user()->profile_picture ?? 'images/profile-default-image.jpg') }}"
@@ -242,6 +188,7 @@
             });
         });
     </script>
+           @include('home.footer')
 </body>
 
 </html>

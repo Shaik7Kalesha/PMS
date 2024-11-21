@@ -16,7 +16,7 @@
             background-color: #f8f9fa; /* Light background color */
         }
         .table th {
-            background-color: #ffffff;
+            background-color: #e9ecef;
             color: dark;
         }
         td{
@@ -39,7 +39,7 @@
 
     <div class="container mt-4">
         <h3 class="text-center mb-4">Attendance List</h3>
-        
+        <div class="table-responsive">
         <table class="table table-striped" id="attendanceTable">
             <thead>
                 <tr>
@@ -54,6 +54,7 @@
             </tbody>
         </table>
     </div>
+</div>
 
     <!-- Bootstrap JS (optional) -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

@@ -159,3 +159,12 @@ Route::get('/fetchattendenceuser', [StudentController::class, 'fetchattendenceus
 // profile part
 Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show'); // Display the profile
 Route::post('/profile/update/{id}', [ProfileController::class, 'update'])->name('profile.update'); // Update profile info
+
+// profile  member part
+Route::get('/mem_profile', [MemberController::class, 'mem_show'])->name('profile.memshow'); // Display the profile
+Route::post('/mem_profile/update/{id}', [MemberController::class, 'mem_update'])->name('profile.memupdate'); // Update profile info
+
+
+// profile student part
+Route::get('/stu_profile', [StudentController::class, 'stu_show'])->name('profile.stushow'); // Display the profile
+Route::post('/stu_profile/update/{id}', [StudentController::class, 'stu_update'])->name('profile.stuupdate'); // Update profile info

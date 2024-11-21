@@ -14,7 +14,7 @@ class ProfileController extends Controller
             ->first();
 
         if ($profile) {
-            return view('student.profile', compact('profile'));
+            return view('admin.profile', compact('profile'));
 
         } else {
             return response()->json([

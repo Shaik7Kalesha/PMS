@@ -7,6 +7,8 @@
     <title>Profile Page</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
 
     <style>
         body {
@@ -72,7 +74,7 @@
             margin: 10px 0;
             color: #333;
             text-align: center;
-            text-transform: capitalize;
+            text-transform:capitalize;
         }
 
         p {
@@ -114,6 +116,12 @@
             text-align: center;
         }
 
+        footer {
+            padding: 20px 0;
+            background-color: #f7f7f7;
+            color: #666;
+            text-align: center;
+        }
 
         .fade-in {
             animation: fadeIn 1s ease-in-out;
@@ -150,41 +158,14 @@
             color: #e0e0e0;
             text-decoration: underline;
         }
-
-        .navbar-toggler-icon {
-            background-color: #ffffff;
-        }
-        element.style {
-            text-transform: capitalize;
-        }
-        
     </style>
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-custom">
-    <a class="navbar-brand" href="#">PROJECT MANAGEMENT</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto">
-                @if (Auth::check())
-                    <li class="nav-item">
-                        <form method="post" action="{{ route('logout') }}" class="nav-link">
-                            @csrf
-                            <button class="btn btn-outline-light my-2 my-sm-0" style="text-transform: capitalize;!important">LOGOUT ({{ Auth::user()->name }})</button>
-                        </form>
-                    </li>
-                @endif
-            </ul>
-        </div>
-    </nav>
-
+@include('student.header')
     <div class="container mt-4 fade-in">
         <div class="profile-container">
-            <img src="{{ asset(Auth::user()->profile_picture ?? 'images/profile-default-image.avif') }}"
+            <img src="{{ asset(Auth::user()->profile_picture ?? 'images/profile-default-image.jpg') }}"
                 alt="Profile Picture" class="profile-pic" id="profilePic">
 
             <h1 id="username">{{ Auth::user()->name }}</h1>
@@ -201,49 +182,46 @@
         </div>
     </div>
 
-    @include('home.footer')
-
 
     <script>
-    document.getElementById('editButton').addEventListener('click', function () {
-        const profileForm = document.getElementById('profileForm');
-        profileForm.style.display = 'block'; // Show the form
-    });
-
-    document.getElementById('profileForm').addEventListener('submit', function (event) {
-        event.preventDefault(); // Prevent default form submission
-
-        const formData = new FormData(this); // Serialize the form data
-
-        fetch('{{ route("profile.update", Auth::user()->id) }}', {
-            method: 'POST',
-            body: formData,
-            headers: {
-                'X-CSRF-TOKEN': '{{ csrf_token() }}'
-            }
-        })
-        .then(response => {
-            // Attempt to parse JSON, handling potential HTML responses
-            return response.json().catch(() => {
-                throw new Error('Invalid JSON response received from server');
-            });
-        })
-        .then(data => {
-            if (data.success) {
-                alert('Profile picture updated successfully!');
-                window.location.reload(); // Reload to reflect changes
-            } else {
-                throw new Error(data.message || 'Error updating profile picture.');
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert('An error occurred: ' + error.message);
+        document.getElementById('editButton').addEventListener('click', function () {
+            const profileForm = document.getElementById('profileForm');
+            profileForm.style.display = 'block'; // Show the form
         });
-    });
-</script>
 
-    
+        document.getElementById('profileForm').addEventListener('submit', function (event) {
+            event.preventDefault(); // Prevent default form submission
+
+            const formData = new FormData(this); // Serialize the form data
+
+            fetch('{{ route("profile.stuupdate", Auth::user()->id) }}', {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    return response.json().then(errorData => {
+                        throw new Error(errorData.message || 'Error updating profile picture.');
+                    });
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.success) {
+                    alert('Profile picture updated successfully!');
+                    window.location.reload(); // Reload to reflect changes
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred: ' + error.message);
+            });
+        });
+    </script>
+           @include('home.footer')
 </body>
 
 </html>

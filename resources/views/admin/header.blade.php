@@ -1,3 +1,5 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
 <style>
   li {
     list-style-type: none;
@@ -15,9 +17,7 @@
     font-weight: bold;
     white-space: nowrap;
   }
-  .navbar-toggler-icon {
-    background-color: #fff;
-  }
+  
   /* Hover effect for links and buttons */
   .nav-link:hover, .btn:hover {
     color: black !important;
@@ -83,3 +83,11 @@
     </div>
   </div>
 </nav>
+<!-- Bootstrap JS (requires Popper.js) -->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+
+<script>
+  var collapseElement = document.getElementById('menu');
+  var bsCollapse = new bootstrap.Collapse(collapseElement);
+</script>

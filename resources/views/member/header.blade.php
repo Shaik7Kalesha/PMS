@@ -1,3 +1,4 @@
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 <style>
   li {
     list-style-type: none;
@@ -71,7 +72,7 @@
           <a class="nav-link" href="{{ url('/chat') }}"><i class="fas fa-comments"></i> Chat</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="{{url('/profile')}}"><i class="fas fa-user"></i> Profile</a>
+          <a class="nav-link" href="{{url('/mem_profile')}}"><i class="fas fa-user"></i> Profile</a>
         </li>
       </ul>
       @if (Auth::check())
@@ -85,3 +86,11 @@
     </div>
   </div>
 </nav>
+<!-- Bootstrap JS (requires Popper.js) -->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+
+<script>
+  var collapseElement = document.getElementById('menu');
+  var bsCollapse = new bootstrap.Collapse(collapseElement);
+</script>

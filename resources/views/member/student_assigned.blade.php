@@ -44,7 +44,7 @@
                 <thead class="thead-light">
                     <tr>
                         <th class='text-nowrap'>Student ID</th>
-                        <th class='text-nowrap'>Member ID</th>
+
                         <th>Title</th>
                         <th>Description</th>
                         <th>Task Name</th>
@@ -131,7 +131,7 @@
                             response.studentlist.forEach(function (student) {
                                 var data = `<tr>
                                     <td>${student.id}</td>
-                                    <td>${student.member_id || 'N/A'}</td>
+
                                     <td>${student.project_title || 'N/A'}</td>
                                     <td>${student.project_description || 'N/A'}</td>
                                     <td>${student.task_name || 'N/A'}</td>

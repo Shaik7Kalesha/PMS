@@ -16,7 +16,7 @@
             background-color: #f8f9fa; /* Light background color */
         }
         .table th {
-            background-color: #ffffff;
+            background-color: #e9ecef;
             color: dark;
         }
         td{
@@ -37,9 +37,9 @@
 <body>
     @include('student.header')
 
-    <div class="container mt-4">
-        <h3 class="text-center mb-4">Task List</h3>
-        
+    <div class="container mt-3">
+        <h3 class="text-center mb-3">Task List</h3>
+        <div class="table-responsive">
         <table class="table table-striped" id="taskTable">
             <thead>
                 <tr>
@@ -59,6 +59,7 @@
             </tbody>
         </table>
     </div>
+</div>
 
     <!-- Bootstrap JS (optional) -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
