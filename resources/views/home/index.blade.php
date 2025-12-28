@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project Management System</title>
+    <title>Team Management System</title>
     <link rel="stylesheet"href="../customcss/responsive.css">
 
 
@@ -291,7 +291,7 @@
     /* margin-left: -25px; */
     margin-right: -136px;
     margin-bottom: -5px;
-">Project Management</h1>
+">Team Management</h1>
                 <div class="auth-buttons">
                     <a href="{{route('login')}}"><button class="sign-in">Sign In</button></a>
                     <div class="sign-up">

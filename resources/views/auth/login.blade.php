@@ -421,7 +421,7 @@
                         alt="SVG&nbsp;Image" style="
     width: 130px;
     margin-right: -5.7rem;
-">Project Management</h5>
+">Team Management</h5>
   </div>
  
   <div class="form-floating mb-3">
